@@ -21,7 +21,10 @@
     }));
   }
 
-  const diffParts = getDiffParts(data.kanji, data.yomi);
+  let diffParts: DiffPart[] = [];
+  $: {
+    diffParts = getDiffParts(data.kanji, data.yomi);
+  }
 </script>
 
 <div class="flex flex-col justify-center items-center border rounded bg-yellow-100 w-full lg:w-80 p-2 space-y-1">
