@@ -24,11 +24,11 @@
   <div class="cContentPartStyle !m-4">
     <div class="mb-4 flex">
       <button on:click={() => (kanjiMode = true)}>
-        <span class="cButtonStyle {kanjiMode ? '!bg-blue-900' : ''}">読み問題</span>
+        <span class="cButtonYellowStyle {kanjiMode ? '!bg-yellow-900' : ''}">読み問題</span>
       </button>
       <span class="mx-3 text-gray-500">|</span>
       <button on:click={() => (kanjiMode = false)}>
-        <span class="cButtonStyle {!kanjiMode ? '!bg-blue-900' : ''}">書き問題</span>
+        <span class="cButtonYellowStyle {!kanjiMode ? '!bg-yellow-900' : ''}">書き問題</span>
       </button>
     </div>
 

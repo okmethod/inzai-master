@@ -24,8 +24,8 @@
   const diffParts = getDiffParts(data.kanji, data.yomi);
 </script>
 
-<div class="border rounded bg-yellow-100 w-full lg:w-80 p-2 space-y-1">
-  <h2 class="text-lg lg:text-xl">
+<div class="flex flex-col justify-center items-center border rounded bg-yellow-100 w-full lg:w-80 p-2 space-y-1">
+  <h2 class="font-serif text-lg lg:text-xl">
     {#each diffParts as part}
       {#if part.isDiff}
         {#if part.isKanji === kanjiMode}
@@ -36,18 +36,18 @@
       {/if}
     {/each}
   </h2>
-  <p class="mx-2">
+  <p class="flex justify-center items-center w-32 h-10 bg-white border rounded">
     {#if showAnswer}
       {#each diffParts as part}
         {#if part.isDiff}
           {#if part.isKanji !== kanjiMode}
-            <span>{part.str}</span>
+            <span class="font-serif text-lg lg:text-xl">{part.str}</span>
           {/if}
         {/if}
       {/each}
     {:else}
       <button on:click={() => (showAnswer = true)}>
-        <span class="border rounded bg-gray-100 p-1">正解を見る</span>
+        <span class="cButtonYellowStyle">こたえ</span>
       </button>
     {/if}
   </p>
