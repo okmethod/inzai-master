@@ -1,4 +1,4 @@
-# inzai-master
+# master-drill
 
 `gh-pages` ブランチの静的アセットを Github Pages で公開する。
 
@@ -25,4 +25,4 @@
 
 - ブラウザでアクセス
 
-  https://okmethod.github.io/inzai-master/
+  https://okmethod.github.io/master-drill/
