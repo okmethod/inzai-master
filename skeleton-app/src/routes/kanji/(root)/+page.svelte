@@ -52,7 +52,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each content.data as row}
-                <KanjiCard data={row} showKanji={currentMode === "yomi"} {showAnswer} />
+                <KanjiCard data={row} showKanji={currentMode === "yomi"} {showAnswer} isCompact={true} />
               {/each}
             </div>
           </svelte:fragment>

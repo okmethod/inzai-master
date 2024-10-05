@@ -5,6 +5,7 @@
   export let data: KanjiCsv;
   export let showKanji: boolean;
   export let showAnswer: boolean = false;
+  export let isCompact: boolean | undefined = undefined;
 
   interface DiffPart {
     str: string;
@@ -25,10 +26,22 @@
   $: {
     diffParts = getDiffParts(data.kanji, data.yomi);
   }
+
+  const cCardAreaSize = isCompact
+    ? "w-full lg:w-80 min-h-24 space-y-1"
+    : "w-full md:w-80 lg:w-[450px] min-h-36 space-y-3";
+  const cAnswerAreaSize = isCompact ? "w-32 h-10" : "w-60 h-16";
+  const cTextSize = isCompact ? "text-lg lg:text-xl" : "text-2xl lg:text-3xl";
 </script>
 
-<div class="flex flex-col justify-center items-center border rounded bg-yellow-100 w-full lg:w-80 p-2 space-y-1">
-  <h2 class="font-serif text-lg lg:text-xl">
+<div
+  class="
+    flex flex-col justify-center items-center
+    border rounded bg-yellow-100 p-2
+    {cCardAreaSize}
+  "
+>
+  <div class="font-serif {cTextSize}">
     {#each diffParts as part}
       {#if part.isDiff}
         {#if part.isKanji === showKanji}
@@ -38,13 +51,13 @@
         {part.str}
       {/if}
     {/each}
-  </h2>
-  <p class="flex justify-center items-center w-32 h-10 bg-white border rounded">
+  </div>
+  <div class="flex justify-center items-center bg-white border rounded {cAnswerAreaSize}">
     {#if showAnswer}
       {#each diffParts as part}
         {#if part.isDiff}
           {#if part.isKanji !== showKanji}
-            <span class="font-serif text-lg lg:text-xl">{part.str}</span>
+            <span class="font-serif {cTextSize}">{part.str}</span>
           {/if}
         {/if}
       {/each}
@@ -53,5 +66,5 @@
         <span class="cButtonYellowStyle">こたえ</span>
       </button>
     {/if}
-  </p>
+  </div>
 </div>
