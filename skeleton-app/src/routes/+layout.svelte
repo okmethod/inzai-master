@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>My Static WebSite</title>
+  <title>漢字・計算マスター</title>
 </svelte:head>
 
 <Modal />
