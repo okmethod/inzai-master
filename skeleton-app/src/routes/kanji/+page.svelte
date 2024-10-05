@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import type { ContentProps } from "./+page";
@@ -36,7 +37,16 @@
       </button>
     </div>
 
-    <Accordion width="w-[300px] md:w-[600px] lg:w-[1000px]" rounded="rounded-lg" hover="hover:underline">
+    <Accordion
+      width="w-[300px] md:w-[600px] lg:w-[1000px]"
+      rounded="rounded-lg"
+      hover="hover:underline"
+      transitions={true}
+      transitionIn={slide}
+      transitionInParams={{ duration: 300 }}
+      transitionOut={slide}
+      transitionOutParams={{ duration: 300 }}
+    >
       {#each data.propsArray as content}
         <div class="border rounded">
           <AccordionItem>
