@@ -9,18 +9,14 @@
     propsArray: KanjiDataProps[];
   };
 
-  let showAnswer = false;
-  function resetShowAnswers() {
-    // 再描画をトリガーするため、別の値にしてから false に戻す
-    showAnswer = true;
-    showAnswer = false;
-  }
-
   let currentMode: KanjiMode = "yomi";
+  let selectedKanjiQuestions: KanjiCsv[] = [];
+  let isTrialInProgress = false;
   const modeStore = getContext<Writable<KanjiMode>>("mode");
   const unsubscribe = modeStore.subscribe((value) => {
     currentMode = value;
-    resetShowAnswers();
+    selectedKanjiQuestions = [];
+    isTrialInProgress = false;
   });
   onDestroy(() => {
     unsubscribe();
@@ -32,13 +28,20 @@
     selectedKanjiData = data.propsArray.find((props) => props.index === Number(selectedIndex)) ?? null;
   }
 
-  let selectedKanjiQuestions: KanjiCsv[] = [];
   const numOfQuestions = 10;
   function pickRandomKanji() {
     if (selectedKanjiData) {
       selectedKanjiQuestions = pickRandomElementsFromArray(selectedKanjiData.data, numOfQuestions);
     }
-    resetShowAnswers();
+  }
+
+  function handleButtonClick() {
+    if (isTrialInProgress) {
+      isTrialInProgress = false;
+    } else {
+      pickRandomKanji();
+      isTrialInProgress = true;
+    }
   }
 </script>
 
@@ -49,14 +52,19 @@
         <option value={props.index}>{props.title.replace("の漢字", "")}</option>
       {/each}
     </select>
-    <button on:click={pickRandomKanji}>
-      <span class="cButtonYellowStyle">テスト出題</span>
+    <button on:click={handleButtonClick}>
+      <span class="cButtonYellowStyle">
+        {isTrialInProgress ? "答え合わせ" : "テスト出題"}
+      </span>
     </button>
   </div>
   {#if selectedKanjiQuestions.length > 0}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-      {#each selectedKanjiQuestions as question}
-        <KanjiCard data={question} showKanji={currentMode === "yomi"} {showAnswer} />
+      {#each selectedKanjiQuestions as question, index}
+        <div>
+          <span> {index + 1}. </span>
+          <KanjiCard data={question} showKanji={currentMode === "yomi"} showAnswer={true} {isTrialInProgress} />
+        </div>
       {/each}
     </div>
   {:else}

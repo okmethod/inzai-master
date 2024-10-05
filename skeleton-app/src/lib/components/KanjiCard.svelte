@@ -6,6 +6,7 @@
   export let showKanji: boolean;
   export let showAnswer: boolean = false;
   export let isCompact: boolean | undefined = undefined;
+  export let isTrialInProgress: boolean | undefined = undefined;
 
   interface DiffPart {
     str: string;
@@ -52,7 +53,12 @@
       {/if}
     {/each}
   </div>
-  <div class="flex justify-center items-center bg-white border rounded {cAnswerAreaSize}">
+  <div
+    class="
+      flex justify-center items-center bg-white border rounded {cAnswerAreaSize}
+      {isTrialInProgress ? 'hidden' : ''}
+    "
+  >
     {#if showAnswer}
       {#each diffParts as part}
         {#if part.isDiff}
