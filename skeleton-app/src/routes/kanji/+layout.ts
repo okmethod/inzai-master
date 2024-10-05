@@ -49,7 +49,7 @@ export async function load({
   const slotTabSettings: SlotTabSetting[] = [
     { index: 0, label: "[全漢字リスト]", title: "", path: "" },
     { index: 1, label: "[1問1答モード]", title: "", path: "one" },
-    { index: 2, label: "[テスト練習モード]", title: "", path: "" },
+    { index: 2, label: "[テスト練習モード]", title: "", path: "trial" },
   ];
 
   return { propsArray, slotTabSettings };
