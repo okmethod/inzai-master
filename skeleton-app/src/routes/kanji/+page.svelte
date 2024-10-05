@@ -12,9 +12,6 @@
   });
 
   let kanjiMode = true;
-  function toggleMode() {
-    kanjiMode = !kanjiMode;
-  }
 </script>
 
 <div class="cRouteBodyStyle">
@@ -25,9 +22,15 @@
 
   <!-- コンテンツ部 -->
   <div class="cContentPartStyle !m-4">
-    <button on:click={toggleMode}>
-      <span class="border rounded bg-gray-100 p-1">{kanjiMode ? "漢字モード" : "読みモード"}</span>
-    </button>
+    <div class="mb-4 flex">
+      <button on:click={() => (kanjiMode = true)}>
+        <span class="cButtonStyle {kanjiMode ? '!bg-blue-900' : ''}">読み問題</span>
+      </button>
+      <span class="mx-3 text-gray-500">|</span>
+      <button on:click={() => (kanjiMode = false)}>
+        <span class="cButtonStyle {!kanjiMode ? '!bg-blue-900' : ''}">書き問題</span>
+      </button>
+    </div>
 
     <Accordion width="w-[300px] md:w-[600px] lg:w-[1000px]" rounded="rounded-lg" hover="hover:underline">
       <div class="border rounded">
