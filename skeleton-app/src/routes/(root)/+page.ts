@@ -1,15 +1,15 @@
 import { navigateTo } from "$lib/utils/navigation.client";
 import { GITHUB_REPO_URL } from "$lib/constants/common";
 
+export interface ContentButtonProps {
+  title: string;
+  onClick: () => void;
+}
+
 interface Content {
   title: string;
   action: "navigate" | "redirect";
   route: string;
-}
-
-export interface ContentButtonProps {
-  title: string;
-  onClick: () => void;
 }
 
 const contents: Content[] = [
