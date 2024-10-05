@@ -4,7 +4,7 @@
 <div class="cRouteBodyStyle">
   <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
-    <h1 class="cTitleStyle md:!text-3xl">Example route</h1>
+    <h1 class="cTitleStyle md:!text-3xl">漢字マスター</h1>
   </div>
 
   <!-- コンテンツ部 -->

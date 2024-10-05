@@ -14,9 +14,9 @@ export interface ContentButtonProps {
 
 const contents: Content[] = [
   {
-    title: "sample page",
+    title: "漢字マスター",
     action: "navigate",
-    route: "/example",
+    route: "/kanji",
   },
   {
     title: "github repository",
