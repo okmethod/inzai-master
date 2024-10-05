@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext, onDestroy, onMount } from "svelte";
+  import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
   import type { KanjiCsv, KanjiDataProps, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
@@ -26,7 +26,7 @@
     unsubscribe();
   });
 
-  let selectedKanjiData: KanjiDataProps | null = null;
+  let selectedKanjiData: KanjiDataProps | null = data.propsArray.find((props) => props.index === Number(0)) ?? null;
   function selectContent(event: Event) {
     const selectedIndex = (event.target as HTMLSelectElement).value;
     selectedKanjiData = data.propsArray.find((props) => props.index === Number(selectedIndex)) ?? null;
@@ -35,16 +35,10 @@
   let selectedKanjiQuestion: KanjiCsv | null = null;
   function pickRandomKanji() {
     if (selectedKanjiData) {
-      const randomElement = pickRandomElementsFromArray(selectedKanjiData.data, 1)[0];
-      selectedKanjiQuestion = { ...randomElement };
+      selectedKanjiQuestion = pickRandomElementsFromArray(selectedKanjiData.data, 1)[0];
     }
     resetShowAnswers();
   }
-
-  onMount(() => {
-    selectedKanjiData = data.propsArray.find((props) => props.index === Number(0)) ?? null;
-    pickRandomKanji();
-  });
 </script>
 
 <div class="cContentPartStyle !m-4">
@@ -61,6 +55,6 @@
   {#if selectedKanjiQuestion}
     <KanjiCard data={selectedKanjiQuestion} showKanji={currentMode === "yomi"} {showAnswer} />
   {:else}
-    <span> 問題を選択してください </span>
+    <span> 範囲を選択して、出題ボタンをクリック！ </span>
   {/if}
 </div>
