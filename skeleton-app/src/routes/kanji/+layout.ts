@@ -1,18 +1,14 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { kanjiCsv } from "$lib/types/csv";
+import type { KanjiDataProps } from "$lib/types/props";
 import { loadCsv } from "$lib/utils/loadfile";
 
-export interface ContentProps {
-  title: string;
-  data: kanjiCsv[];
-}
-
-interface Content {
+interface KanjiDataPath {
   title: string;
   path: string;
 }
 
-const contents: Content[] = [
+const contents: KanjiDataPath[] = [
   {
     title: "1級・2級の漢字",
     path: "kanji/grade1and2.csv",
@@ -39,7 +35,7 @@ const contents: Content[] = [
   },
 ];
 
-export async function load({ fetch }: LoadEvent) {
+export async function load({ fetch }: LoadEvent): Promise<{ propsArray: KanjiDataProps[] }> {
   const dataArrays = await Promise.all(contents.map((content) => loadCsv(fetch, content.path)));
 
   const propsArray = contents.map((content, index) => ({
