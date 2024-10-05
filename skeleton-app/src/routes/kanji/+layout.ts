@@ -11,6 +11,10 @@ interface KanjiDataPath {
 
 const contents: KanjiDataPath[] = [
   {
+    title: "印西市の漢字",
+    path: "kanji/inzai.csv",
+  },
+  {
     title: "1級・2級の漢字",
     path: "kanji/grade1and2.csv",
   },
@@ -30,10 +34,6 @@ const contents: KanjiDataPath[] = [
     title: "9級・10級の漢字",
     path: "kanji/grade9and10.csv",
   },
-  {
-    title: "印西市の漢字",
-    path: "kanji/inzai.csv",
-  },
 ];
 
 export async function load({
@@ -42,6 +42,7 @@ export async function load({
   const dataArrays = await Promise.all(contents.map((content) => loadCsv(fetch, content.path)));
 
   const propsArray = contents.map((content, index) => ({
+    index: index,
     title: content.title,
     data: dataArrays[index] as kanjiCsv[],
   }));
