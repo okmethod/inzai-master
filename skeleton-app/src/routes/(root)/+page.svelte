@@ -9,7 +9,7 @@
 <div class="cRouteBodyStyle">
   <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
-    <h1 class="cTitleStyle md:!text-3xl">漢字・計算マスタードリル</h1>
+    <h1 class="cTitleStyle md:!text-3xl">自学マスタードリル</h1>
   </div>
 
   <!-- コンテンツ部 -->
