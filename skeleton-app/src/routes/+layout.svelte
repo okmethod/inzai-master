@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>漢字・計算マスター</title>
+  <title>自学マスタードリル</title>
 </svelte:head>
 
 <Modal />

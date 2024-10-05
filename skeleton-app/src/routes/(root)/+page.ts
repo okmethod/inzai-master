@@ -14,7 +14,7 @@ interface Content {
 
 const contents: Content[] = [
   {
-    title: "漢字マスター",
+    title: "漢字マスタードリル",
     action: "navigate",
     route: "/kanji",
   },
