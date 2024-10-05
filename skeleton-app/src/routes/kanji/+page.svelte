@@ -12,6 +12,13 @@
   });
 
   let kanjiMode = true;
+  let showAnswer = false;
+  function setKanjiMode(mode: boolean) {
+    kanjiMode = mode;
+    // 再描画をトリガーするため、別の値にしてから false に戻す
+    showAnswer = true;
+    showAnswer = false;
+  }
 </script>
 
 <div class="cRouteBodyStyle">
@@ -23,11 +30,11 @@
   <!-- コンテンツ部 -->
   <div class="cContentPartStyle !m-4">
     <div class="mb-4 flex">
-      <button on:click={() => (kanjiMode = true)}>
+      <button on:click={() => setKanjiMode(true)}>
         <span class="cButtonYellowStyle {kanjiMode ? '!bg-yellow-900' : ''}">読み問題</span>
       </button>
       <span class="mx-3 text-gray-500">|</span>
-      <button on:click={() => (kanjiMode = false)}>
+      <button on:click={() => setKanjiMode(false)}>
         <span class="cButtonYellowStyle {!kanjiMode ? '!bg-yellow-900' : ''}">書き問題</span>
       </button>
     </div>
@@ -44,7 +51,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each inzai as row}
-                <KanjiCard data={row} {kanjiMode} showAnswer={false} />
+                <KanjiCard data={row} {kanjiMode} {showAnswer} />
               {/each}
             </div>
           </svelte:fragment>

@@ -3,8 +3,8 @@
   import type { kanjiCsv } from "$lib/types/csv";
 
   export let data: kanjiCsv;
-  export let kanjiMode = false;
-  export let showAnswer = false;
+  export let kanjiMode: boolean = false;
+  export let showAnswer: boolean = false;
 
   interface DiffPart {
     str: string;
