@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import Icon from "@iconify/svelte";
   import type { kanjiCsv } from "$lib/types/csv";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { loadCsv } from "$lib/utils/loadfile";
@@ -26,11 +28,25 @@
     <button on:click={toggleMode}>
       <span class="border rounded bg-gray-100 p-1">{kanjiMode ? "漢字モード" : "読みモード"}</span>
     </button>
-    <h2 class="text-xl font-bold underline">印西の漢字</h2>
-    <div class="grid grid-cols-3 gap-2">
-      {#each inzai as row}
-        <KanjiCard data={row} {kanjiMode} showAnswer={false} />
-      {/each}
-    </div>
+
+    <Accordion width="w-[300px] md:w-[600px] lg:w-[1000px]" rounded="rounded-lg" hover="hover:underline">
+      <div class="border rounded">
+        <AccordionItem>
+          <svelte:fragment slot="lead">
+            <Icon icon="mdi:book-open-variant-outline" class="text-black" />
+          </svelte:fragment>
+          <svelte:fragment slot="summary">
+            <h2 class="text-xl font-bold">印西の漢字</h2>
+          </svelte:fragment>
+          <svelte:fragment slot="content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              {#each inzai as row}
+                <KanjiCard data={row} {kanjiMode} showAnswer={false} />
+              {/each}
+            </div>
+          </svelte:fragment>
+        </AccordionItem>
+      </div>
+    </Accordion>
   </div>
 </div>

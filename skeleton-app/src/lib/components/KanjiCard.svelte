@@ -24,8 +24,8 @@
   const diffParts = getDiffParts(data.kanji, data.yomi);
 </script>
 
-<div class="border rounded bg-yellow-100 min-w-80 p-2 space-y-1">
-  <h2 class="text-xl">
+<div class="border rounded bg-yellow-100 w-full lg:w-80 p-2 space-y-1">
+  <h2 class="text-lg lg:text-xl">
     {#each diffParts as part}
       {#if part.isDiff}
         {#if part.isKanji === kanjiMode}
