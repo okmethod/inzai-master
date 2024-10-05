@@ -18,6 +18,22 @@ const contents: Content[] = [
     path: "kanji/grade1and2.csv",
   },
   {
+    title: "3級・4級の漢字",
+    path: "kanji/grade3and4.csv",
+  },
+  {
+    title: "5級・6級の漢字",
+    path: "kanji/grade5and6.csv",
+  },
+  {
+    title: "7級・8級の漢字",
+    path: "kanji/grade7and8.csv",
+  },
+  {
+    title: "9級・10級の漢字",
+    path: "kanji/grade9and10.csv",
+  },
+  {
     title: "印西市の漢字",
     path: "kanji/inzai.csv",
   },
