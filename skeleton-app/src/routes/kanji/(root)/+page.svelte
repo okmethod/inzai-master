@@ -1,35 +1,35 @@
 <script lang="ts">
+  import { getContext, onDestroy } from "svelte";
+  import type { Writable } from "svelte/store";
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
-  import type { KanjiDataProps } from "$lib/types/props";
+  import type { KanjiDataProps, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
 
   export let data: {
     propsArray: KanjiDataProps[];
   };
 
-  let kanjiMode = true;
   let showAnswer = false;
-  function setKanjiMode(mode: boolean) {
-    kanjiMode = mode;
+  function resetShowAnswers() {
     // 再描画をトリガーするため、別の値にしてから false に戻す
     showAnswer = true;
     showAnswer = false;
   }
+
+  let currentMode: KanjiMode = "yomi";
+  const modeStore = getContext<Writable<KanjiMode>>("mode");
+  const unsubscribe = modeStore.subscribe((value) => {
+    currentMode = value;
+    resetShowAnswers();
+  });
+  onDestroy(() => {
+    unsubscribe();
+  });
 </script>
 
 <div class="cContentPartStyle !m-4">
-  <div class="mb-4 flex">
-    <button on:click={() => setKanjiMode(true)}>
-      <span class="cButtonYellowStyle {kanjiMode ? '!bg-yellow-900' : ''}">読み問題</span>
-    </button>
-    <span class="mx-3 text-gray-500">|</span>
-    <button on:click={() => setKanjiMode(false)}>
-      <span class="cButtonYellowStyle {!kanjiMode ? '!bg-yellow-900' : ''}">書き問題</span>
-    </button>
-  </div>
-
   <Accordion
     width="w-[300px] md:w-[600px] lg:w-[1000px]"
     rounded="rounded-lg"
@@ -52,7 +52,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each content.data as row}
-                <KanjiCard data={row} {kanjiMode} {showAnswer} />
+                <KanjiCard data={row} showKanji={currentMode === "yomi"} {showAnswer} />
               {/each}
             </div>
           </svelte:fragment>

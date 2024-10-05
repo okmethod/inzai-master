@@ -1,9 +1,9 @@
 <script lang="ts">
   import { diffChars } from "diff";
-  import type { kanjiCsv } from "$lib/types/csv";
+  import type { KanjiCsv } from "$lib/types/kanji";
 
-  export let data: kanjiCsv;
-  export let kanjiMode: boolean = false;
+  export let data: KanjiCsv;
+  export let showKanji: boolean;
   export let showAnswer: boolean = false;
 
   interface DiffPart {
@@ -31,7 +31,7 @@
   <h2 class="font-serif text-lg lg:text-xl">
     {#each diffParts as part}
       {#if part.isDiff}
-        {#if part.isKanji === kanjiMode}
+        {#if part.isKanji === showKanji}
           <span class="font-bold underline">{part.str}</span>
         {/if}
       {:else}
@@ -43,7 +43,7 @@
     {#if showAnswer}
       {#each diffParts as part}
         {#if part.isDiff}
-          {#if part.isKanji !== kanjiMode}
+          {#if part.isKanji !== showKanji}
             <span class="font-serif text-lg lg:text-xl">{part.str}</span>
           {/if}
         {/if}
