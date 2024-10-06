@@ -60,6 +60,7 @@ class TimerToast {
 
   public stopTimer() {
     clearInterval(this.timer);
+    this.closeToast(this.toastId);
   }
 
   private createToastMessage(content: string): string {
@@ -102,7 +103,6 @@ class TimerToast {
 
   public destroy() {
     this.stopTimer();
-    this.closeToast(this.toastId);
     this.closeToast(this.alarmToastId);
     this.unsubscribeTimeLeft();
   }
