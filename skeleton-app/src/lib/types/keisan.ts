@@ -5,7 +5,7 @@ export enum OperationType {
   Div = "わり算",
 }
 
-interface NumberRange {
+export interface NumberRange {
   min: number;
   max: number;
 }
@@ -13,7 +13,8 @@ interface NumberRange {
 export interface KeisanValue {
   label: string;
   range: NumberRange;
-  allowDecimal: boolean;
+  allowNegative: boolean;
+  decimalPlaces: number;
 }
 
 export interface KeisanTemplate extends KeisanValue {

@@ -3,10 +3,10 @@ import { OperationType } from "$lib/types/keisan";
 import type { SlotTabSetting } from "$lib/types/tabSetting";
 
 const keisanValues: KeisanValue[] = [
-  { label: "1桁", range: { min: 1, max: 9 }, allowDecimal: false },
-  { label: "2桁", range: { min: 10, max: 99 }, allowDecimal: false },
-  { label: "3桁", range: { min: 100, max: 999 }, allowDecimal: false },
-  { label: "小数", range: { min: 0.1, max: 99.9 }, allowDecimal: true },
+  { label: "1桁", range: { min: 1, max: 9 }, allowNegative: false, decimalPlaces: 0 },
+  { label: "2桁", range: { min: 10, max: 99 }, allowNegative: false, decimalPlaces: 0 },
+  { label: "3桁", range: { min: 100, max: 999 }, allowNegative: false, decimalPlaces: 0 },
+  { label: "小数", range: { min: 0.1, max: 99.9 }, allowNegative: false, decimalPlaces: 1 },
 ];
 
 export async function load(): Promise<{
@@ -20,7 +20,8 @@ export async function load(): Promise<{
     data: keisanValues.map((value) => ({
       label: `${value.label}の${type}`,
       range: value.range,
-      allowDecimal: value.allowDecimal,
+      allowNegative: value.allowNegative,
+      decimalPlaces: value.decimalPlaces,
       operationType: type,
     })),
   }));
