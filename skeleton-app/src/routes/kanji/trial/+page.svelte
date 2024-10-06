@@ -4,7 +4,7 @@
   import type { KanjiCsv, KanjiDataProps, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
-  import { useTimerToast } from "$lib/utils/timer";
+  import TimerToast from "$lib/utils/TimerToast";
 
   export let data: {
     propsArray: KanjiDataProps[];
@@ -36,22 +36,22 @@
     }
   }
 
-  const { startTimer, stopTimer, resetTimer } = useTimerToast(600); // 10分（600秒）
+  const timerToast = new TimerToast(600); // 10分
 
   function handleButtonClick() {
     if (isTrialInProgress) {
       isTrialInProgress = false;
-      stopTimer();
-      resetTimer();
+      timerToast.stopTimer();
+      timerToast.resetTimer();
     } else {
       pickRandomKanji();
-      startTimer();
+      timerToast.startTimer();
       isTrialInProgress = true;
     }
   }
 
   onDestroy(() => {
-    stopTimer();
+    timerToast.stopTimer();
   });
 </script>
 
