@@ -13,11 +13,14 @@
   let currentMode: KanjiMode = "yomi";
   let selectedKanjiQuestions: kanjiQuestion[] = [];
   let isTrialInProgress = false;
+  const timerToast = new TimerToast(600); // 10分
+
   const modeStore = getContext<Writable<KanjiMode>>("mode");
   const unsubscribe = modeStore.subscribe((value) => {
     currentMode = value;
     selectedKanjiQuestions = [];
     isTrialInProgress = false;
+    timerToast.stopTimer();
   });
   onDestroy(() => {
     unsubscribe();
@@ -46,13 +49,10 @@
     }
   }
 
-  const timerToast = new TimerToast(600); // 10分
-
   function handleButtonClick() {
     if (isTrialInProgress) {
       isTrialInProgress = false;
       timerToast.stopTimer();
-      timerToast.resetTimer();
     } else {
       pickRandomKanji();
       timerToast.startTimer();

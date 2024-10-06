@@ -60,6 +60,7 @@ class TimerToast {
 
   public stopTimer() {
     clearInterval(this.timer);
+    this.resetTimer();
     this.closeToast(this.toastId);
   }
 
