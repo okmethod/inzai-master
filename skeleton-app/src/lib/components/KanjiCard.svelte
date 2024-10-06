@@ -1,8 +1,8 @@
 <script lang="ts">
   import { diffChars } from "diff";
-  import type { KanjiCsv } from "$lib/types/kanji";
+  import type { kanjiQuestion } from "$lib/types/kanji";
 
-  export let data: KanjiCsv;
+  export let data: kanjiQuestion;
   export let showKanji: boolean;
   export let showAnswer: boolean = false;
   export let isCompact: boolean | undefined = undefined;

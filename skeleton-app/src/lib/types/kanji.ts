@@ -1,4 +1,4 @@
-export interface KanjiCsv {
+export interface kanjiQuestion {
   id: number;
   kanji: string;
   yomi: string;
@@ -7,7 +7,7 @@ export interface KanjiCsv {
 export interface KanjiData {
   index: number;
   title: string;
-  data: KanjiCsv[];
+  data: kanjiQuestion[];
 }
 
 export type KanjiMode = "yomi" | "kaki";
