@@ -19,6 +19,11 @@ const contents: Content[] = [
     route: "/kanji",
   },
   {
+    title: "計算マスタードリル",
+    action: "navigate",
+    route: "/keisan",
+  },
+  {
     title: "github repository",
     action: "redirect",
     route: GITHUB_REPO_URL,
