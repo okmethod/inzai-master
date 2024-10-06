@@ -1,4 +1,4 @@
-export interface kanjiQuestion {
+export interface KanjiQuestion {
   id: number;
   kanji: string;
   yomi: string;
@@ -7,7 +7,7 @@ export interface kanjiQuestion {
 export interface KanjiData {
   index: number;
   title: string;
-  data: kanjiQuestion[];
+  data: KanjiQuestion[];
 }
 
 export type KanjiMode = "yomi" | "kaki";

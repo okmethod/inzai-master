@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
-  import type { kanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
@@ -11,7 +11,7 @@
   };
 
   let currentMode: KanjiMode = "yomi";
-  let selectedKanjiQuestions: kanjiQuestion[] = [];
+  let selectedKanjiQuestions: KanjiQuestion[] = [];
   let isTrialInProgress = false;
   const timerToast = new TimerToast(600); // 10分
 

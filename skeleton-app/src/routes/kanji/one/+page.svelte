@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
-  import type { kanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
 
@@ -34,7 +34,7 @@
     selectedKanjiData = data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(selectedIndex)) ?? null;
   }
 
-  let selectedKanjiQuestion: kanjiQuestion | null = null;
+  let selectedKanjiQuestion: KanjiQuestion | null = null;
   function pickRandomKanji() {
     if (selectedKanjiData) {
       selectedKanjiQuestion = pickRandomElementsFromArray(selectedKanjiData.data, 1)[0];
