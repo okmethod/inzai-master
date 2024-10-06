@@ -1,5 +1,5 @@
 import type { LoadEvent } from "@sveltejs/kit";
-import type { KanjiCsv, KanjiDataProps } from "$lib/types/kanji";
+import type { KanjiCsv, KanjiData } from "$lib/types/kanji";
 import type { SlotTabSetting } from "$lib/types/tabSetting";
 import { loadCsv } from "$lib/utils/loadfile";
 
@@ -35,12 +35,13 @@ const contents: KanjiDataPath[] = [
   },
 ];
 
-export async function load({
-  fetch,
-}: LoadEvent): Promise<{ propsArray: KanjiDataProps[]; slotTabSettings: SlotTabSetting[] }> {
+export async function load({ fetch }: LoadEvent): Promise<{
+  kanjiDataArray: KanjiData[];
+  slotTabSettings: SlotTabSetting[];
+}> {
   const dataArrays = await Promise.all(contents.map((content) => loadCsv(fetch, content.path)));
 
-  const propsArray = contents.map((content, index) => ({
+  const kanjiDataArray = contents.map((content, index) => ({
     index: index,
     title: content.title,
     data: dataArrays[index] as KanjiCsv[],
@@ -52,5 +53,5 @@ export async function load({
     { index: 2, label: "[テスト練習モード]", title: "", path: "trial" },
   ];
 
-  return { propsArray, slotTabSettings };
+  return { kanjiDataArray, slotTabSettings };
 }

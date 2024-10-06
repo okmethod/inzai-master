@@ -4,11 +4,11 @@
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
-  import type { KanjiDataProps, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiData, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
 
   export let data: {
-    propsArray: KanjiDataProps[];
+    kanjiDataArray: KanjiData[];
   };
 
   let showAnswer = false;
@@ -40,18 +40,18 @@
     transitionOut={slide}
     transitionOutParams={{ duration: 300 }}
   >
-    {#each data.propsArray as content}
+    {#each data.kanjiDataArray as kanjiData}
       <div class="border rounded">
         <AccordionItem>
           <svelte:fragment slot="lead">
             <Icon icon="mdi:book-open-variant-outline" class="text-black" />
           </svelte:fragment>
           <svelte:fragment slot="summary">
-            <h2 class="text-xl font-bold">{content.title}</h2>
+            <h2 class="text-xl font-bold">{kanjiData.title}</h2>
           </svelte:fragment>
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-              {#each content.data as row}
+              {#each kanjiData.data as row}
                 <KanjiCard data={row} showKanji={currentMode === "yomi"} {showAnswer} isCompact={true} />
               {/each}
             </div>

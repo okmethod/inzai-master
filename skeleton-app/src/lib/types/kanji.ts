@@ -4,7 +4,7 @@ export interface KanjiCsv {
   yomi: string;
 }
 
-export interface KanjiDataProps {
+export interface KanjiData {
   index: number;
   title: string;
   data: KanjiCsv[];

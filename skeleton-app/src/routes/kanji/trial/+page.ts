@@ -1,7 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
-import type { KanjiDataProps } from "$lib/types/kanji";
+import type { KanjiData } from "$lib/types/kanji";
 
-export async function load({ parent }: LoadEvent): Promise<{ propsArray: KanjiDataProps[] }> {
+export async function load({ parent }: LoadEvent): Promise<{ kanjiDataArray: KanjiData[] }> {
   const parentData = await parent();
-  return { propsArray: parentData.propsArray };
+  return { kanjiDataArray: parentData.kanjiDataArray };
 }

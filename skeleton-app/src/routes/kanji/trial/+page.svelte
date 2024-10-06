@@ -1,13 +1,13 @@
 <script lang="ts">
   import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
-  import type { KanjiCsv, KanjiDataProps, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiCsv, KanjiData, KanjiMode } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
 
   export let data: {
-    propsArray: KanjiDataProps[];
+    kanjiDataArray: KanjiData[];
   };
 
   let currentMode: KanjiMode = "yomi";
@@ -23,10 +23,11 @@
     unsubscribe();
   });
 
-  let selectedKanjiData: KanjiDataProps | null = data.propsArray.find((props) => props.index === Number(1)) ?? null;
+  let selectedKanjiData: KanjiData | null =
+    data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(1)) ?? null;
   function selectContent(event: Event) {
     const selectedIndex = (event.target as HTMLSelectElement).value;
-    selectedKanjiData = data.propsArray.find((props) => props.index === Number(selectedIndex)) ?? null;
+    selectedKanjiData = data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(selectedIndex)) ?? null;
   }
 
   const numOfQuestions = 10;
@@ -58,8 +59,8 @@
 <div class="cContentPartStyle !m-4">
   <div class="mb-4 flex space-x-2">
     <select id="select-grade" class="border rounded" on:change={selectContent}>
-      {#each data.propsArray.filter((props) => props.index !== 0) as props}
-        <option value={props.index}>{props.title.replace("の漢字", "")}</option>
+      {#each data.kanjiDataArray.filter((kanjiData) => kanjiData.index !== 0) as kanjiData}
+        <option value={kanjiData.index}>{kanjiData.title.replace("の漢字", "")}</option>
       {/each}
     </select>
     <button on:click={handleButtonClick}>
