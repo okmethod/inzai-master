@@ -1,6 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 import { getToastStore } from "@skeletonlabs/skeleton";
 import type { ToastSettings } from "@skeletonlabs/skeleton";
+import { browser } from "$app/environment";
 
 type ValidTagName = keyof HTMLElementTagNameMap;
 
@@ -22,13 +23,19 @@ class TimerToast {
   private timeFull: number;
   public timeLeft: Writable<number>;
   private toastStore = getToastStore();
+  private timerId: string;
   private timer?: NodeJS.Timeout;
   private toastId?: string;
-  private timerId = "timer";
+  private alarmToastId?: string;
+  private unsubscribeTimeLeft: () => void;
 
   constructor(durationSec: number) {
     this.timeFull = durationSec; // 単位: 秒
     this.timeLeft = writable(this.timeFull);
+    this.timerId = "timer";
+    this.unsubscribeTimeLeft = this.timeLeft.subscribe((value) => {
+      this.updateToast(value);
+    });
   }
 
   public resetTimer() {
@@ -43,18 +50,16 @@ class TimerToast {
         } else {
           clearInterval(this.timer);
           this.showAlarmToast();
-          this.closeToast();
+          this.closeToast(this.toastId);
           return 0;
         }
       });
-      this.updateToast();
     }, 1000);
     this.showToast();
   }
 
   public stopTimer() {
     clearInterval(this.timer);
-    this.closeToast();
   }
 
   private createToastMessage(content: string): string {
@@ -67,22 +72,22 @@ class TimerToast {
     const toastSettings: ToastSettings = {
       message: this.createToastMessage(content),
       background: "bg-green-100 select-none",
-      timeout: this.timeFull * 1000, // duration秒間表示
+      timeout: this.timeFull * 1000,
     };
     this.toastId = this.toastStore.trigger(toastSettings);
   }
 
-  private updateToast() {
-    const timerElement = document.getElementById(this.timerId);
-    if (timerElement) {
-      this.timeLeft.subscribe((value) => {
+  private updateToast(value: number) {
+    if (browser) {
+      const timerElement = document.getElementById(this.timerId);
+      if (timerElement) {
         timerElement.textContent = formatTime(value);
-      })();
+      }
     }
   }
 
-  private closeToast() {
-    if (this.toastId) this.toastStore.close(this.toastId);
+  private closeToast(toastId?: string) {
+    if (toastId) this.toastStore.close(toastId);
   }
 
   private showAlarmToast() {
@@ -92,7 +97,14 @@ class TimerToast {
       background: "bg-red-100 select-none",
       autohide: false,
     };
-    this.toastStore.trigger(toastSettings);
+    this.alarmToastId = this.toastStore.trigger(toastSettings);
+  }
+
+  public destroy() {
+    this.stopTimer();
+    this.closeToast(this.toastId);
+    this.closeToast(this.alarmToastId);
+    this.unsubscribeTimeLeft();
   }
 }
 

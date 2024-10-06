@@ -51,7 +51,7 @@
   }
 
   onDestroy(() => {
-    timerToast.stopTimer();
+    timerToast.destroy();
   });
 </script>
 
