@@ -23,6 +23,8 @@
     unsubscribe();
   });
 
+  const inzaiKanjiData: KanjiData | null =
+    data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(0)) ?? null;
   let selectedKanjiData: KanjiData | null =
     data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(1)) ?? null;
   function selectContent(event: Event) {
@@ -34,6 +36,13 @@
   function pickRandomKanji() {
     if (selectedKanjiData) {
       selectedKanjiQuestions = pickRandomElementsFromArray(selectedKanjiData.data, numOfQuestions);
+    }
+    if (currentMode === "yomi" && inzaiKanjiData) {
+      // 読み問題モードでは、印西の漢字を1問含める
+      selectedKanjiQuestions = [
+        ...selectedKanjiQuestions.slice(0, numOfQuestions - 1),
+        ...pickRandomElementsFromArray(inzaiKanjiData.data, 1),
+      ];
     }
   }
 
