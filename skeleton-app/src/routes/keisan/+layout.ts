@@ -1,4 +1,4 @@
-import type { KeisanDataProps } from "$lib/types/keisan";
+import type { KeisanData } from "$lib/types/keisan";
 import type { SlotTabSetting } from "$lib/types/tabSetting";
 
 interface KeisanDataPath {
@@ -21,8 +21,11 @@ const contents: KeisanDataPath[] = [
   },
 ];
 
-export async function load(): Promise<{ propsArray: KeisanDataProps[]; slotTabSettings: SlotTabSetting[] }> {
-  const propsArray = contents.map((content, index) => ({
+export async function load(): Promise<{
+  keisanDataArray: KeisanData[];
+  slotTabSettings: SlotTabSetting[];
+}> {
+  const keisanDataArray = contents.map((content, index) => ({
     index: index,
     title: content.title,
     data: content.data,
@@ -34,5 +37,5 @@ export async function load(): Promise<{ propsArray: KeisanDataProps[]; slotTabSe
     { index: 2, label: "[テスト練習モード]", title: "", path: "" },
   ];
 
-  return { propsArray, slotTabSettings };
+  return { keisanDataArray, slotTabSettings };
 }

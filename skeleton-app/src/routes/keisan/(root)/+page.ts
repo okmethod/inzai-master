@@ -1,7 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
-import type { KeisanDataProps } from "$lib/types/keisan";
+import type { KeisanData } from "$lib/types/keisan";
 
-export async function load({ parent }: LoadEvent): Promise<{ propsArray: KeisanDataProps[] }> {
+export async function load({ parent }: LoadEvent): Promise<{ keisanDataArray: KeisanData[] }> {
   const parentData = await parent();
-  return { propsArray: parentData.propsArray };
+  return { keisanDataArray: parentData.keisanDataArray };
 }
