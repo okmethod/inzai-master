@@ -25,6 +25,7 @@ class TimerToast {
           return current - 1;
         } else {
           clearInterval(this.timer);
+          this.showAlarmToast();
           this.closeToast();
           return 0;
         }
@@ -34,11 +35,15 @@ class TimerToast {
     this.showToast();
   }
 
+  private createToastMessage(content: string): string {
+    return `<div class="w-32">${content}</div>`;
+  }
+
   private showToast() {
     const toastSettings: ToastSettings = {
-      message: `<div class="w-20">残り時間: <span id="timer">${this.formatTime(this.timeFull)}</span></div>`,
-      timeout: this.timeFull * 1000, // duration秒間表示
+      message: this.createToastMessage(`残り時間: <span id="timer">${this.formatTime(this.timeFull)}</span>`),
       background: "bg-green-100 select-none",
+      timeout: this.timeFull * 1000, // duration秒間表示
     };
     this.toastId = this.toastStore.trigger(toastSettings);
   }
@@ -54,6 +59,15 @@ class TimerToast {
 
   private closeToast() {
     if (this.toastId) this.toastStore.close(this.toastId);
+  }
+
+  private showAlarmToast() {
+    const toastSettings: ToastSettings = {
+      message: this.createToastMessage("タイムアップ！"),
+      background: "bg-red-100 select-none",
+      autohide: false,
+    };
+    this.toastStore.trigger(toastSettings);
   }
 
   private formatTime(seconds: number) {
