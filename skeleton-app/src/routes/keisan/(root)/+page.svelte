@@ -3,10 +3,13 @@
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import type { KeisanData } from "$lib/types/keisan";
+  import KeisanCard from "$lib/components/KeisanCard.svelte";
 
   export let data: {
     keisanDataArray: KeisanData[];
   };
+
+  let showAnswer = false;
 </script>
 
 <div class="cContentPartStyle !m-4">
@@ -32,7 +35,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each keisanData.data as row}
-                <span> {row.label} </span>
+                <KeisanCard data={row} {showAnswer} isCompact={true} />
               {/each}
             </div>
           </svelte:fragment>
