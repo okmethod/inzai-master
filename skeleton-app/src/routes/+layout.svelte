@@ -15,11 +15,12 @@
   import { base } from "$app/paths";
   import { initAuth0, auth0Store, auth0User } from "$lib/stores/auth0";
   import { navigateTo } from "$lib/utils/navigation.client";
+  import UserButton from "$lib/components/UserButton.svelte";
 
-  const rootUrl = `${$page.url.origin}${base}`;
   let user = $auth0User;
-
+  let checkedAuth = false;
   onMount(async () => {
+    const rootUrl = `${$page.url.origin}${base}`;
     await initAuth0(rootUrl);
     const auth0Service = get(auth0Store);
     await auth0Service.handleRedirectCallback($page.url.pathname);
@@ -30,12 +31,8 @@
     } else {
       console.log("User is not authenticated.");
     }
+    checkedAuth = true;
   });
-
-  async function handleLogin() {
-    const auth0Service = get(auth0Store);
-    await auth0Service.login();
-  }
 </script>
 
 <svelte:head>
@@ -58,24 +55,7 @@
         <span class="">HOME</span>
       </button>
       <div class="flex-grow"><!--spacer--></div>
-      {#if user}
-        <button
-          class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1"
-          on:click|preventDefault={() => navigateTo("/mypage")}
-        >
-          <div class="w-5 h-5">
-            <Icon icon="mdi:account" class="w-full h-full" />
-          </div>
-          <span class="">{user.nickname}</span>
-        </button>
-      {:else}
-        <button class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1" on:click|preventDefault={handleLogin}>
-          <div class="w-5 h-5">
-            <Icon icon="mdi:login" class="w-full h-full" />
-          </div>
-          <span class="">ログイン</span>
-        </button>
-      {/if}
+      <UserButton {checkedAuth} {user} />
     </div>
   </div>
 
