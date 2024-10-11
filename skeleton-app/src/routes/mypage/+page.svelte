@@ -11,9 +11,11 @@
   }
 </script>
 
-<div class="flex flex-col items-center gap-1">
-  <h1>MYページ</h1>
-  <h2>ようこそ！ {user ? user.nickname : "Unknown"}</h2>
+<div class="flex flex-col items-center mt-2 space-y-4">
+  <div class="flex flex-col items-center border rounded-lg space-y-4 p-4">
+    <img src={user ? user.picture : ""} alt="profile" class="w-20 h-20 rounded-full" />
+    <div>{user ? user.nickname : ""} さんのページ</div>
+  </div>
 
   <button class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1" on:click|preventDefault={handleLogout}>
     <div class="w-5 h-5">
