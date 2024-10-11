@@ -1,4 +1,4 @@
-import { navigateTo } from "$lib/utils/navigation.client";
+import { goto } from "$app/navigation";
 import { GITHUB_REPO_URL } from "$lib/constants/common";
 
 export interface ContentButtonProps {
@@ -38,7 +38,7 @@ export async function load() {
 
   function _getOnClick(action: string, route: string): () => void {
     const actions: { [key: string]: () => void } = {
-      navigate: () => navigateTo(route),
+      navigate: () => goto(route),
       redirect: () => window.open(route, "_blank"),
     };
     return actions[action] || (() => {});

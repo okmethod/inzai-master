@@ -1,8 +1,8 @@
 <script lang="ts">
   import { TabGroup, Tab } from "@skeletonlabs/skeleton";
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
   import type { SlotTabSetting } from "$lib/types/tabSetting";
-  import { navigateTo } from "$lib/utils/navigation.client";
 
   export let currentTabIndex: number;
   export let tabSettings: SlotTabSetting[];
@@ -26,7 +26,7 @@
     const tabSetting = tabSettings.find((tab) => tab.index === index);
     if (tabSetting) {
       currentTabIndex = index;
-      navigateTo(`${navigatePathPrefix}/${tabSetting.path}`);
+      goto(`${navigatePathPrefix}/${tabSetting.path}`);
     }
   }
 </script>

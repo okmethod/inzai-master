@@ -2,8 +2,8 @@
   import { get } from "svelte/store";
   import type { User } from "@auth0/auth0-spa-js";
   import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
   import { auth0Store } from "$lib/stores/auth0";
-  import { navigateTo } from "$lib/utils/navigation.client";
 
   export let checkedAuth: boolean;
   export let user: User | null;
@@ -16,19 +16,16 @@
 </script>
 
 {#if !checkedAuth}
-  <button
-    class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1"
-    on:click|preventDefault={() => navigateTo("/mypage")}
-  >
+  <div class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1">
     <div class="w-5 h-5">
       <Icon icon="mdi:account-question" class="w-full h-full" />
     </div>
     <span class="">Loading...</span>
-  </button>
+  </div>
 {:else if user}
   <button
     class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1"
-    on:click|preventDefault={() => navigateTo("/mypage")}
+    on:click|preventDefault={() => goto("/mypage")}
   >
     <div class="w-5 h-5">
       <Icon icon="mdi:account" class="w-full h-full" />

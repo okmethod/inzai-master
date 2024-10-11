@@ -1,5 +1,3 @@
-import { base } from "$app/paths";
-
 export async function loadCsv(
   fetchFunction: typeof window.fetch,
   fileName: string,
@@ -7,7 +5,7 @@ export async function loadCsv(
 ): Promise<{ [key: string]: any }> {
   console.debug("loading: ", fileName);
   try {
-    const filePath = `${base}/${fileName}`;
+    const filePath = `/${fileName}`;
     const response = await fetchFunction(filePath);
     const blob = await response.blob();
     const text = await blob.text();
