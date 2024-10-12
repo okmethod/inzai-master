@@ -2,7 +2,7 @@ import FirestoreCollectionService from "$lib/services/FirestoreCollectionService
 import type { Auth0UserData } from "$lib/types/document";
 import type { QuerySnapshot } from "firebase/firestore";
 
-class Auth0UserCollectionService extends FirestoreCollectionService {
+class UserCollectionService extends FirestoreCollectionService {
   constructor(collectionName: string) {
     super(collectionName);
   }
@@ -48,4 +48,4 @@ class Auth0UserCollectionService extends FirestoreCollectionService {
   }
 }
 
-export default Auth0UserCollectionService;
+export default UserCollectionService;
