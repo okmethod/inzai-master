@@ -19,7 +19,7 @@ class Auth0Service {
         redirect_uri: this.rootUrl,
       },
     });
-    console.log("Auth0 client initialized.");
+    console.debug("Auth0 client initialized.");
   }
 
   private get client(): Auth0Client {
@@ -33,7 +33,7 @@ class Auth0Service {
     const query = window.location.search;
     const shouldParseResult = query.includes("code=") && query.includes("state=");
     if (shouldParseResult) {
-      console.log("Parsing redirect...");
+      console.debug("Parsing redirect...");
       try {
         const result = await this.client.handleRedirectCallback();
 
@@ -41,7 +41,7 @@ class Auth0Service {
           window.location.href = result.appState.targetUrl;
         }
 
-        console.log("Logged in!");
+        console.debug("Logged in!");
       } catch (err) {
         console.error("Failed to parse redirect:", err);
       }
@@ -80,19 +80,19 @@ class Auth0Service {
 
   public async getUser(): Promise<User | null> {
     if (isDevelopment) {
-      console.log("Returning test user in development mode.");
+      console.debug("Returning test user in development mode.");
       return testUser;
     }
     try {
       const isAuthenticated = await this.isAuthenticated();
       if (!isAuthenticated) {
-        console.log("Not authenticated.");
+        console.debug("Not authenticated.");
         return null;
       }
       const user = await this.client.getUser();
       return user ?? null;
     } catch (err) {
-      console.log("Failed to get user:", err);
+      console.debug("Failed to get user:", err);
       return null;
     }
   }

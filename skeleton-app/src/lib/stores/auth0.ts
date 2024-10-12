@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import type { User } from "@auth0/auth0-spa-js";
-import Auth0Service from "$lib/utils/Auth0Service";
+import Auth0Service from "$lib/services/Auth0Service";
 
 const auth0Service = new Auth0Service();
 
