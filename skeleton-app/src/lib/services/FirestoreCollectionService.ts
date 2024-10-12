@@ -1,33 +1,30 @@
-import type { WithFieldValue, DocumentData } from "firebase/firestore";
-import type { WhereFilterOp, QuerySnapshot } from "firebase/firestore";
-import {
-  getFirestore,
-  doc,
-  collection,
-  addDoc,
-  getDoc,
-  getDocs,
-  updateDoc,
-  query,
-  where,
-  connectFirestoreEmulator,
+import type {
+  Firestore,
+  CollectionReference,
+  DocumentData,
+  WithFieldValue,
+  WhereFilterOp,
+  QuerySnapshot,
 } from "firebase/firestore";
-import firebaseApp from "$lib/services/firebaseApp";
+import { doc, collection, addDoc, getDoc, getDocs, updateDoc, query, where } from "firebase/firestore";
+import FirestoreSingleton from "$lib/services/FirestoreSingleton";
 
-const isDevelopment = (import.meta.env.MODE as string) === "development";
-
-class FirestoreService {
-  private db;
-  private collectionName: string;
-  protected collectionRef;
+class FirestoreCollectionService {
+  private db: Firestore | null = null;
+  private collectionName: string = "";
+  protected collectionReference: CollectionReference<DocumentData> | null = null;
 
   constructor(collectionName: string) {
-    this.db = getFirestore(firebaseApp);
-    if (isDevelopment) {
-      connectFirestoreEmulator(this.db, "localhost", 8010);
-    }
+    this.db = FirestoreSingleton;
     this.collectionName = collectionName;
-    this.collectionRef = collection(this.db, this.collectionName);
+    this.collectionReference = collection(this.db, this.collectionName);
+  }
+
+  private get collectionRef(): CollectionReference<DocumentData> {
+    if (!this.collectionReference) {
+      throw new Error("Collection Reference is not initialized.");
+    }
+    return this.collectionReference;
   }
 
   protected handleError(message: string, key: string | null, error: unknown): void {
@@ -104,4 +101,4 @@ class FirestoreService {
   }
 }
 
-export default FirestoreService;
+export default FirestoreCollectionService;

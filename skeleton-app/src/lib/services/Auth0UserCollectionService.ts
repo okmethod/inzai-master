@@ -1,8 +1,8 @@
-import FirestoreService from "$lib/services/FirestoreService";
+import FirestoreCollectionService from "$lib/services/FirestoreCollectionService";
 import type { Auth0UserData } from "$lib/types/document";
 import type { QuerySnapshot } from "firebase/firestore";
 
-class Auth0UserCollectionService extends FirestoreService {
+class Auth0UserCollectionService extends FirestoreCollectionService {
   constructor(collectionName: string) {
     super(collectionName);
   }
