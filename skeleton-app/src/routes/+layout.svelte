@@ -14,6 +14,8 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { initAuth0, auth0Store, auth0User } from "$lib/stores/auth0";
+  import { collectionNameUsers, type UserData } from "$lib/types/document";
+  import Auth0UserCollectionService from "$lib/services/Auth0UserCollectionService";
   import UserButton from "$lib/components/UserButton.svelte";
 
   let user = $auth0User;
@@ -26,7 +28,16 @@
     user = await auth0Service.getUser();
     if (user) {
       console.log("User is authenticated.");
-      auth0User.set(user);
+      const dbService = new Auth0UserCollectionService(collectionNameUsers);
+      if (user.sub) {
+        const doc = await dbService.getBySub<UserData>(user.sub);
+        const now = new Date();
+        if (!doc) {
+          dbService.add<UserData>({ sub: user.sub, latestLogin: now });
+        } else {
+          dbService.setBySub<UserData>(user.sub, { latestLogin: now });
+        }
+      }
     } else {
       console.log("User is not authenticated.");
     }

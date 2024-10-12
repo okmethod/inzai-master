@@ -1,6 +1,8 @@
 import type { Auth0Client, User } from "@auth0/auth0-spa-js";
 import { createAuth0Client } from "@auth0/auth0-spa-js";
 
+const isDevelopment = (import.meta.env.MODE as string) === "development";
+
 class Auth0Service {
   private auth0Client: Auth0Client | null = null;
   private rootUrl: string = "";
@@ -77,6 +79,10 @@ class Auth0Service {
   }
 
   public async getUser(): Promise<User | null> {
+    if (isDevelopment) {
+      console.log("Returning test user in development mode.");
+      return testUser;
+    }
     try {
       const isAuthenticated = await this.isAuthenticated();
       if (!isAuthenticated) {
@@ -91,5 +97,17 @@ class Auth0Service {
     }
   }
 }
+
+const testUser = {
+  email: "okmethod.test@gmail.com",
+  email_verified: true,
+  family_name: "method",
+  given_name: "ok",
+  name: "ok method",
+  nickname: "okmethod.test",
+  picture: "https://lh3.googleusercontent.com/a/ACg8ocJruoli4nsmM_FMpGL2s4CsJHsub642d0lrOCWcVy4QnSlXHg=s96-c",
+  sub: "google-oauth2|107275238557152646433",
+  updated_at: "2024-10-11T13:14:46.955Z",
+};
 
 export default Auth0Service;
