@@ -1,20 +1,25 @@
 <script lang="ts">
-  import { get } from "svelte/store";
   import Icon from "@iconify/svelte";
-  import { auth0Store, auth0User } from "$lib/stores/auth0";
+  import Auth0Singleton from "$lib/services/Auth0Singleton";
+  import type { User } from "@auth0/auth0-spa-js";
+  import type { UserData } from "$lib/types/document";
 
-  const auth0Service = get(auth0Store);
-  const user = get(auth0User);
+  export let data: {
+    user: User | null;
+    userData: UserData | null;
+  };
+  const userImageUrl = data.user ? data.user.picture : "";
+  const userNickName = data.user ? data.user.nickname : "";
 
   async function handleLogout() {
-    await auth0Service.logout();
+    await Auth0Singleton.logout();
   }
 </script>
 
 <div class="flex flex-col items-center mt-2 space-y-4">
   <div class="flex flex-col items-center border rounded-lg space-y-4 p-4">
-    <img src={user ? user.picture : ""} alt="profile" class="w-20 h-20 rounded-full" />
-    <div>{user ? user.nickname : ""} さんのページ</div>
+    <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
+    <div>{userNickName} さんのページ</div>
   </div>
 
   <button class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1" on:click|preventDefault={handleLogout}>

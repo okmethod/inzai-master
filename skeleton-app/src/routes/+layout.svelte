@@ -10,22 +10,21 @@
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   import { onMount } from "svelte";
-  import { get } from "svelte/store";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
-  import { initAuth0, auth0Store, auth0User } from "$lib/stores/auth0";
+  import type { User } from "@auth0/auth0-spa-js";
+  import Auth0Singleton from "$lib/services/Auth0Singleton";
   import { collectionNameUsers, type UserData } from "$lib/types/document";
   import UserCollectionService from "$lib/services/UserCollectionService";
   import UserButton from "$lib/components/UserButton.svelte";
 
-  let user = $auth0User;
+  let user: User | null = null;
   let checkedAuth = false;
   onMount(async () => {
     const rootUrl = `${$page.url.origin}`;
-    await initAuth0(rootUrl);
-    const auth0Service = get(auth0Store);
-    await auth0Service.handleRedirectCallback($page.url.pathname);
-    user = await auth0Service.getUser();
+    await Auth0Singleton.init(rootUrl);
+    await Auth0Singleton.handleRedirectCallback($page.url.pathname);
+    user = await Auth0Singleton.getUser();
     if (user) {
       console.log("User is authenticated.");
       const dbService = new UserCollectionService(collectionNameUsers);

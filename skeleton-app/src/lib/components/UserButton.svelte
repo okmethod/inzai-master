@@ -1,17 +1,14 @@
 <script lang="ts">
-  import { get } from "svelte/store";
   import type { User } from "@auth0/auth0-spa-js";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
-  import { auth0Store } from "$lib/stores/auth0";
+  import Auth0Singleton from "$lib/services/Auth0Singleton";
 
   export let checkedAuth: boolean;
   export let user: User | null;
 
-  const auth0Service = get(auth0Store);
-
   async function handleLogin() {
-    await auth0Service.login();
+    await Auth0Singleton.login();
   }
 </script>
 

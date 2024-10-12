@@ -3,23 +3,35 @@ import { createAuth0Client } from "@auth0/auth0-spa-js";
 
 const isDevelopment = (import.meta.env.MODE as string) === "development";
 
-class Auth0Service {
-  private auth0Client: Auth0Client | null = null;
-  private rootUrl: string = "";
+const auth0Config = (url: string) => ({
+  domain: "okmethod.jp.auth0.com",
+  clientId: "e1Qsve680BspxZQSGk3RqiwfcYCmy74A",
+  authorizationParams: {
+    redirect_uri: url,
+  },
+});
 
-  constructor() {}
+class Auth0Singleton {
+  private static instance: Auth0Singleton | null = null;
+  private rootUrl: string = "";
+  private auth0Client: Auth0Client | null = null;
+
+  // Singleton pattern
+  private constructor() {}
+
+  public static getInstance(): Auth0Singleton {
+    if (!Auth0Singleton.instance) {
+      Auth0Singleton.instance = new Auth0Singleton();
+    }
+    return Auth0Singleton.instance;
+  }
 
   public async init(rootUrl: string): Promise<void> {
     this.rootUrl = rootUrl;
-    if (this.auth0Client !== null) return;
-    this.auth0Client = await createAuth0Client({
-      domain: "okmethod.jp.auth0.com",
-      clientId: "e1Qsve680BspxZQSGk3RqiwfcYCmy74A",
-      authorizationParams: {
-        redirect_uri: this.rootUrl,
-      },
-    });
-    console.debug("Auth0 client initialized.");
+    if (!this.auth0Client) {
+      this.auth0Client = await createAuth0Client(auth0Config(rootUrl));
+      console.debug("Auth0 client initialized.");
+    }
   }
 
   private get client(): Auth0Client {
@@ -110,4 +122,4 @@ const testUser = {
   updated_at: "2024-10-11T13:14:46.955Z",
 };
 
-export default Auth0Service;
+export default Auth0Singleton.getInstance();
