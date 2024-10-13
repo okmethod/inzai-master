@@ -25,10 +25,10 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
   }
   const userData = UserData.fromDoc(doc);
 
-  let latestLoginRewardData = userData.latestLoginRewardDate;
+  let latestLoginRewardDate = userData.getDate("latestLoginReward");
   switch (rewardKey) {
     case "DAILY_LOGIN":
-      latestLoginRewardData = new Date();
+      latestLoginRewardDate = new Date();
       break;
     default:
       break;
@@ -36,7 +36,13 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
 
   const rewardPoints = REWARDS[rewardKey].points;
   const updatedRewardPoints = userData.rewardPoints + rewardPoints;
-  const updatedUserData = new UserData(sub, latestLoginRewardData, updatedRewardPoints);
+  const updatedUserData = new UserData(
+    sub,
+    {
+      latestLoginReward: latestLoginRewardDate,
+    },
+    updatedRewardPoints,
+  );
   await dbService.setBySub(sub, updatedUserData.toDoc());
 
   return updatedRewardPoints;

@@ -16,7 +16,9 @@
 
   const toastStore = getToastStore();
 
-  let addedDailyReward = data.userData ? !isEligibleForDailyLoginReward(data.userData.latestLoginRewardDate) : false;
+  let addedDailyReward = data.userData
+    ? !isEligibleForDailyLoginReward(data.userData.getDate("latestLoginReward"))
+    : false;
   async function handleLoginReward() {
     const rewardKey = "DAILY_LOGIN";
     userRewardPoints = data.userData ? await updateRewardPoints(data.userData.sub, rewardKey) : 0;

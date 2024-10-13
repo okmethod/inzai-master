@@ -23,8 +23,7 @@ export async function load({ url }: LoadEvent): Promise<{
     const dbService = new UserCollectionService(collectionNameUsers);
     const doc = await dbService.getBySub<UserDataDoc>(sub);
     if (!doc) {
-      const minimumEpochTime = new Date(0);
-      const newUserData = new UserData(sub, minimumEpochTime, 0);
+      const newUserData = new UserData(sub, {}, 0);
       await dbService.add<UserDataDoc>(newUserData.toDoc());
     }
   }
