@@ -26,6 +26,8 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
   const userData = UserData.fromDoc(doc);
 
   let latestLoginRewardDate = userData.getDate("latestLoginReward");
+  const latestKanjiExamDate = userData.getDate("latestKanjiExam");
+  const latestKeisanExamDate = userData.getDate("latestKeisanExam");
   switch (rewardKey) {
     case "DAILY_LOGIN":
       latestLoginRewardDate = new Date();
@@ -40,6 +42,8 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
     sub,
     {
       latestLoginReward: latestLoginRewardDate,
+      latestKanjiExam: latestKanjiExamDate,
+      latestKeisanExam: latestKeisanExamDate,
     },
     updatedRewardPoints,
   );

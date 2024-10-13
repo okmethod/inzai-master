@@ -9,10 +9,12 @@ export const collectionNameUsers = "users";
 export interface UserDataDoc extends Auth0UserData {
   sub: string;
   latestLoginReward: Timestamp;
+  latestKanjiExam: Timestamp;
+  latestKeisanExam: Timestamp;
   rewardPoints: number;
 }
 
-type TimestampKeys = {
+export type TimestampKey = {
   [K in keyof UserDataDoc]: UserDataDoc[K] extends Timestamp ? K : never;
 }[keyof UserDataDoc];
 
@@ -37,15 +39,15 @@ export class UserData implements Auth0UserData {
     return dateOrTimestamp instanceof Date ? Timestamp.fromDate(dateOrTimestamp) : dateOrTimestamp;
   }
 
-  private getOrDefault(key: TimestampKeys): Timestamp {
+  private getOrDefault(key: TimestampKey): Timestamp {
     return this.timestamps[key] || Timestamp.fromDate(UserData.EpochZero);
   }
 
-  public getTimestamp(key: TimestampKeys): Timestamp {
+  public getTimestamp(key: TimestampKey): Timestamp {
     return this.getOrDefault(key);
   }
 
-  public getDate(key: TimestampKeys): Date {
+  public getDate(key: TimestampKey): Date {
     return this.getOrDefault(key).toDate();
   }
 
@@ -53,18 +55,20 @@ export class UserData implements Auth0UserData {
     return {
       sub: this.sub,
       latestLoginReward: this.timestamps.latestLoginReward,
+      latestKanjiExam: this.timestamps.latestKanjiExam,
+      latestKeisanExam: this.timestamps.latestKeisanExam,
       rewardPoints: this.rewardPoints,
     };
   }
 
-  private static extractTimestamps(doc: UserDataDoc): Record<TimestampKeys, Timestamp> {
-    const result: Partial<Record<TimestampKeys, Timestamp>> = {};
+  private static extractTimestamps(doc: UserDataDoc): Record<TimestampKey, Timestamp> {
+    const result: Partial<Record<TimestampKey, Timestamp>> = {};
     for (const key in doc) {
       if (doc[key as keyof UserDataDoc] instanceof Timestamp) {
-        result[key as TimestampKeys] = doc[key as keyof UserDataDoc] as Timestamp;
+        result[key as TimestampKey] = doc[key as keyof UserDataDoc] as Timestamp;
       }
     }
-    return result as Record<TimestampKeys, Timestamp>;
+    return result as Record<TimestampKey, Timestamp>;
   }
 
   static fromDoc(doc: UserDataDoc): UserData {
