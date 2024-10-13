@@ -32,7 +32,7 @@ export async function load({ url }: LoadEvent): Promise<{
       const updatedUserData = new UserData(
         sub,
         now,
-        doc.rewardPoints + rewardDailyLogin(currentUserData.latestLoginDate),
+        doc.rewardPoints + rewardDailyLogin(currentUserData.latestLoginRewardDate),
       );
       await dbService.setBySub<UserDataDoc>(sub, updatedUserData.toDoc());
     }

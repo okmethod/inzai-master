@@ -13,10 +13,10 @@ function getJSTDateString(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export function rewardDailyLogin(latestLogin: Date): number {
+export function rewardDailyLogin(latestLoginRewardDate: Date): number {
   const now = new Date();
-  const today = getJSTDateString(now);
-  const latestLoginDate = getJSTDateString(latestLogin);
+  const JSTtoday = getJSTDateString(now);
+  const JSTlatestLoginRewardDate = getJSTDateString(latestLoginRewardDate);
 
-  return latestLoginDate === today ? 0 : 1;
+  return JSTlatestLoginRewardDate === JSTtoday ? 0 : 1;
 }
