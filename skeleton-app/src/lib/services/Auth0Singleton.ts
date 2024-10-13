@@ -74,7 +74,7 @@ class Auth0Singleton {
     try {
       await this.client.loginWithRedirect({
         authorizationParams: {
-          redirect_uri: this.rootUrl,
+          redirect_uri: `${this.rootUrl}/mypage`,
         },
       });
     } catch (err) {
