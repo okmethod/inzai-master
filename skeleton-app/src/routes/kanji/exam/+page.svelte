@@ -74,7 +74,7 @@
     </select>
     <button on:click={handleButtonClick}>
       <span class="cButtonYellowStyle">
-        {isTrialInProgress ? "答え合わせ" : "テスト出題"}
+        {isTrialInProgress ? "答え合わせ" : "出題"}
       </span>
     </button>
   </div>

@@ -51,7 +51,7 @@
       {/each}
     </select>
     <button on:click={pickRandomKanji}>
-      <span class="cButtonYellowStyle">ランダム出題</span>
+      <span class="cButtonYellowStyle">出題</span>
     </button>
   </div>
   {#if selectedKanjiQuestion}
