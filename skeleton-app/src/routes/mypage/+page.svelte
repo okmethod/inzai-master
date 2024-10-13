@@ -3,7 +3,7 @@
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { User } from "@auth0/auth0-spa-js";
   import type { UserData } from "$lib/types/document";
-  import { isEligibleForDailyLoginReward, updateRewardPoints } from "$lib/internal/reward";
+  import { isEligibleForDailyLoginReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
 
   export let data: {
     user: User | null;
@@ -15,7 +15,9 @@
 
   let addedDailyReward = data.userData ? !isEligibleForDailyLoginReward(data.userData.latestLoginRewardDate) : false;
   async function handleLoginReward() {
-    userRewardPoints = data.userData ? await updateRewardPoints(data.userData.sub, "DAILY_LOGIN") : 0;
+    const rewardKey = "DAILY_LOGIN";
+    userRewardPoints = data.userData ? await updateRewardPoints(data.userData.sub, rewardKey) : 0;
+    showRewardToast(rewardKey);
     addedDailyReward = true;
   }
 

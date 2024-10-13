@@ -1,12 +1,22 @@
+import { getToastStore } from "@skeletonlabs/skeleton";
+import type { ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
 import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
 import UserCollectionService from "$lib/services/UserCollectionService";
 
-const REWARD_POINTS = {
-  DAILY_LOGIN: 1,
+interface RewordData {
+  name: string;
+  points: number;
+}
+
+const REWARDS: Record<string, RewordData> = {
+  DAILY_LOGIN: {
+    name: "ログインボーナス",
+    points: 1,
+  },
 };
 
-type RewardKey = keyof typeof REWARD_POINTS;
+type RewardKey = keyof typeof REWARDS;
 
 export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Promise<number> {
   const dbService = new UserCollectionService(collectionNameUsers);
@@ -25,12 +35,23 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
       break;
   }
 
-  const rewardPoints = REWARD_POINTS[rewardKey];
+  const rewardPoints = REWARDS[rewardKey].points;
   const updatedRewardPoints = userData.rewardPoints + rewardPoints;
   const updatedUserData = new UserData(sub, latestLoginRewardData, updatedRewardPoints);
   await dbService.setBySub(sub, updatedUserData.toDoc());
 
   return updatedRewardPoints;
+}
+
+export function showRewardToast(rewardKey: RewardKey): void {
+  const { name, points } = REWARDS[rewardKey];
+  const toastStore = getToastStore();
+  const toastSettings: ToastSettings = {
+    message: `${name} 獲得！ +${points}pt`,
+    background: "bg-yellow-100 select-none",
+    timeout: 5000,
+  };
+  toastStore.trigger(toastSettings);
 }
 
 export function isEligibleForDailyLoginReward(latestLoginRewardDate: Date): boolean {
