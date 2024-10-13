@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { getContext, onDestroy } from "svelte";
-  import type { Writable } from "svelte/store";
-  import type { KanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
+  import { onDestroy } from "svelte";
+  import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
@@ -10,21 +9,9 @@
     kanjiDataArray: KanjiData[];
   };
 
-  let currentMode: KanjiMode = "yomi";
   let selectedKanjiQuestions: KanjiQuestion[] = [];
   let isTrialInProgress = false;
   const timerToast = new TimerToast(600); // 10分
-
-  const modeStore = getContext<Writable<KanjiMode>>("mode");
-  const unsubscribe = modeStore.subscribe((value) => {
-    currentMode = value;
-    selectedKanjiQuestions = [];
-    isTrialInProgress = false;
-    timerToast.stopTimer();
-  });
-  onDestroy(() => {
-    unsubscribe();
-  });
 
   const inzaiKanjiData: KanjiData | null =
     data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(0)) ?? null;
@@ -37,13 +24,14 @@
 
   const numOfQuestions = 10;
   function pickRandomKanji() {
+    // 書き問題10問 + 読み問題を10問を選出
     if (selectedKanjiData) {
-      selectedKanjiQuestions = pickRandomElementsFromArray(selectedKanjiData.data, numOfQuestions);
+      selectedKanjiQuestions = pickRandomElementsFromArray(selectedKanjiData.data, numOfQuestions * 2);
     }
-    if (currentMode === "yomi" && inzaiKanjiData) {
-      // 読み問題モードでは、印西の漢字を1問含める
+    // うち1問を印西の漢字を1問に置き換え
+    if (inzaiKanjiData) {
       selectedKanjiQuestions = [
-        ...selectedKanjiQuestions.slice(0, numOfQuestions - 1),
+        ...selectedKanjiQuestions.slice(0, numOfQuestions * 2 - 1),
         ...pickRandomElementsFromArray(inzaiKanjiData.data, 1),
       ];
     }
@@ -83,7 +71,7 @@
       {#each selectedKanjiQuestions as question, index}
         <div>
           <span> {index + 1}. </span>
-          <KanjiCard data={question} showKanji={currentMode === "yomi"} showAnswer={true} {isTrialInProgress} />
+          <KanjiCard data={question} showKanji={index < numOfQuestions} showAnswer={true} {isTrialInProgress} />
         </div>
       {/each}
     </div>
