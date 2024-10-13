@@ -3,7 +3,6 @@ import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
 import UserCollectionService from "$lib/services/UserCollectionService";
 import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
-import { rewardDailyLogin } from "$lib/internal/reward";
 
 export async function load({ url }: LoadEvent): Promise<{
   user: User | null;
@@ -15,26 +14,18 @@ export async function load({ url }: LoadEvent): Promise<{
 
   if (user && user.sub) {
     console.debug("User is authenticated.");
-    await _handleUserData(user.sub);
+    await _addNewUserData(user.sub);
   } else {
     console.debug("User is not authenticated.");
   }
 
-  async function _handleUserData(sub: string) {
+  async function _addNewUserData(sub: string) {
     const dbService = new UserCollectionService(collectionNameUsers);
     const doc = await dbService.getBySub<UserDataDoc>(sub);
-    const now = new Date();
     if (!doc) {
-      const newUserData = new UserData(sub, now, 0);
+      const minimumEpochTime = new Date(0);
+      const newUserData = new UserData(sub, minimumEpochTime, 0);
       await dbService.add<UserDataDoc>(newUserData.toDoc());
-    } else {
-      const currentUserData = UserData.fromDoc(doc);
-      const updatedUserData = new UserData(
-        sub,
-        now,
-        doc.rewardPoints + rewardDailyLogin(currentUserData.latestLoginRewardDate),
-      );
-      await dbService.setBySub<UserDataDoc>(sub, updatedUserData.toDoc());
     }
   }
 
