@@ -13,7 +13,7 @@
   let currentMode: KanjiMode = "yomi";
   let selectedKanjiQuestions: KanjiQuestion[] = [];
   let isTrialInProgress = false;
-  const timerToast = new TimerToast(600); // 10分
+  const timerToast = new TimerToast(300); // 5分
 
   const modeStore = getContext<Writable<KanjiMode>>("mode");
   const unsubscribe = modeStore.subscribe((value) => {
