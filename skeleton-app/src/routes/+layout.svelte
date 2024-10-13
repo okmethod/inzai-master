@@ -9,49 +9,13 @@
   import { storePopup } from "@skeletonlabs/skeleton";
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-  import { onMount } from "svelte";
-  import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import type { User } from "@auth0/auth0-spa-js";
-  import Auth0Singleton from "$lib/services/Auth0Singleton";
-  import UserCollectionService from "$lib/services/UserCollectionService";
-  import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
   import UserButton from "$lib/components/UserButton.svelte";
-  import { rewardDailyLogin } from "$lib/internal/reward";
 
-  let user: User | null = null;
-  let checkedAuth = false;
-  onMount(async () => {
-    const rootUrl = `${$page.url.origin}`;
-    await Auth0Singleton.init(rootUrl);
-    await Auth0Singleton.handleRedirectCallback($page.url.pathname);
-    user = await Auth0Singleton.getUser();
-    if (user && user.sub) {
-      console.log("User is authenticated.");
-      await handleUserData(user.sub);
-    } else {
-      console.log("User is not authenticated.");
-    }
-    checkedAuth = true;
-  });
-
-  async function handleUserData(sub: string) {
-    const dbService = new UserCollectionService(collectionNameUsers);
-    const doc = await dbService.getBySub<UserDataDoc>(sub);
-    const now = new Date();
-    if (!doc) {
-      const newUserData = new UserData(sub, now, 0);
-      await dbService.add<UserDataDoc>(newUserData.toDoc());
-    } else {
-      const currentUserData = UserData.fromDoc(doc);
-      const updatedUserData = new UserData(
-        sub,
-        now,
-        doc.rewardPoints + rewardDailyLogin(currentUserData.latestLoginDate),
-      );
-      await dbService.setBySub<UserDataDoc>(sub, updatedUserData.toDoc());
-    }
-  }
+  export let data: {
+    user: User | null;
+  };
 </script>
 
 <svelte:head>
@@ -74,7 +38,7 @@
         <span class="">HOME</span>
       </button>
       <div class="flex-grow"><!--spacer--></div>
-      <UserButton {checkedAuth} {user} />
+      <UserButton user={data.user} />
     </div>
   </div>
 

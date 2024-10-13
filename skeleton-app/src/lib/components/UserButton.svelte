@@ -4,7 +4,6 @@
   import { goto } from "$app/navigation";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
 
-  export let checkedAuth: boolean;
   export let user: User | null;
 
   async function handleLogin() {
@@ -12,14 +11,7 @@
   }
 </script>
 
-{#if !checkedAuth}
-  <div class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1">
-    <div class="w-5 h-5">
-      <Icon icon="mdi:account-question" class="w-full h-full" />
-    </div>
-    <span class="">Loading...</span>
-  </div>
-{:else if user}
+{#if user}
   <button
     class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1"
     on:click|preventDefault={() => goto("/mypage")}
