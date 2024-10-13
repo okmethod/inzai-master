@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getToastStore } from "@skeletonlabs/skeleton";
   import Icon from "@iconify/svelte";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { User } from "@auth0/auth0-spa-js";
@@ -13,11 +14,13 @@
   const userNickName = data.user ? data.user.nickname : "";
   let userRewardPoints = data.userData ? data.userData.rewardPoints : 0;
 
+  const toastStore = getToastStore();
+
   let addedDailyReward = data.userData ? !isEligibleForDailyLoginReward(data.userData.latestLoginRewardDate) : false;
   async function handleLoginReward() {
     const rewardKey = "DAILY_LOGIN";
     userRewardPoints = data.userData ? await updateRewardPoints(data.userData.sub, rewardKey) : 0;
-    showRewardToast(rewardKey);
+    showRewardToast(toastStore, rewardKey);
     addedDailyReward = true;
   }
 

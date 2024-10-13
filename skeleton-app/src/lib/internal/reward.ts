@@ -1,5 +1,4 @@
-import { getToastStore } from "@skeletonlabs/skeleton";
-import type { ToastSettings } from "@skeletonlabs/skeleton";
+import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
 import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
 import UserCollectionService from "$lib/services/UserCollectionService";
@@ -43,9 +42,8 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
   return updatedRewardPoints;
 }
 
-export function showRewardToast(rewardKey: RewardKey): void {
+export function showRewardToast(toastStore: ToastStore, rewardKey: RewardKey): void {
   const { name, points } = REWARDS[rewardKey];
-  const toastStore = getToastStore();
   const toastSettings: ToastSettings = {
     message: `✨ ${name} 獲得！ +${points}pt`,
     background: "bg-yellow-100 select-none",
