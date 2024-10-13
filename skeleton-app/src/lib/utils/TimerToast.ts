@@ -65,12 +65,12 @@ class TimerToast {
   }
 
   private createToastMessage(content: string): string {
-    return createElementString("div", content, undefined, "w-32");
+    return createElementString("div", content, undefined, "w-36");
   }
 
   private showToast() {
     const timerString = createElementString("span", formatTime(this.timeFull), this.timerId, undefined);
-    const content = `残り時間: ${timerString}`;
+    const content = `⏱️ 残り時間: ${timerString}`;
     const toastSettings: ToastSettings = {
       message: this.createToastMessage(content),
       background: "bg-green-100 select-none",
@@ -93,7 +93,7 @@ class TimerToast {
   }
 
   private showAlarmToast() {
-    const content = "タイムアップ！";
+    const content = "⏱️ タイムアップ！";
     const toastSettings: ToastSettings = {
       message: this.createToastMessage(content),
       background: "bg-red-100 select-none",

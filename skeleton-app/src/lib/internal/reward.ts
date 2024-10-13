@@ -47,7 +47,7 @@ export function showRewardToast(rewardKey: RewardKey): void {
   const { name, points } = REWARDS[rewardKey];
   const toastStore = getToastStore();
   const toastSettings: ToastSettings = {
-    message: `${name} 獲得！ +${points}pt`,
+    message: `✨ ${name} 獲得！ +${points}pt`,
     background: "bg-yellow-100 select-none",
     timeout: 5000,
   };
