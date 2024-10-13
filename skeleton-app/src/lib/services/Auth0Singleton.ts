@@ -28,6 +28,10 @@ class Auth0Singleton {
 
   public async init(rootUrl: string): Promise<void> {
     this.rootUrl = rootUrl;
+    if (isDevelopment) {
+      console.info("skipped to init Auth0 client.");
+      return;
+    }
     if (!this.auth0Client) {
       this.auth0Client = await createAuth0Client(auth0Config(rootUrl));
       console.debug("Auth0 client initialized.");
@@ -42,6 +46,10 @@ class Auth0Singleton {
   }
 
   public async handleRedirectCallback(replaceUrl: string): Promise<void> {
+    if (isDevelopment) {
+      console.info("skipped to handle Auth0 redirect.");
+      return;
+    }
     const query = window.location.search;
     const shouldParseResult = query.includes("code=") && query.includes("state=");
     if (shouldParseResult) {

@@ -13,12 +13,32 @@ class FirestoreSingleton {
     if (!FirestoreSingleton.instance) {
       const firebaseApp = FirebaseAppSingleton;
       const db = getFirestore(firebaseApp);
-      if (isDevelopment) {
-        connectFirestoreEmulator(db, "localhost", 8010);
-      }
       FirestoreSingleton.instance = db;
     }
+    if (isDevelopment) {
+      FirestoreSingleton.connectEmulator();
+    }
     return FirestoreSingleton.instance;
+  }
+
+  private static connectEmulator(): void {
+    let host: string;
+    let port: number;
+
+    if (typeof window === "undefined") {
+      // サーバーサイド
+      host = "firestore";
+      port = 8000;
+    } else {
+      // クライアントサイド
+      host = "localhost";
+      port = 8010;
+    }
+    if (FirestoreSingleton.instance) {
+      console.info("connecting Firestore Emulator...");
+      connectFirestoreEmulator(FirestoreSingleton.instance, host, port);
+      console.info("connected Firestore Emulator.");
+    }
   }
 }
 
