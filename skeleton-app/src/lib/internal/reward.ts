@@ -1,17 +1,40 @@
 import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
-import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
+import type { UserDataDoc, TimestampKey } from "$lib/types/document";
+import { collectionNameUsers, UserData, timestampKeys } from "$lib/types/document";
 import UserCollectionService from "$lib/services/UserCollectionService";
 
 interface RewordData {
-  name: string;
+  dateKey: TimestampKey;
+  message: string;
   points: number;
 }
 
 const REWARDS: Record<string, RewordData> = {
   DAILY_LOGIN: {
-    name: "ログインボーナス",
+    dateKey: "latestLoginReward",
+    message: "✏️ 今日も自学えらい！",
     points: 1,
+  },
+  KANJI_EXAM_PARTICIPATION: {
+    dateKey: "latestKanjiExam",
+    message: "✨ 漢字検定にトライ！ ",
+    points: 5,
+  },
+  KANJI_EXAM_PASS: {
+    dateKey: "latestKanjiExam",
+    message: "🏅 漢字検定マスター！",
+    points: 15,
+  },
+  KEISAN_EXAM_PARTICIPATION: {
+    dateKey: "latestKeisanExam",
+    message: "✨ 計算検定にトライ！ ",
+    points: 5,
+  },
+  KEISAN_EXAM_PASS: {
+    dateKey: "latestKeisanExam",
+    message: "🏅 計算検定マスター！",
+    points: 15,
   },
 };
 
@@ -25,47 +48,39 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
   }
   const userData = UserData.fromDoc(doc);
 
-  let latestLoginRewardDate = userData.getDate("latestLoginReward");
-  const latestKanjiExamDate = userData.getDate("latestKanjiExam");
-  const latestKeisanExamDate = userData.getDate("latestKeisanExam");
-  switch (rewardKey) {
-    case "DAILY_LOGIN":
-      latestLoginRewardDate = new Date();
-      break;
-    default:
-      break;
-  }
-
-  const rewardPoints = REWARDS[rewardKey].points;
-  const updatedRewardPoints = userData.rewardPoints + rewardPoints;
-  const updatedUserData = new UserData(
-    sub,
-    {
-      latestLoginReward: latestLoginRewardDate,
-      latestKanjiExam: latestKanjiExamDate,
-      latestKeisanExam: latestKeisanExamDate,
+  const { dateKey, points } = REWARDS[rewardKey];
+  const currentDates = timestampKeys.reduce(
+    (dates, key) => {
+      dates[key] = userData.getDate(key);
+      return dates;
     },
-    updatedRewardPoints,
+    {} as Record<TimestampKey, Date>,
   );
+  const updatedDates = {
+    ...currentDates,
+    [dateKey]: new Date(), // 対象キーの日付のみ更新する
+  };
+  const updatedRewardPoints = userData.rewardPoints + points;
+  const updatedUserData = new UserData(sub, updatedDates, updatedRewardPoints);
   await dbService.setBySub(sub, updatedUserData.toDoc());
 
   return updatedRewardPoints;
 }
 
 export function showRewardToast(toastStore: ToastStore, rewardKey: RewardKey): void {
-  const { name, points } = REWARDS[rewardKey];
+  const { message, points } = REWARDS[rewardKey];
   const toastSettings: ToastSettings = {
-    message: `✨ ${name} 獲得！ +${points}pt`,
+    message: `${message} +${points}pt`,
     background: "bg-yellow-100 select-none",
     timeout: 5000,
   };
   toastStore.trigger(toastSettings);
 }
 
-export function isEligibleForDailyLoginReward(latestLoginRewardDate: Date): boolean {
+export function isEligibleForDailyReward(userDate: UserData, rewardKey: RewardKey): boolean {
   const now = new Date();
   const JSTtoday = getJSTDateString(now);
-  const JSTlatestLoginRewardDate = getJSTDateString(latestLoginRewardDate);
+  const JSTlatestRewardDate = getJSTDateString(userDate.getDate(REWARDS[rewardKey].dateKey));
 
-  return JSTlatestLoginRewardDate !== JSTtoday;
+  return JSTlatestRewardDate !== JSTtoday;
 }
