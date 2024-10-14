@@ -12,6 +12,10 @@ function roundToDecimalPlaces(num: number, decimalPlaces: number): number {
   return Math.round(num * factor) / factor;
 }
 
+function roundAndFormat(num: number, decimalPlaces: number): string {
+  return roundToDecimalPlaces(num, decimalPlaces).toFixed(decimalPlaces);
+}
+
 export function generateRandomNumber(range: NumberRange, decimalPlaces: number): number {
   const randomValue = Math.random() * (range.max - range.min) + range.min;
   return roundToDecimalPlaces(randomValue, decimalPlaces);
@@ -39,22 +43,22 @@ export function buildFormula(
     case OperationType.Add:
       return {
         formulaString: `${xString} ＋ ${yString}`,
-        answerString: roundToDecimalPlaces(x + y, decimalPlaces).toFixed(decimalPlaces),
+        answerString: roundAndFormat(x + y, decimalPlaces),
       };
     case OperationType.Sub:
       return {
         formulaString: `${xString} － ${yString}`,
-        answerString: roundToDecimalPlaces(x - y, decimalPlaces).toFixed(decimalPlaces),
+        answerString: roundAndFormat(x - y, decimalPlaces),
       };
     case OperationType.Mul:
       return {
         formulaString: `${xString} × ${yString}`,
-        answerString: roundToDecimalPlaces(x * y, decimalPlaces * 2).toFixed(decimalPlaces * 2),
+        answerString: roundAndFormat(x * y, decimalPlaces * 2),
       };
     // case OperationType.Div:
     //   return {
     //     formulaString: `${xString} ÷ ${yString}`,
-    //     answerString: roundToDecimalPlaces(x / y, decimalPlaces).toFixed(decimalPlaces),
+    //     answerString: roundAndFormat(x / y, decimalPlaces),
     //   };
   }
 }
