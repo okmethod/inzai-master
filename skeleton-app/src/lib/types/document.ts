@@ -6,33 +6,34 @@ export interface Auth0UserData {
 
 export const collectionNameUsers = "users";
 
-export interface UserDataDoc extends Auth0UserData {
-  sub: string;
-  latestLoginReward: Timestamp;
-  latestKanjiExam: Timestamp;
-  latestKeisanExam: Timestamp;
+export const timestampKeys = ["latestLoginReward", "latestKanjiExam", "latestKeisanExam"] as const;
+export type TimestampKey = (typeof timestampKeys)[number];
+type TimestampFields = {
+  [key in TimestampKey]: Timestamp;
+};
+export interface UserDataDoc extends Auth0UserData, TimestampFields {
   rewardPoints: number;
 }
 
-export type TimestampKey = {
-  [K in keyof UserDataDoc]: UserDataDoc[K] extends Timestamp ? K : never;
-}[keyof UserDataDoc];
-
 export class UserData implements Auth0UserData {
   public sub: string;
-  private timestamps: Record<string, Timestamp>;
+  private timestamps: Record<TimestampKey, Timestamp>;
   public rewardPoints: number;
   private static readonly EpochZero = new Date(0);
 
   constructor(sub: string, timestamps: Record<string, Timestamp | Date>, rewardPoints: number) {
     this.sub = sub;
-    this.timestamps = {} as Record<string, Timestamp>;
+    this.timestamps = {} as Record<TimestampKey, Timestamp>;
     for (const key in timestamps) {
-      if (Object.prototype.hasOwnProperty.call(timestamps, key)) {
+      if (Object.prototype.hasOwnProperty.call(timestamps, key) && this.isTimestampKey(key)) {
         this.timestamps[key] = this.convertToTimestamp(timestamps[key]);
       }
     }
     this.rewardPoints = rewardPoints;
+  }
+
+  private isTimestampKey(key: string): key is TimestampKey {
+    return (timestampKeys as readonly string[]).includes(key);
   }
 
   private convertToTimestamp(dateOrTimestamp: Date | Timestamp): Timestamp {
