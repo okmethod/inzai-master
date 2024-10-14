@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { KeisanTemplate } from "$lib/types/keisan";
-  import { OperationType } from "$lib/types/keisan";
-  import { generateRandomNumber, buildFormula } from "$lib/utils/keisan";
+  import { OperationType, generateRandomNumber, buildFormula } from "$lib/internal/keisan";
 
   export let data: KeisanTemplate;
   export let showAnswer: boolean = false;
