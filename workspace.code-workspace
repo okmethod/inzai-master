@@ -9,5 +9,7 @@
 			"path": "skeleton-app"
 		},
 	],
-	"settings": {}
+	"settings": {
+		"makefile.configureOnOpen": false
+	}
 }
