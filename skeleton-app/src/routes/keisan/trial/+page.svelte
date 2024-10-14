@@ -1,0 +1,72 @@
+<script lang="ts">
+  import { tick, onDestroy } from "svelte";
+  import type { KeisanTemplate, KeisanData } from "$lib/types/keisan";
+  import KeisanCard from "$lib/components/KeisanCard.svelte";
+  import TimerToast from "$lib/utils/TimerToast";
+
+  export let data: {
+    keisanDataArray: KeisanData[];
+  };
+
+  const keisanTemplates = data.keisanDataArray.flatMap((keisanData) => keisanData.data);
+  let selectedKeisanTemplate: KeisanTemplate = keisanTemplates[0];
+  function selectContent(event: Event) {
+    const selectedIndex = parseInt((event.target as HTMLSelectElement).value, 10);
+    selectedKeisanTemplate = keisanTemplates[selectedIndex];
+  }
+
+  const numOfQuestions = 10;
+
+  let showedKeisanTemplate: KeisanTemplate | null = null;
+  async function flickKeisanTemplate() {
+    // 再描画をトリガーするため、別の値にしてから元に戻す
+    showedKeisanTemplate = null;
+    await tick(); // 次のイベントループまで待つ
+    showedKeisanTemplate = { ...selectedKeisanTemplate };
+  }
+
+  let isTrialInProgress = false;
+  const timerToast = new TimerToast(300); // 5分
+  function handleButtonClick() {
+    if (isTrialInProgress) {
+      isTrialInProgress = false;
+      timerToast.stopTimer();
+    } else {
+      flickKeisanTemplate();
+      timerToast.startTimer();
+      isTrialInProgress = true;
+    }
+  }
+
+  onDestroy(() => {
+    timerToast.destroy();
+  });
+</script>
+
+<div class="cContentPartStyle !m-4">
+  <div class="mb-4 flex space-x-2">
+    <select id="select-grade" class="border rounded" on:change={selectContent}>
+      {#each keisanTemplates as keisanTemplate, index}
+        <option value={index}>{keisanTemplate.label}</option>
+      {/each}
+    </select>
+    <button on:click={handleButtonClick}>
+      <span class="cButtonYellowStyle">
+        {isTrialInProgress ? "答え合わせ" : "出題"}
+      </span>
+    </button>
+  </div>
+  {#if showedKeisanTemplate !== null}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+      {#each Array(numOfQuestions) as _, index}
+        <div>
+          <span> {index + 1}. </span>
+          <KeisanCard data={showedKeisanTemplate} showAnswer={true} {isTrialInProgress} />
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <span> 範囲を選択して、出題ボタンをクリック！ </span>
+  {/if}
+</div>
