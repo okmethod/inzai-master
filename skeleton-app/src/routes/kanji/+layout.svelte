@@ -21,11 +21,10 @@
 
   function getButtonClass(target: KanjiMode, mode: KanjiMode, disabled: boolean): string {
     let baseClass = "cButtonYellowStyle";
-    if (mode === target) {
-      baseClass += " !bg-yellow-900";
-    }
     if (disabled) {
       baseClass += " !bg-gray-500";
+    } else if (mode === target) {
+      baseClass += " !bg-yellow-900";
     }
     return baseClass;
   }
