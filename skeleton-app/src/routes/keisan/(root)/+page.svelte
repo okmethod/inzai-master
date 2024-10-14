@@ -9,6 +9,7 @@
     keisanDataArray: KeisanData[];
   };
 
+  const numOfQuestions = 3;
   let showAnswer = false;
 
   const enableTransitions = true;
@@ -65,7 +66,7 @@
                       <svelte:fragment slot="content">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                           <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-                          {#each Array(3) as _}
+                          {#each Array(numOfQuestions) as _}
                             <KeisanCard data={row} {showAnswer} isCompact={true} />
                           {/each}
                         </div>

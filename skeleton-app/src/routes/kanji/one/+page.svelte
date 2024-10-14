@@ -9,6 +9,21 @@
     kanjiDataArray: KanjiData[];
   };
 
+  let selectedKanjiData: KanjiData | null =
+    data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(0)) ?? null;
+  function selectContent(event: Event) {
+    const selectedIndex = (event.target as HTMLSelectElement).value;
+    selectedKanjiData = data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(selectedIndex)) ?? null;
+  }
+
+  let selectedKanjiQuestion: KanjiQuestion | null = null;
+  function pickRandomKanji() {
+    if (selectedKanjiData) {
+      selectedKanjiQuestion = pickRandomElementsFromArray(selectedKanjiData.data, 1)[0];
+    }
+    resetShowAnswers();
+  }
+
   let showAnswer = false;
   function resetShowAnswers() {
     // 再描画をトリガーするため、別の値にしてから false に戻す
@@ -22,25 +37,10 @@
     currentMode = value;
     resetShowAnswers();
   });
+
   onDestroy(() => {
     unsubscribe();
   });
-
-  let selectedKanjiData: KanjiData | null =
-    data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(0)) ?? null;
-
-  function selectContent(event: Event) {
-    const selectedIndex = (event.target as HTMLSelectElement).value;
-    selectedKanjiData = data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(selectedIndex)) ?? null;
-  }
-
-  let selectedKanjiQuestion: KanjiQuestion | null = null;
-  function pickRandomKanji() {
-    if (selectedKanjiData) {
-      selectedKanjiQuestion = pickRandomElementsFromArray(selectedKanjiData.data, 1)[0];
-    }
-    resetShowAnswers();
-  }
 </script>
 
 <div class="cContentPartStyle !m-4">

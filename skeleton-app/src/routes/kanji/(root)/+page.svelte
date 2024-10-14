@@ -24,6 +24,7 @@
     currentMode = value;
     resetShowAnswers();
   });
+
   onDestroy(() => {
     unsubscribe();
   });

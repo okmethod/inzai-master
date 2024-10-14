@@ -7,28 +7,27 @@
     keisanDataArray: KeisanData[];
   };
 
-  let showAnswer = false;
-  function resetShowAnswers() {
-    // 再描画をトリガーするため、別の値にしてから false に戻す
-    showAnswer = true;
-    showAnswer = false;
-  }
-
   const keisanTemplates = data.keisanDataArray.flatMap((keisanData) => keisanData.data);
-
   let selectedKeisanTemplate: KeisanTemplate = keisanTemplates[0];
-  let showedKeisanTemplate: KeisanTemplate | null = null;
   function selectContent(event: Event) {
     const selectedIndex = parseInt((event.target as HTMLSelectElement).value, 10);
     selectedKeisanTemplate = keisanTemplates[selectedIndex];
   }
 
+  let showedKeisanTemplate: KeisanTemplate | null = null;
   async function flickKeisanTemplate() {
     resetShowAnswers();
     // 再描画をトリガーするため、別の値にしてから元に戻す
     showedKeisanTemplate = null;
     await tick(); // 次のイベントループまで待つ
     showedKeisanTemplate = { ...selectedKeisanTemplate };
+  }
+
+  let showAnswer = false;
+  function resetShowAnswers() {
+    // 再描画をトリガーするため、別の値にしてから false に戻す
+    showAnswer = true;
+    showAnswer = false;
   }
 </script>
 

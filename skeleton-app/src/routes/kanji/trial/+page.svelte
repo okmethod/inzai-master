@@ -10,22 +10,6 @@
     kanjiDataArray: KanjiData[];
   };
 
-  let currentMode: KanjiMode = "yomi";
-  let selectedKanjiQuestions: KanjiQuestion[] = [];
-  let isTrialInProgress = false;
-  const timerToast = new TimerToast(300); // 5分
-
-  const modeStore = getContext<Writable<KanjiMode>>("mode");
-  const unsubscribe = modeStore.subscribe((value) => {
-    currentMode = value;
-    selectedKanjiQuestions = [];
-    isTrialInProgress = false;
-    timerToast.stopTimer();
-  });
-  onDestroy(() => {
-    unsubscribe();
-  });
-
   const inzaiKanjiData: KanjiData | null =
     data.kanjiDataArray.find((kanjiData) => kanjiData.index === Number(0)) ?? null;
   let selectedKanjiData: KanjiData | null =
@@ -49,6 +33,8 @@
     }
   }
 
+  let isTrialInProgress = false;
+  const timerToast = new TimerToast(300); // 5分
   function handleButtonClick() {
     if (isTrialInProgress) {
       isTrialInProgress = false;
@@ -60,7 +46,22 @@
     }
   }
 
+  function resetTrial(): void {
+    selectedKanjiQuestions = [];
+    isTrialInProgress = false;
+    timerToast.stopTimer();
+  }
+
+  let currentMode: KanjiMode = "yomi";
+  let selectedKanjiQuestions: KanjiQuestion[] = [];
+  const modeStore = getContext<Writable<KanjiMode>>("mode");
+  const unsubscribe = modeStore.subscribe((value) => {
+    currentMode = value;
+    resetTrial();
+  });
+
   onDestroy(() => {
+    unsubscribe();
     timerToast.destroy();
   });
 </script>

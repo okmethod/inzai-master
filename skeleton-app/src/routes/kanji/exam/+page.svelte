@@ -16,7 +16,6 @@
     userData: UserData | null;
   };
 
-  let selectedKanjiQuestions: KanjiQuestion[] = [];
   const modalStore = getModalStore();
   const toastStore = getToastStore();
   const timerToast = new TimerToast(600); // 10分
@@ -31,6 +30,7 @@
   }
 
   const numOfQuestions = 10;
+  let selectedKanjiQuestions: KanjiQuestion[] = [];
   function pickRandomKanji() {
     // 書き問題10問 + 読み問題を10問を選出
     if (selectedKanjiData) {
