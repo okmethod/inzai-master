@@ -7,7 +7,7 @@ export class UserData implements Auth0UserData {
   public sub: string;
   private timestamps: Record<TimestampKey, Timestamp>;
   public rewardPoints: number;
-  private static readonly EpochZero = new Date(0);
+  private static readonly epochZeroTimestamp = Timestamp.fromDate(new Date(0));
 
   constructor(sub: string, timestamps: Record<string, Timestamp | Date>, rewardPoints: number) {
     this.sub = sub;
@@ -25,7 +25,7 @@ export class UserData implements Auth0UserData {
   }
 
   private getOrDefault(key: TimestampKey): Timestamp {
-    return this.timestamps[key] || Timestamp.fromDate(UserData.EpochZero);
+    return this.timestamps[key] || UserData.epochZeroTimestamp;
   }
 
   public getTimestamp(key: TimestampKey): Timestamp {
@@ -39,10 +39,10 @@ export class UserData implements Auth0UserData {
   toDoc(): UserDataDoc {
     return {
       sub: this.sub,
-      latestLoginReward: this.timestamps.latestLoginReward,
-      latestKanjiExam: this.timestamps.latestKanjiExam,
-      latestKeisanExam: this.timestamps.latestKeisanExam,
-      rewardPoints: this.rewardPoints,
+      latestLoginReward: this.timestamps.latestLoginReward || UserData.epochZeroTimestamp,
+      latestKanjiExam: this.timestamps.latestKanjiExam || UserData.epochZeroTimestamp,
+      latestKeisanExam: this.timestamps.latestKeisanExam || UserData.epochZeroTimestamp,
+      rewardPoints: this.rewardPoints || 0,
     };
   }
 
@@ -75,6 +75,6 @@ export async function getUserData(sub: string): Promise<UserData | null> {
 }
 
 export async function setUserData(sub: string, userData: UserData): Promise<void> {
-  await dbService.setBySub(sub, userData.toDoc());
+  await dbService.setBySub(sub, userData.toDoc(), true);
   return;
 }
