@@ -38,7 +38,7 @@
     "
   >
     {#if showAnswer}
-      <span class="font-mono">{answer}</span>
+      <span class="font-mono {cTextSize}">{answer}</span>
     {:else}
       <button on:click={() => (showAnswer = true)}>
         <span class="cButtonBlueStyle">こたえ</span>
