@@ -2,7 +2,7 @@ export enum OperationType {
   Add = "たし算",
   Sub = "ひき算",
   Mul = "かけ算",
-  Div = "わり算",
+  // Div = "わり算",  // TODO: 割り切れるかどうかを考慮する
 }
 
 export interface NumberRange {
