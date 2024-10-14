@@ -27,7 +27,7 @@ export async function load(): Promise<{
   }));
 
   const slotTabSettings: SlotTabSetting[] = [
-    { index: 0, label: "[XXリスト]", title: "", path: "" },
+    { index: 0, label: "[例題リスト]", title: "", path: "" },
     { index: 1, label: "[1問1答モード]", title: "", path: "" },
     { index: 2, label: "[テスト練習モード]", title: "", path: "" },
   ];

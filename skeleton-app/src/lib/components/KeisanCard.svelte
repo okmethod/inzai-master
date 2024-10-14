@@ -17,7 +17,7 @@
   const { formula, answer } = buildFormula(x, y, data.operationType);
 
   const cCardAreaSize = isCompact
-    ? "w-full lg:w-80 min-h-24 space-y-1"
+    ? "w-full lg:w-72 min-h-24 space-y-1"
     : "w-full md:w-80 lg:w-[450px] min-h-36 space-y-3";
   const cAnswerAreaSize = isCompact ? "w-32 h-10" : "w-60 h-16";
   const cTextSize = isCompact ? "text-lg lg:text-xl" : "text-2xl lg:text-3xl";
@@ -30,7 +30,7 @@
     {cCardAreaSize}
   "
 >
-  <div class="font-mono {cTextSize}">{formula}</div>
+  <div class="font-mono {cTextSize}">{formula} ＝ ？</div>
   <div
     class="
       flex justify-center items-center bg-white border rounded {cAnswerAreaSize}

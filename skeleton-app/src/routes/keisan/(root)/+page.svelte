@@ -10,33 +10,70 @@
   };
 
   let showAnswer = false;
+
+  const enableTransitions = true;
+  const transitionConfig = slide;
+  const transitionParams = { duration: 300 };
+
+  const cAccordionRounded = "rounded-lg";
+  const cAccordionHover = "hover:underline";
+  const cAccordionItemDiv = "border rounded";
+  const cAccordionLabel = "text-xl font-bold";
 </script>
 
 <div class="cContentPartStyle !m-4">
   <Accordion
     width="w-[300px] md:w-[600px] lg:w-[1000px]"
-    rounded="rounded-lg"
-    hover="hover:underline"
-    transitions={true}
-    transitionIn={slide}
-    transitionInParams={{ duration: 300 }}
-    transitionOut={slide}
-    transitionOutParams={{ duration: 300 }}
+    rounded={cAccordionRounded}
+    hover={cAccordionHover}
+    transitions={enableTransitions}
+    transitionIn={transitionConfig}
+    transitionInParams={transitionParams}
+    transitionOut={transitionConfig}
+    transitionOutParams={transitionParams}
   >
     {#each data.keisanDataArray as keisanData}
-      <div class="border rounded">
+      <div class={cAccordionItemDiv}>
         <AccordionItem>
           <svelte:fragment slot="lead">
             <Icon icon="mdi:book-open-variant-outline" class="text-black" />
           </svelte:fragment>
           <svelte:fragment slot="summary">
-            <h2 class="text-xl font-bold">{keisanData.title}</h2>
+            <h2 class={cAccordionLabel}>{keisanData.title}</h2>
           </svelte:fragment>
           <svelte:fragment slot="content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-              {#each keisanData.data as row}
-                <KeisanCard data={row} {showAnswer} isCompact={true} />
-              {/each}
+            <div class="gap-2">
+              <Accordion
+                width="w-full"
+                rounded={cAccordionRounded}
+                hover={cAccordionHover}
+                transitions={enableTransitions}
+                transitionIn={transitionConfig}
+                transitionInParams={transitionParams}
+                transitionOut={transitionConfig}
+                transitionOutParams={transitionParams}
+              >
+                {#each keisanData.data as row}
+                  <div class={cAccordionItemDiv}>
+                    <AccordionItem>
+                      <svelte:fragment slot="lead">
+                        <Icon icon="mdi:book-open-variant-outline" class="text-black" />
+                      </svelte:fragment>
+                      <svelte:fragment slot="summary">
+                        <h2 class={cAccordionLabel}>{row.label}</h2>
+                      </svelte:fragment>
+                      <svelte:fragment slot="content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                          <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+                          {#each Array(3) as _}
+                            <KeisanCard data={row} {showAnswer} isCompact={true} />
+                          {/each}
+                        </div>
+                      </svelte:fragment>
+                    </AccordionItem>
+                  </div>
+                {/each}
+              </Accordion>
             </div>
           </svelte:fragment>
         </AccordionItem>
