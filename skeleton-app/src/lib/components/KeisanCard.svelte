@@ -13,7 +13,7 @@
     [x, y] = [y, x]; // x と y の値を入れ替える
   }
 
-  const { formula, answer } = buildFormula(x, y, data.operationType);
+  const { formulaString, answerString } = buildFormula(x, y, data.operationType, data.decimalPlaces);
 
   const cCardAreaSize = isCompact
     ? "w-full lg:w-72 min-h-24 space-y-1"
@@ -29,7 +29,7 @@
     {cCardAreaSize}
   "
 >
-  <div class="font-mono {cTextSize}">{formula} ＝ ？</div>
+  <div class="font-mono {cTextSize}">{formulaString} ＝ ？</div>
   <div
     class="
       flex justify-center items-center bg-white border rounded {cAnswerAreaSize}
@@ -37,7 +37,7 @@
     "
   >
     {#if showAnswer}
-      <span class="font-mono {cTextSize}">{answer}</span>
+      <span class="font-mono {cTextSize}">{answerString}</span>
     {:else}
       <button on:click={() => (showAnswer = true)}>
         <span class="cButtonBlueStyle">こたえ</span>
