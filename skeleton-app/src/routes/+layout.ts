@@ -1,8 +1,8 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
-import UserCollectionService from "$lib/services/UserCollectionService";
-import { collectionNameUsers, UserData, type UserDataDoc } from "$lib/types/document";
+import { UserData } from "$lib/types/document";
+import { setUserData } from "$lib/internal/userDataHandler";
 
 export async function load({ url }: LoadEvent): Promise<{
   user: User | null;
@@ -20,12 +20,8 @@ export async function load({ url }: LoadEvent): Promise<{
   }
 
   async function _addNewUserData(sub: string) {
-    const dbService = new UserCollectionService(collectionNameUsers);
-    const doc = await dbService.getBySub<UserDataDoc>(sub);
-    if (!doc) {
-      const newUserData = new UserData(sub, {}, 0);
-      await dbService.add<UserDataDoc>(newUserData.toDoc());
-    }
+    const newUserData = new UserData(sub, {}, 0);
+    await setUserData(sub, newUserData);
   }
 
   return { user };

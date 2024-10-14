@@ -1,8 +1,7 @@
 import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
-import type { UserDataDoc, TimestampKey } from "$lib/types/document";
-import { collectionNameUsers, UserData, timestampKeys } from "$lib/types/document";
-import UserCollectionService from "$lib/services/UserCollectionService";
+import { UserData, timestampKeys, type TimestampKey } from "$lib/types/document";
+import { getUserData, setUserData } from "$lib/internal/userDataHandler";
 
 interface RewordData {
   dateKey: TimestampKey;
@@ -41,12 +40,8 @@ const REWARDS: Record<string, RewordData> = {
 type RewardKey = keyof typeof REWARDS;
 
 export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Promise<number> {
-  const dbService = new UserCollectionService(collectionNameUsers);
-  const doc = await dbService.getBySub<UserDataDoc>(sub);
-  if (!doc) {
-    throw new Error(`No users found with sub=${sub}`);
-  }
-  const userData = UserData.fromDoc(doc);
+  const userData = await getUserData(sub);
+  if (!userData) throw new Error(`No users found with sub=${sub}`);
 
   const { dateKey, points } = REWARDS[rewardKey];
   const currentDates = timestampKeys.reduce(
@@ -62,7 +57,7 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
   };
   const updatedRewardPoints = userData.rewardPoints + points;
   const updatedUserData = new UserData(sub, updatedDates, updatedRewardPoints);
-  await dbService.setBySub(sub, updatedUserData.toDoc());
+  await setUserData(sub, updatedUserData);
 
   return updatedRewardPoints;
 }

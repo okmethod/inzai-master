@@ -7,7 +7,7 @@ class UserCollectionService extends FirestoreCollectionService {
     super(collectionName);
   }
 
-  public async queryBySub(sub: string): Promise<QuerySnapshot | null> {
+  private async queryBySub(sub: string): Promise<QuerySnapshot | null> {
     const querySnapshot = await this.query("sub", "==", sub);
     return querySnapshot;
   }
