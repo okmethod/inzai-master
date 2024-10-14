@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
+  import { getModalStore, type ModalComponent, type ModalSettings } from "@skeletonlabs/skeleton";
   import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
+  import SubmitModal from "$lib/components/SubmitModal.svelte";
   import TimerToast from "$lib/utils/TimerToast";
 
   export let data: {
@@ -49,12 +51,31 @@
     isTrialInProgress = true;
   }
 
+  const modalStore = getModalStore();
+  function showSubmitModal(): void {
+    const modalComponent: ModalComponent = {
+      ref: SubmitModal,
+      props: { title: "検定に挑戦しますか？" },
+      slot: "(挑戦できるのは1日に1回までです)",
+    };
+    const modal: ModalSettings = {
+      type: "component",
+      component: modalComponent,
+      response: (isConfirm: boolean) => {
+        if (isConfirm) {
+          startExam();
+        }
+      },
+    };
+    modalStore.trigger(modal);
+  }
+
   function handleButtonClick() {
     if (isTrialInProgress) {
       isTrialInProgress = false;
       timerToast.stopTimer();
     } else {
-      startExam();
+      showSubmitModal();
     }
   }
 
