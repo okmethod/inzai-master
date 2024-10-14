@@ -122,34 +122,34 @@
 </script>
 
 <div class="cContentPartStyle !m-4">
-  <div class="mb-4 flex space-x-2">
-    <select id="select-grade" class="border rounded" on:change={selectContent}>
-      {#each data.kanjiDataArray.filter((kanjiData) => kanjiData.index !== 0) as kanjiData}
-        <option value={kanjiData.index}>{kanjiData.title.replace("の漢字", "")}</option>
-      {/each}
-    </select>
-    <button on:click={handleButtonClick} disabled={!isTrialInProgress && addedReward}>
-      <span class="cButtonYellowStyle {!isTrialInProgress && addedReward ? '!bg-gray-500' : ''}">
-        {isTrialInProgress
-          ? "答え合わせ"
-          : isScoringInProgress
-            ? "得点を入力する"
-            : addedReward
-              ? "また挑戦してね"
-              : "出題"}
-      </span>
-    </button>
-  </div>
-  {#if selectedKanjiQuestions.length > 0}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-      {#each selectedKanjiQuestions as question, index}
-        <div>
-          <span> {index + 1}. </span>
-          <KanjiCard data={question} showKanji={index >= numOfQuestions} showAnswer={true} {isTrialInProgress} />
-        </div>
-      {/each}
-    </div>
+  {#if data.userData == null}
+    <span> 検定に挑戦するにはログインしてね！ </span>
   {:else}
-    <span> 範囲を選択して、出題ボタンをクリック！ </span>
+    <div class="mb-4 flex space-x-2">
+      <select id="select-grade" class="border rounded" on:change={selectContent}>
+        {#each data.kanjiDataArray.filter((kanjiData) => kanjiData.index !== 0) as kanjiData}
+          <option value={kanjiData.index}>{kanjiData.title.replace("の漢字", "")}</option>
+        {/each}
+      </select>
+      <button on:click={handleButtonClick} disabled={!isTrialInProgress && addedReward}>
+        <span class="cButtonYellowStyle {!isTrialInProgress && addedReward ? '!bg-gray-500' : ''}">
+          {isTrialInProgress ? "答え合わせ" : isScoringInProgress ? "何問正解？" : addedReward ? "終了" : "出題"}
+        </span>
+      </button>
+    </div>
+    {#if selectedKanjiQuestions.length > 0}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {#each selectedKanjiQuestions as question, index}
+          <div>
+            <span> {index + 1}. </span>
+            <KanjiCard data={question} showKanji={index >= numOfQuestions} showAnswer={true} {isTrialInProgress} />
+          </div>
+        {/each}
+      </div>
+    {:else if addedReward}
+      <span> また明日挑戦してね！ </span>
+    {:else}
+      <span> 範囲を選択して、出題ボタンをクリック！ </span>
+    {/if}
   {/if}
 </div>

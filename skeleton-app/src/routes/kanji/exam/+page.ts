@@ -9,7 +9,7 @@ export async function load({ parent }: LoadEvent): Promise<{
   const parentData = await parent();
   const kanjiDataArray = parentData.kanjiDataArray;
   const user = parentData.user;
-  const userData = await getUserData(user.sub);
+  const userData = user && user.sub ? await getUserData(user.sub) : null;
 
   return { kanjiDataArray, userData };
 }
