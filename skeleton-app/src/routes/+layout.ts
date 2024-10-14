@@ -1,7 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
-import { UserData, setUserData } from "$lib/internal/UserData";
+import { UserData, getUserData, setUserData } from "$lib/internal/UserData";
 
 export async function load({ url }: LoadEvent): Promise<{
   user: User | null;
@@ -13,14 +13,13 @@ export async function load({ url }: LoadEvent): Promise<{
 
   if (user && user.sub) {
     console.debug("User is authenticated.");
-    await _addNewUserData(user.sub);
+    const userData = await getUserData(user.sub);
+    if (!userData) {
+      const newUserData = new UserData(user.sub, {}, 0);
+      await setUserData(user.sub, newUserData);
+    }
   } else {
     console.debug("User is not authenticated.");
-  }
-
-  async function _addNewUserData(sub: string) {
-    const newUserData = new UserData(sub, {}, 0);
-    await setUserData(sub, newUserData);
   }
 
   return { user };
