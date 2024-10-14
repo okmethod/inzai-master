@@ -1,13 +1,15 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
-  import { getModalStore, type ModalComponent, type ModalSettings } from "@skeletonlabs/skeleton";
+  import type { ModalComponent, ModalSettings } from "@skeletonlabs/skeleton";
+  import { getModalStore, getToastStore } from "@skeletonlabs/skeleton";
   import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import type { UserData } from "$lib/internal/UserData";
-  import { isEligibleForDailyReward } from "$lib/internal/reward";
+  import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
-  import SubmitModal from "$lib/components/SubmitModal.svelte";
   import TimerToast from "$lib/utils/TimerToast";
+  import SubmitModal from "$lib/components/SubmitModal.svelte";
+  import InputModal from "$lib/components/InputModal.svelte";
 
   export let data: {
     kanjiDataArray: KanjiData[];
@@ -15,7 +17,8 @@
   };
 
   let selectedKanjiQuestions: KanjiQuestion[] = [];
-  let isTrialInProgress = false;
+  const modalStore = getModalStore();
+  const toastStore = getToastStore();
   const timerToast = new TimerToast(600); // 10分
 
   const inzaiKanjiData: KanjiData | null =
@@ -44,14 +47,20 @@
 
   const rewardKey = "KANJI_EXAM_PARTICIPATION";
   let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, rewardKey) : false;
+  let isTrialInProgress = false;
   function startExam() {
-    addedReward = true;
     pickRandomKanji();
     timerToast.startTimer();
     isTrialInProgress = true;
   }
 
-  const modalStore = getModalStore();
+  let isScoringInProgress = false;
+  function finishExam() {
+    isTrialInProgress = false;
+    timerToast.stopTimer();
+    isScoringInProgress = true;
+  }
+
   function showSubmitModal(): void {
     const modalComponent: ModalComponent = {
       ref: SubmitModal,
@@ -70,10 +79,38 @@
     modalStore.trigger(modal);
   }
 
+  function showInputScoreModal(): void {
+    const modalComponent: ModalComponent = {
+      ref: InputModal,
+      props: {
+        title: "20問中、何問正解できた？",
+        min: 0,
+        max: 20,
+      },
+      slot: "(自己採点して、正解した問題を数えてね)",
+    };
+    const modal: ModalSettings = {
+      type: "component",
+      component: modalComponent,
+      response: async (res: { isConfirm: boolean; inputValue: number }) => {
+        if (res.isConfirm && data.userData && data.userData.sub) {
+          const key = res.inputValue < (numOfQuestions - 1) * 2 ? rewardKey : "KANJI_EXAM_PASS";
+          await updateRewardPoints(data.userData.sub, key);
+          showRewardToast(toastStore, key);
+          addedReward = true;
+          isScoringInProgress = false;
+          addedReward = true;
+        }
+      },
+    };
+    modalStore.trigger(modal);
+  }
+
   function handleButtonClick() {
     if (isTrialInProgress) {
-      isTrialInProgress = false;
-      timerToast.stopTimer();
+      finishExam();
+    } else if (isScoringInProgress) {
+      showInputScoreModal();
     } else {
       showSubmitModal();
     }
@@ -93,7 +130,13 @@
     </select>
     <button on:click={handleButtonClick} disabled={!isTrialInProgress && addedReward}>
       <span class="cButtonYellowStyle {!isTrialInProgress && addedReward ? '!bg-gray-500' : ''}">
-        {isTrialInProgress ? "答え合わせ" : addedReward ? "また明日" : "出題"}
+        {isTrialInProgress
+          ? "答え合わせ"
+          : isScoringInProgress
+            ? "得点を入力する"
+            : addedReward
+              ? "また挑戦してね"
+              : "出題"}
       </span>
     </button>
   </div>
@@ -102,7 +145,7 @@
       {#each selectedKanjiQuestions as question, index}
         <div>
           <span> {index + 1}. </span>
-          <KanjiCard data={question} showKanji={index < numOfQuestions} showAnswer={true} {isTrialInProgress} />
+          <KanjiCard data={question} showKanji={index >= numOfQuestions} showAnswer={true} {isTrialInProgress} />
         </div>
       {/each}
     </div>
