@@ -3,7 +3,7 @@
   import Icon from "@iconify/svelte";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { User } from "@auth0/auth0-spa-js";
-  import type { UserData } from "$lib/types/document";
+  import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
 
   export let data: {

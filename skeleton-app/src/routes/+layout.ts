@@ -1,8 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
-import { UserData } from "$lib/types/document";
-import { setUserData } from "$lib/internal/userDataHandler";
+import { UserData, setUserData } from "$lib/internal/UserData";
 
 export async function load({ url }: LoadEvent): Promise<{
   user: User | null;
