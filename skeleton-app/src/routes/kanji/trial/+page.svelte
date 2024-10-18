@@ -70,7 +70,7 @@
   <div class="mb-4 flex space-x-2">
     <select id="select-grade" class="border rounded" on:change={selectContent}>
       {#each data.kanjiDataArray.filter((kanjiData) => kanjiData.index !== 0) as kanjiData}
-        <option value={kanjiData.index}>{kanjiData.title.replace("の漢字", "")}</option>
+        <option value={kanjiData.index}>{kanjiData.title}</option>
       {/each}
     </select>
     <button on:click={handleButtonClick}>

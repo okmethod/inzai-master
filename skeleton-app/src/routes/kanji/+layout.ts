@@ -14,24 +14,24 @@ const contents: KanjiDataPath[] = [
     path: "kanji/inzai.csv",
   },
   {
-    title: "1級・2級の漢字",
-    path: "kanji/grade1and2.csv",
+    title: "小学6年生の漢字",
+    path: "kanji/elementaryGrade6.csv",
   },
   {
-    title: "3級・4級の漢字",
-    path: "kanji/grade3and4.csv",
+    title: "小学5年生の漢字",
+    path: "kanji/elementaryGrade5.csv",
   },
   {
-    title: "5級・6級の漢字",
-    path: "kanji/grade5and6.csv",
+    title: "小学4年生の漢字",
+    path: "kanji/elementaryGrade4.csv",
   },
   {
-    title: "7級・8級の漢字",
-    path: "kanji/grade7and8.csv",
+    title: "小学3年生の漢字",
+    path: "kanji/elementaryGrade3.csv",
   },
   {
-    title: "9級・10級の漢字",
-    path: "kanji/grade9and10.csv",
+    title: "小学2年生の漢字",
+    path: "kanji/elementaryGrade2.csv",
   },
 ];
 
