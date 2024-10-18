@@ -23,6 +23,7 @@ export async function load(): Promise<{
     { index: 0, label: "[例題リスト]", title: "", path: "" },
     { index: 1, label: "[1問1答モード]", title: "", path: "one" },
     { index: 2, label: "[検定練習モード]", title: "", path: "trial" },
+    { index: 3, label: "[検定挑戦モード]", title: "", path: "exam" },
   ];
 
   return { keisanDataArray, slotTabSettings };
