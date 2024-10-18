@@ -1,15 +1,13 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
-  import type { ModalComponent, ModalSettings } from "@skeletonlabs/skeleton";
   import { getModalStore, getToastStore } from "@skeletonlabs/skeleton";
   import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import type { UserData } from "$lib/internal/UserData";
-  import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
+  import { isEligibleForDailyReward } from "$lib/internal/reward";
   import KanjiCard from "$lib/components/KanjiCard.svelte";
+  import { showSubmitExamModal, showInputScoreModal } from "$lib/internal/showModal";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
-  import SubmitModal from "$lib/components/SubmitModal.svelte";
-  import InputModal from "$lib/components/InputModal.svelte";
 
   export let data: {
     kanjiDataArray: KanjiData[];
@@ -45,8 +43,7 @@
     }
   }
 
-  const rewardKey = "KANJI_EXAM_PARTICIPATION";
-  let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, rewardKey) : false;
+  let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, "KANJI_EXAM_PARTICIPATION") : false;
   let isTrialInProgress = false;
   function startExam() {
     pickRandomKanji();
@@ -61,58 +58,26 @@
     isScoringInProgress = true;
   }
 
-  function showSubmitModal(): void {
-    const modalComponent: ModalComponent = {
-      ref: SubmitModal,
-      props: { title: "検定に挑戦しますか？" },
-      slot: "(挑戦できるのは1日に1回までです)",
-    };
-    const modal: ModalSettings = {
-      type: "component",
-      component: modalComponent,
-      response: (isConfirm: boolean) => {
-        if (isConfirm) {
-          startExam();
-        }
-      },
-    };
-    modalStore.trigger(modal);
-  }
-
-  function showInputScoreModal(): void {
-    const modalComponent: ModalComponent = {
-      ref: InputModal,
-      props: {
-        title: "20問中、何問正解できた？",
-        min: 0,
-        max: 20,
-      },
-      slot: "(自己採点して、正解した問題を数えてね)",
-    };
-    const modal: ModalSettings = {
-      type: "component",
-      component: modalComponent,
-      response: async (res: { isConfirm: boolean; inputValue: number }) => {
-        if (res.isConfirm && data.userData && data.userData.sub) {
-          const key = res.inputValue < (numOfQuestions - 1) * 2 ? rewardKey : "KANJI_EXAM_PASS";
-          await updateRewardPoints(data.userData.sub, key);
-          showRewardToast(toastStore, key);
-          addedReward = true;
-          isScoringInProgress = false;
-          addedReward = true;
-        }
-      },
-    };
-    modalStore.trigger(modal);
-  }
-
   function handleButtonClick() {
     if (isTrialInProgress) {
       finishExam();
     } else if (isScoringInProgress) {
-      showInputScoreModal();
+      showInputScoreModal(
+        modalStore,
+        toastStore,
+        numOfQuestions * 2,
+        (numOfQuestions - 1) * 2,
+        "KANJI_EXAM_PASS",
+        "KANJI_EXAM_PARTICIPATION",
+        data.userData ? data.userData.sub : null,
+        () => {
+          addedReward = true;
+          isScoringInProgress = false;
+          addedReward = true;
+        },
+      );
     } else {
-      showSubmitModal();
+      showSubmitExamModal(modalStore, startExam);
     }
   }
 
