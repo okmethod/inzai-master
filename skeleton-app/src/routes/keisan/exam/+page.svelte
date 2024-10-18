@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onDestroy, tick } from "svelte";
+  import { onDestroy } from "svelte";
   import { getModalStore, getToastStore } from "@skeletonlabs/skeleton";
-  import type { KeisanTemplate, KeisanData } from "$lib/types/keisan";
+  import type { KeisanTemplate, KeisanPortfolio } from "$lib/types/keisan";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
   import KeisanCard from "$lib/components/KeisanCard.svelte";
@@ -10,6 +10,7 @@
 
   export let data: {
     keisanTemplates: KeisanTemplate[];
+    gradePortfolios: KeisanPortfolio[];
     userData: UserData | null;
   };
 
@@ -17,25 +18,28 @@
   const toastStore = getToastStore();
   const timerToast = new TimerToast(600); // 10分
 
-  let selectedKeisanTemplate: KeisanTemplate = data.keisanTemplates[0];
+  let selectedIndex = 0;
   function selectContent(event: Event) {
-    const selectedIndex = parseInt((event.target as HTMLSelectElement).value, 10);
-    selectedKeisanTemplate = data.keisanTemplates[selectedIndex];
+    selectedIndex = parseInt((event.target as HTMLSelectElement).value, 10);
   }
 
-  const numOfQuestions = 10;
-  let showedKeisanTemplate: KeisanTemplate | null = null;
-  async function flickKeisanTemplate() {
-    // 再描画をトリガーするため、別の値にしてから元に戻す
-    showedKeisanTemplate = null;
-    await tick(); // 次のイベントループまで待つ
-    showedKeisanTemplate = { ...selectedKeisanTemplate };
+  function pickKeisanTemplates(keisanTemplates: KeisanTemplate[], gradePortfolio: KeisanPortfolio) {
+    const selectedTemplates: KeisanTemplate[] = [];
+    gradePortfolio.portfolio.forEach((config) => {
+      const templates = keisanTemplates.filter((template) => template.label === config.label);
+      for (let i = 0; i < config.count; i++) {
+        const randomIndex = Math.floor(Math.random() * templates.length);
+        selectedTemplates.push(templates[randomIndex]);
+      }
+    });
+    return selectedTemplates;
   }
 
   let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, "KEISAN_EXAM_PARTICIPATION") : false;
+  let selectedKeisanTemplates: KeisanTemplate[] = [];
   let isTrialInProgress = false;
   function startExam() {
-    flickKeisanTemplate();
+    selectedKeisanTemplates = pickKeisanTemplates(data.keisanTemplates, data.gradePortfolios[selectedIndex]);
     timerToast.startTimer();
     isTrialInProgress = true;
   }
@@ -54,8 +58,8 @@
       showInputScoreModal(
         modalStore,
         toastStore,
-        numOfQuestions,
-        numOfQuestions - 1,
+        selectedKeisanTemplates.length,
+        selectedKeisanTemplates.length - 1,
         "KEISAN_EXAM_PASS",
         "KEISAN_EXAM_PARTICIPATION",
         data.userData ? data.userData.sub : null,
@@ -81,8 +85,8 @@
   {:else}
     <div class="mb-4 flex space-x-2">
       <select id="select-grade" class="border rounded" on:change={selectContent}>
-        {#each data.keisanTemplates as keisanTemplate, index}
-          <option value={index}>{keisanTemplate.label}</option>
+        {#each data.gradePortfolios as gradePortfolio, index}
+          <option value={index}>{gradePortfolio.title}</option>
         {/each}
       </select>
       <button on:click={handleButtonClick} disabled={!isTrialInProgress && addedReward}>
@@ -91,13 +95,13 @@
         </span>
       </button>
     </div>
-    {#if showedKeisanTemplate !== null}
+    {#if selectedKeisanTemplates.length > 0}
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-        {#each Array(numOfQuestions) as _, index}
+        {#each selectedKeisanTemplates as keisanTemplate, index}
           <div>
             <span> {index + 1}. </span>
-            <KeisanCard data={showedKeisanTemplate} showAnswer={true} {isTrialInProgress} />
+            <KeisanCard data={keisanTemplate} showAnswer={true} {isTrialInProgress} />
           </div>
         {/each}
       </div>

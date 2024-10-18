@@ -21,3 +21,11 @@ export interface KeisanData {
   title: string;
   data: KeisanTemplate[];
 }
+
+export interface KeisanPortfolio {
+  title: string;
+  portfolio: {
+    label: string;
+    count: number;
+  }[];
+}
