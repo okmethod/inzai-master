@@ -1,18 +1,13 @@
 <script lang="ts">
   import type { KeisanTemplate } from "$lib/types/keisan";
-  import { OperationType, generateRandomNumber, buildFormula } from "$lib/internal/keisan";
+  import { generateRandomNumbers, buildFormula } from "$lib/internal/keisan";
 
   export let data: KeisanTemplate;
   export let showAnswer: boolean = false;
   export let isCompact: boolean | undefined = undefined;
   export let isTrialInProgress: boolean | undefined = undefined;
 
-  let x = generateRandomNumber(data.range, data.decimalPlaces);
-  let y = generateRandomNumber(data.range, data.decimalPlaces);
-  if (!data.allowNegative && data.operationType === OperationType.Sub && x < y) {
-    [x, y] = [y, x]; // x と y の値を入れ替える
-  }
-
+  const { x, y } = generateRandomNumbers(data.range, data.decimalPlaces, data.operationType, data.allowNegative);
   const { formulaString, answerString } = buildFormula(x, y, data.operationType, data.decimalPlaces);
 
   const cCardAreaSize = isCompact

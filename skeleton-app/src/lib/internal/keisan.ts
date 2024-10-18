@@ -16,11 +16,6 @@ function roundAndFormat(num: number, decimalPlaces: number): string {
   return roundToDecimalPlaces(num, decimalPlaces).toFixed(decimalPlaces);
 }
 
-export function generateRandomNumber(range: NumberRange, decimalPlaces: number): number {
-  const randomValue = Math.random() * (range.max - range.min) + range.min;
-  return roundToDecimalPlaces(randomValue, decimalPlaces);
-}
-
 export enum OperationType {
   Add = "たし算",
   Sub = "ひき算",
@@ -61,4 +56,25 @@ export function buildFormula(
     //     answerString: roundAndFormat(x / y, decimalPlaces),
     //   };
   }
+}
+
+function generateRandomNumber(range: NumberRange, decimalPlaces: number): number {
+  const randomValue = Math.random() * (range.max - range.min) + range.min;
+  return roundToDecimalPlaces(randomValue, decimalPlaces);
+}
+
+export function generateRandomNumbers(
+  range: NumberRange,
+  decimalPlaces: number,
+  operationType: OperationType,
+  allowNegative: boolean,
+): { x: number; y: number } {
+  let x = generateRandomNumber(range, decimalPlaces);
+  let y = generateRandomNumber(range, decimalPlaces);
+
+  if (!allowNegative && operationType === OperationType.Sub && x < y) {
+    [x, y] = [y, x]; // x と y の値を入れ替える
+  }
+
+  return { x, y };
 }
