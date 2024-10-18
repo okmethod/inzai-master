@@ -9,7 +9,7 @@
   import TimerToast from "$lib/utils/TimerToast";
 
   export let data: {
-    keisanDataArray: KeisanData[];
+    keisanTemplates: KeisanTemplate[];
     userData: UserData | null;
   };
 
@@ -17,11 +17,10 @@
   const toastStore = getToastStore();
   const timerToast = new TimerToast(600); // 10分
 
-  const keisanTemplates = data.keisanDataArray.flatMap((keisanData) => keisanData.data);
-  let selectedKeisanTemplate: KeisanTemplate = keisanTemplates[0];
+  let selectedKeisanTemplate: KeisanTemplate = data.keisanTemplates[0];
   function selectContent(event: Event) {
     const selectedIndex = parseInt((event.target as HTMLSelectElement).value, 10);
-    selectedKeisanTemplate = keisanTemplates[selectedIndex];
+    selectedKeisanTemplate = data.keisanTemplates[selectedIndex];
   }
 
   const numOfQuestions = 10;
@@ -82,7 +81,7 @@
   {:else}
     <div class="mb-4 flex space-x-2">
       <select id="select-grade" class="border rounded" on:change={selectContent}>
-        {#each keisanTemplates as keisanTemplate, index}
+        {#each data.keisanTemplates as keisanTemplate, index}
           <option value={index}>{keisanTemplate.label}</option>
         {/each}
       </select>
