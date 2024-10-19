@@ -20,7 +20,7 @@ export enum OperationType {
   Add = "たし算",
   Sub = "ひき算",
   Mul = "かけ算",
-  // Div = "わり算",  // TODO: 割り切れるかどうかを考慮する
+  Div = "わり算",
 }
 
 export function buildFormula(
@@ -32,7 +32,7 @@ export function buildFormula(
   formulaString: string;
   answerString: string;
 } {
-  const xString = x.toFixed(decimalPlaces);
+  const xString = x.toFixed(type !== OperationType.Div ? decimalPlaces : decimalPlaces * 2);
   const yString = y.toFixed(decimalPlaces);
   switch (type) {
     case OperationType.Add:
@@ -50,11 +50,11 @@ export function buildFormula(
         formulaString: `${xString} × ${yString}`,
         answerString: roundAndFormat(x * y, decimalPlaces * 2),
       };
-    // case OperationType.Div:
-    //   return {
-    //     formulaString: `${xString} ÷ ${yString}`,
-    //     answerString: roundAndFormat(x / y, decimalPlaces),
-    //   };
+    case OperationType.Div:
+      return {
+        formulaString: `${xString} ÷ ${yString}`,
+        answerString: roundAndFormat(x / y, decimalPlaces),
+      };
   }
 }
 
@@ -72,8 +72,29 @@ export function generateRandomNumbers(
   let x = generateRandomNumber(range, decimalPlaces);
   let y = generateRandomNumber(range, decimalPlaces);
 
-  if (!allowNegative && operationType === OperationType.Sub && x < y) {
-    [x, y] = [y, x]; // x と y の値を入れ替える
+  if (operationType === OperationType.Sub) {
+    if (!allowNegative && x < y) {
+      [x, y] = [y, x]; // x と y の値を入れ替える
+    }
+  } else if (operationType === OperationType.Div) {
+    // range.maxを1桁減らす、range.maxが1桁の場合は2か3にする
+    const maxY = Math.max(range.max / 10, 3);
+    if (decimalPlaces === 0) {
+      y = generateRandomNumber({ min: 2, max: maxY }, 0);
+      x = y * generateRandomNumber({ min: 3, max: maxY / y }, 0);
+    } else {
+      const factor = Math.pow(10, decimalPlaces);
+      // 割る数を整数として生成
+      let intY;
+      do {
+        intY = generateRandomNumber({ min: 2 * factor, max: maxY * factor }, 0);
+      } while (intY % factor === 0); // キリの良い数字が出たら再生成
+      y = intY / factor;
+
+      // 計算結果を整数として生成
+      const intZ = generateRandomNumber({ min: 3, max: maxY * factor }, 0);
+      x = (intY * intZ) / factor ** 2;
+    }
   }
 
   return { x, y };
