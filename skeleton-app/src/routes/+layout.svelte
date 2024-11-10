@@ -1,20 +1,21 @@
 <script lang="ts">
   import "../app.postcss";
+  import { onMount } from "svelte";
   import { Toast, Modal, initializeStores } from "@skeletonlabs/skeleton";
-  import Icon from "@iconify/svelte";
-  initializeStores();
-
-  // Floating UI for Popups
-  import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
   import { storePopup } from "@skeletonlabs/skeleton";
-  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-
-  import { goto } from "$app/navigation";
+  import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
+  import Icon from "@iconify/svelte";
   import type { User } from "@auth0/auth0-spa-js";
+  import { goto } from "$app/navigation";
+  import { applyTheme } from "$lib/stores/theme";
   import UserButton from "$lib/components/UserButton.svelte";
 
-  import { onMount } from "svelte";
-  import { applyTheme } from "$lib/stores/theme";
+  export let data: {
+    user: User | null;
+  };
+
+  initializeStores();
+  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   let isLoaded = false;
   onMount(async () => {
@@ -24,10 +25,6 @@
     await Promise.all([applyTheme(), wait(500)]);
     isLoaded = true;
   });
-
-  export let data: {
-    user: User | null;
-  };
 </script>
 
 <svelte:head>
