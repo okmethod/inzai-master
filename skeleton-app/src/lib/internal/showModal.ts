@@ -1,7 +1,7 @@
 import type { ModalComponent, ModalSettings, ModalStore, ToastStore } from "@skeletonlabs/skeleton";
 import { updateRewardPoints, showRewardToast } from "$lib/internal/reward";
-import SubmitModal from "$lib/components/SubmitModal.svelte";
-import InputModal from "$lib/components/InputModal.svelte";
+import SubmitModal from "$lib/components/modals/SubmitModal.svelte";
+import InputModal from "$lib/components/modals/InputModal.svelte";
 
 export function showSubmitExamModal(modalStore: ModalStore, startExamCallback: () => void): void {
   const modalComponent: ModalComponent = {
