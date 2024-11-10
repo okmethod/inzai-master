@@ -3,13 +3,15 @@
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
   import { ProgressBar } from "@skeletonlabs/skeleton";
-  import { getToastStore } from "@skeletonlabs/skeleton";
+  import { getToastStore, getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
   import Icon from "@iconify/svelte";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { User } from "@auth0/auth0-spa-js";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
   import { convertToKanji } from "$lib/utils/numerics";
+  import IconButton from "$lib/components/buttons/IconButton.svelte";
+  import ThemeSwitchModal from "$lib/components/modals/ThemeSwitchModal.svelte";
 
   export let data: {
     user: User | null;
@@ -42,10 +44,23 @@
   onMount(() => {
     progressBarValue.set(userRewardPoints);
   });
+
+  const modalStore = getModalStore();
+  function showThemeSwitchModal(): void {
+    const m: ModalSettings = {
+      type: "component",
+      component: {
+        ref: ThemeSwitchModal,
+        props: {},
+      },
+      backdropClasses: "fixed inset-0 !bg-gray-300/90",
+    };
+    modalStore.trigger(m);
+  }
 </script>
 
 <div class="flex flex-col items-center mt-2 space-y-4">
-  <div class="w-80 flex flex-col items-center border rounded-lg space-y-4 p-4">
+  <div class="w-80 flex flex-col items-center bg-white border rounded-lg space-y-4 p-4">
     <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
     <div>{userNickName} さんの自学の成果</div>
     <div class="flex items-center space-x-1">
@@ -84,6 +99,8 @@
     </div>
     <span class="">{addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}</span>
   </button>
+
+  <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cIconButtonStyle" onClick={showThemeSwitchModal} />
 
   <button class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1" on:click|preventDefault={handleLogout}>
     <div class="w-5 h-5">
