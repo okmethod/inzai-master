@@ -8,7 +8,7 @@
   import type { User } from "@auth0/auth0-spa-js";
   import { goto } from "$app/navigation";
   import { applyTheme } from "$lib/stores/theme";
-  import UserButton from "$lib/components/UserButton.svelte";
+  import UserButton from "$lib/components/buttons/UserButton.svelte";
 
   export let data: {
     user: User | null;
