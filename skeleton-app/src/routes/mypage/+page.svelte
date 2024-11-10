@@ -4,9 +4,8 @@
   import { cubicOut } from "svelte/easing";
   import { ProgressBar } from "@skeletonlabs/skeleton";
   import { getToastStore, getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
-  import Icon from "@iconify/svelte";
-  import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { User } from "@auth0/auth0-spa-js";
+  import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
   import { convertToKanji } from "$lib/utils/numerics";
@@ -33,10 +32,6 @@
     addedReward = true;
   }
 
-  async function handleLogout() {
-    await Auth0Singleton.logout();
-  }
-
   let progressBarValue = tweened(0, {
     duration: 200, // 200ms
     easing: cubicOut,
@@ -56,6 +51,10 @@
       backdropClasses: "fixed inset-0 !bg-gray-300/90",
     };
     modalStore.trigger(m);
+  }
+
+  async function handleLogout() {
+    await Auth0Singleton.logout();
   }
 </script>
 
@@ -89,23 +88,13 @@
     </div>
   </div>
 
-  <button
-    class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1 {addedReward ? 'hover:!bg-gray-400' : ''}"
-    on:click|preventDefault={handleLoginReward}
+  <IconButton
+    icon="mdi:creation"
+    label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
+    cButton="cIconButtonStyle"
+    onClick={handleLoginReward}
     disabled={addedReward}
-  >
-    <div class="w-5 h-5">
-      <Icon icon="mdi:creation" class="w-full h-full" />
-    </div>
-    <span class="">{addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}</span>
-  </button>
-
+  />
   <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cIconButtonStyle" onClick={showThemeSwitchModal} />
-
-  <button class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1" on:click|preventDefault={handleLogout}>
-    <div class="w-5 h-5">
-      <Icon icon="mdi:logout" class="w-full h-full" />
-    </div>
-    <span class="">ログアウト</span>
-  </button>
+  <IconButton icon="mdi:logout" label="ログアウト" cButton="cIconButtonStyle" onClick={handleLogout} />
 </div>
