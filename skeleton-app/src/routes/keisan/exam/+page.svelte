@@ -4,7 +4,7 @@
   import type { KeisanTemplate, KeisanPortfolio } from "$lib/types/keisan";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
-  import KeisanCard from "$lib/components/KeisanCard.svelte";
+  import KeisanCard from "$lib/components/cards/KeisanCard.svelte";
   import { showSubmitExamModal, showInputScoreModal } from "$lib/internal/showModal";
   import TimerToast from "$lib/utils/TimerToast";
 

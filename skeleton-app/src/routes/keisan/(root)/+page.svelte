@@ -3,7 +3,7 @@
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import type { KeisanData } from "$lib/types/keisan";
-  import KeisanCard from "$lib/components/KeisanCard.svelte";
+  import KeisanCard from "$lib/components/cards/KeisanCard.svelte";
 
   export let data: {
     keisanDataArray: KeisanData[];

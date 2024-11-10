@@ -4,7 +4,7 @@
   import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import type { UserData } from "$lib/internal/UserData";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
-  import KanjiCard from "$lib/components/KanjiCard.svelte";
+  import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
   import { showSubmitExamModal, showInputScoreModal } from "$lib/internal/showModal";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";

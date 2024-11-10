@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from "svelte";
   import type { KeisanTemplate } from "$lib/types/keisan";
-  import KeisanCard from "$lib/components/KeisanCard.svelte";
+  import KeisanCard from "$lib/components/cards/KeisanCard.svelte";
 
   export let data: {
     keisanTemplates: KeisanTemplate[];

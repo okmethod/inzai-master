@@ -5,7 +5,7 @@
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import type { KanjiData, KanjiMode } from "$lib/types/kanji";
-  import KanjiCard from "$lib/components/KanjiCard.svelte";
+  import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
 
   export let data: {
     kanjiDataArray: KanjiData[];

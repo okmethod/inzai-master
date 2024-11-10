@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick, onDestroy } from "svelte";
   import type { KeisanTemplate } from "$lib/types/keisan";
-  import KeisanCard from "$lib/components/KeisanCard.svelte";
+  import KeisanCard from "$lib/components/cards/KeisanCard.svelte";
   import TimerToast from "$lib/utils/TimerToast";
 
   export let data: {
