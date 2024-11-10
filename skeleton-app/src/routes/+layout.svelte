@@ -4,10 +4,10 @@
   import { Toast, Modal, initializeStores } from "@skeletonlabs/skeleton";
   import { storePopup } from "@skeletonlabs/skeleton";
   import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
-  import Icon from "@iconify/svelte";
   import type { User } from "@auth0/auth0-spa-js";
   import { goto } from "$app/navigation";
   import { applyTheme } from "$lib/stores/theme";
+  import IconButton from "$lib/components/buttons/IconButton.svelte";
   import UserButton from "$lib/components/buttons/UserButton.svelte";
 
   export let data: {
@@ -36,19 +36,11 @@
 
 {#if isLoaded}
   <div class="h-screen flex flex-col">
-    <div class="relative border-b border-gray-400 bg-gray-100">
-      <div class="h-full flex items-center justify-between">
-        <button
-          class="cButtonGrayStyle flex flex-row items-center space-x-1 m-1"
-          on:click|preventDefault={() => goto("/")}
-        >
-          <div class="w-5 h-5">
-            <Icon icon="mdi:home-outline" class="w-full h-full" />
-          </div>
-          <span class="">HOME</span>
-        </button>
+    <div class="relative border-b border-primary-400 bg-primary-200 p-1">
+      <div class="h-full flex items-center justify-between space-x-2">
+        <IconButton icon="mdi:home-outline" label="Home" cButton="cIconButtonStyle" onClick={() => goto("/")} />
         <div class="flex-grow"><!--spacer--></div>
-        <UserButton user={data.user} />
+        <UserButton user={data.user} cButton="cIconButtonStyle" />
       </div>
     </div>
 
