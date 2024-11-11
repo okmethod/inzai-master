@@ -60,43 +60,47 @@
   }
 </script>
 
-<div class="flex flex-col items-center mt-2 space-y-4">
-  <div class="w-80 flex flex-col items-center bg-white border rounded-lg space-y-4 p-4">
-    <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
-    <div>{userNickName} さんの自学の成果</div>
-    <div class="flex items-center space-x-1">
-      <span>研鑽ポイント: </span>
-      <span class="inline-block w-10 text-right">{userRewardPoints}</span>
-      <span> pt</span>
+{#if data.user === null || userData === null}
+  <span> マイページを確認するにはログインしてね！ </span>
+{:else}
+  <div class="flex flex-col items-center mt-2 space-y-4">
+    <div class="w-80 flex flex-col items-center bg-white border rounded-lg space-y-4 p-4">
+      <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
+      <div>{userNickName} さんの自学の成果</div>
+      <div class="flex items-center space-x-1">
+        <span>研鑽ポイント: </span>
+        <span class="inline-block w-10 text-right">{userRewardPoints}</span>
+        <span> pt</span>
+      </div>
+      <div class="flex items-center space-x-1">
+        <span>マスターランク: </span>
+        <span class="inline-block w-14 text-right">{convertToKanji(rankIndex)}</span>
+        <span> 段</span>
+      </div>
+      <ProgressBar
+        value={$progressBarValue}
+        max={nextRankValue}
+        height="h-4"
+        rounded="rounded-full"
+        transition="transition-[width] duration-500"
+        meter="bg-blue-500"
+        track="bg-gray-200"
+      />
+      <div class="flex items-center space-x-1">
+        <span>(次のランクまであと </span>
+        <span class="inline-block w-8 text-right">{nextRankValue - userRewardPoints}</span>
+        <span> pt)</span>
+      </div>
     </div>
-    <div class="flex items-center space-x-1">
-      <span>マスターランク: </span>
-      <span class="inline-block w-14 text-right">{convertToKanji(rankIndex)}</span>
-      <span> 段</span>
-    </div>
-    <ProgressBar
-      value={$progressBarValue}
-      max={nextRankValue}
-      height="h-4"
-      rounded="rounded-full"
-      transition="transition-[width] duration-500"
-      meter="bg-blue-500"
-      track="bg-gray-200"
-    />
-    <div class="flex items-center space-x-1">
-      <span>(次のランクまであと </span>
-      <span class="inline-block w-8 text-right">{nextRankValue - userRewardPoints}</span>
-      <span> pt)</span>
-    </div>
-  </div>
 
-  <IconButton
-    icon="mdi:creation"
-    label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
-    cButton="cIconButtonStyle"
-    onClick={handleLoginReward}
-    disabled={addedReward}
-  />
-  <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cIconButtonStyle" onClick={showThemeSwitchModal} />
-  <IconButton icon="mdi:logout" label="ログアウト" cButton="cIconButtonStyle" onClick={handleLogout} />
-</div>
+    <IconButton
+      icon="mdi:creation"
+      label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
+      cButton="cIconButtonStyle"
+      onClick={handleLoginReward}
+      disabled={addedReward}
+    />
+    <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cIconButtonStyle" onClick={showThemeSwitchModal} />
+    <IconButton icon="mdi:logout" label="ログアウト" cButton="cIconButtonStyle" onClick={handleLogout} />
+  </div>
+{/if}
