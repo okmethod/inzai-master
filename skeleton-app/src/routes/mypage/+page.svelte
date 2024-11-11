@@ -6,7 +6,7 @@
   import { getToastStore, getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
   import type { User } from "@auth0/auth0-spa-js";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
-  import type { UserData } from "$lib/internal/UserData";
+  import { getUser } from "$lib/stores/user";
   import { isEligibleForDailyReward, addRewardPoints, showRewardToast } from "$lib/internal/reward";
   import { convertToKanji } from "$lib/utils/numerics";
   import IconButton from "$lib/components/buttons/IconButton.svelte";
@@ -14,18 +14,20 @@
 
   export let data: {
     user: User | null;
-    userData: UserData | null;
   };
+
+  const userData = getUser();
+
   const userImageUrl = data.user ? data.user.picture : "";
   const userNickName = data.user ? data.user.nickname : "";
-  let userRewardPoints = data.userData ? data.userData.rewardPoints : 0;
+  let userRewardPoints = userData ? userData.rewardPoints : 0;
   const rankIndex = Math.floor(userRewardPoints / 100) + 1;
   const nextRankValue = rankIndex * 100;
 
   const toastStore = getToastStore();
 
   const rewardKey = "DAILY_LOGIN";
-  let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, rewardKey) : false;
+  let addedReward = userData ? !isEligibleForDailyReward(userData, rewardKey) : false;
   async function handleLoginReward() {
     userRewardPoints += await addRewardPoints(rewardKey);
     showRewardToast(toastStore, rewardKey);

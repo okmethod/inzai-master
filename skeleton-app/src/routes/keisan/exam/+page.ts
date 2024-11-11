@@ -1,6 +1,5 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { KeisanData, KeisanTemplate, KeisanPortfolio } from "$lib/types/keisan";
-import { UserData, getUserData } from "$lib/internal/UserData";
 
 const gradePortfolios: KeisanPortfolio[] = [
   {
@@ -64,13 +63,10 @@ const gradePortfolios: KeisanPortfolio[] = [
 export async function load({ parent }: LoadEvent): Promise<{
   keisanTemplates: KeisanTemplate[];
   gradePortfolios: KeisanPortfolio[];
-  userData: UserData | null;
 }> {
   const parentData = await parent();
   const keisanDataArray: KeisanData[] = parentData.keisanDataArray;
   const keisanTemplates: KeisanTemplate[] = keisanDataArray.flatMap((keisanData) => keisanData.data);
-  const user = parentData.user;
-  const userData = user && user.sub ? await getUserData(user.sub) : null;
 
-  return { keisanTemplates, gradePortfolios, userData };
+  return { keisanTemplates, gradePortfolios };
 }

@@ -2,7 +2,7 @@
   import { onDestroy } from "svelte";
   import { getModalStore, getToastStore } from "@skeletonlabs/skeleton";
   import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
-  import type { UserData } from "$lib/internal/UserData";
+  import { getUser } from "$lib/stores/user";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
   import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
   import { showSubmitExamModal, showInputScoreModal } from "$lib/internal/showModal";
@@ -11,8 +11,9 @@
 
   export let data: {
     kanjiDataArray: KanjiData[];
-    userData: UserData | null;
   };
+
+  const userData = getUser();
 
   const modalStore = getModalStore();
   const toastStore = getToastStore();
@@ -43,7 +44,7 @@
     }
   }
 
-  let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, "KANJI_EXAM_PARTICIPATION") : false;
+  let addedReward = userData ? !isEligibleForDailyReward(userData, "KANJI_EXAM_PARTICIPATION") : false;
   let isTrialInProgress = false;
   function startExam() {
     pickRandomKanji();
@@ -86,7 +87,7 @@
 </script>
 
 <div class="cContentPartStyle !m-4">
-  {#if data.userData == null}
+  {#if userData == null}
     <span> 検定に挑戦するにはログインしてね！ </span>
   {:else}
     <div class="mb-4 flex space-x-2">
