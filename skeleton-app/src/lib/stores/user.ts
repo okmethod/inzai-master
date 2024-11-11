@@ -1,7 +1,7 @@
 import { writable, get } from "svelte/store";
 import type { Theme } from "$lib/stores/theme";
 import { timestampKeys, type TimestampKey } from "$lib/types/document";
-import { UserData, setUserData } from "$lib/models/UserData";
+import { setUserToDB, type UserData } from "$lib/models/UserData";
 
 const userStore = writable<UserData | null>(null);
 
@@ -11,7 +11,7 @@ export function getUser(): UserData | null {
 
 export async function setUser(userData: UserData): Promise<void> {
   userStore.set(userData);
-  await setUserData(userData.sub, userData);
+  await setUserToDB(userData.sub, userData);
 }
 
 export async function updateUserRewardPoints(dateKey: TimestampKey, earnedPoints: number): Promise<void> {

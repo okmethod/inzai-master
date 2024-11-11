@@ -1,7 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
-import { UserData, getUserData, setUserData } from "$lib/models/UserData";
+import { UserData, getUserFromDB, setUserToDB } from "$lib/models/UserData";
 import { setUser } from "$lib/stores/user";
 import { getTheme } from "$lib/stores/theme";
 
@@ -15,10 +15,10 @@ export async function load({ url }: LoadEvent): Promise<{
 
   if (user && user.sub) {
     console.debug("User is authenticated.");
-    const userData = await getUserData(user.sub);
+    const userData = await getUserFromDB(user.sub);
     if (!userData) {
       const newUserData = new UserData(user.sub, {}, 0, getTheme());
-      await setUserData(user.sub, newUserData);
+      await setUserToDB(user.sub, newUserData);
       setUser(newUserData);
     } else {
       setUser(userData);
