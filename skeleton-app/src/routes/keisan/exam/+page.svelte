@@ -62,7 +62,6 @@
         selectedKeisanTemplates.length - 1,
         "KEISAN_EXAM_PASS",
         "KEISAN_EXAM_PARTICIPATION",
-        data.userData ? data.userData.sub : null,
         () => {
           addedReward = true;
           isScoringInProgress = false;

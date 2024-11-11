@@ -1,7 +1,8 @@
 import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
-import { timestampKeys, type TimestampKey } from "$lib/types/document";
-import { UserData, getUserData, setUserData } from "$lib/internal/UserData";
+import type { TimestampKey } from "$lib/types/document";
+import type { UserData } from "$lib/internal/UserData";
+import { updateUserRewardPoints } from "$lib/stores/user";
 
 interface RewordData {
   dateKey: TimestampKey;
@@ -39,26 +40,11 @@ const REWARDS: Record<string, RewordData> = {
 
 type RewardKey = keyof typeof REWARDS;
 
-export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Promise<number> {
-  const userData = await getUserData(sub);
-  if (!userData) throw new Error(`No users found with sub=${sub}`);
-
+export async function addRewardPoints(rewardKey: RewardKey): Promise<number> {
   const { dateKey, points } = REWARDS[rewardKey];
-  const currentDates = timestampKeys.reduce(
-    (dates, key) => {
-      dates[key] = userData.getDate(key);
-      return dates;
-    },
-    {} as Record<TimestampKey, Date>,
-  );
-  const updatedDates = {
-    ...currentDates,
-    [dateKey]: new Date(), // 対象キーの日付のみ更新する
-  };
-  const updatedRewardPoints = userData.rewardPoints + points;
-  await setUserData(sub, userData.updatedReward(updatedDates, updatedRewardPoints));
+  await updateUserRewardPoints(dateKey, points);
 
-  return updatedRewardPoints;
+  return points;
 }
 
 export function showRewardToast(toastStore: ToastStore, rewardKey: RewardKey): void {

@@ -7,7 +7,7 @@
   import type { User } from "@auth0/auth0-spa-js";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import type { UserData } from "$lib/internal/UserData";
-  import { isEligibleForDailyReward, updateRewardPoints, showRewardToast } from "$lib/internal/reward";
+  import { isEligibleForDailyReward, addRewardPoints, showRewardToast } from "$lib/internal/reward";
   import { convertToKanji } from "$lib/utils/numerics";
   import IconButton from "$lib/components/buttons/IconButton.svelte";
   import ThemeSwitchModal from "$lib/components/modals/ThemeSwitchModal.svelte";
@@ -27,7 +27,7 @@
   const rewardKey = "DAILY_LOGIN";
   let addedReward = data.userData ? !isEligibleForDailyReward(data.userData, rewardKey) : false;
   async function handleLoginReward() {
-    userRewardPoints = data.userData ? await updateRewardPoints(data.userData.sub, rewardKey) : 0;
+    userRewardPoints += await addRewardPoints(rewardKey);
     showRewardToast(toastStore, rewardKey);
     addedReward = true;
   }

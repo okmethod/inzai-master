@@ -69,7 +69,6 @@
         (numOfQuestions - 1) * 2,
         "KANJI_EXAM_PASS",
         "KANJI_EXAM_PARTICIPATION",
-        data.userData ? data.userData.sub : null,
         () => {
           addedReward = true;
           isScoringInProgress = false;

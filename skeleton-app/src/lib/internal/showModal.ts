@@ -1,5 +1,5 @@
 import type { ModalComponent, ModalSettings, ModalStore, ToastStore } from "@skeletonlabs/skeleton";
-import { updateRewardPoints, showRewardToast } from "$lib/internal/reward";
+import { addRewardPoints, showRewardToast } from "$lib/internal/reward";
 import SubmitModal from "$lib/components/modals/SubmitModal.svelte";
 import InputModal from "$lib/components/modals/InputModal.svelte";
 
@@ -28,10 +28,8 @@ export function showInputScoreModal(
   passThreshold: number,
   passExamRewardKey: string,
   participateRewardKey: string,
-  sub: string | null,
   updateRewardCallback: () => void,
 ): void {
-  if (!sub) return;
   const modalComponent: ModalComponent = {
     ref: InputModal,
     props: {
@@ -47,7 +45,7 @@ export function showInputScoreModal(
     response: async (res: { isConfirm: boolean; inputValue: number }) => {
       if (res.isConfirm) {
         const key = res.inputValue < passThreshold ? participateRewardKey : passExamRewardKey;
-        await updateRewardPoints(sub, key);
+        await addRewardPoints(key);
         showRewardToast(toastStore, key);
         updateRewardCallback();
       }
