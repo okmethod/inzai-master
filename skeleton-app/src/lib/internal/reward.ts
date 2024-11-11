@@ -56,8 +56,7 @@ export async function updateRewardPoints(sub: string, rewardKey: RewardKey): Pro
     [dateKey]: new Date(), // 対象キーの日付のみ更新する
   };
   const updatedRewardPoints = userData.rewardPoints + points;
-  const updatedUserData = new UserData(sub, updatedDates, updatedRewardPoints);
-  await setUserData(sub, updatedUserData);
+  await setUserData(sub, userData.updatedReward(updatedDates, updatedRewardPoints));
 
   return updatedRewardPoints;
 }

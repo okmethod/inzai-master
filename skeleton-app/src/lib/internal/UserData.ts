@@ -20,6 +20,10 @@ export class UserData implements Auth0UserData {
     this.rewardPoints = rewardPoints;
   }
 
+  public updatedReward(dates: Record<string, Date>, rewardPoints: number): UserData {
+    return new UserData(this.sub, dates, rewardPoints);
+  }
+
   private convertToTimestamp(dateOrTimestamp: Date | Timestamp): Timestamp {
     return dateOrTimestamp instanceof Date ? Timestamp.fromDate(dateOrTimestamp) : dateOrTimestamp;
   }
@@ -36,7 +40,7 @@ export class UserData implements Auth0UserData {
     return this.getOrDefault(key).toDate();
   }
 
-  toDoc(): UserDataDoc {
+  public toDoc(): UserDataDoc {
     return {
       sub: this.sub,
       latestLoginReward: this.timestamps.latestLoginReward || UserData.epochZeroTimestamp,
