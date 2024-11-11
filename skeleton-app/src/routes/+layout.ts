@@ -1,7 +1,7 @@
 import type { LoadEvent } from "@sveltejs/kit";
 import type { User } from "@auth0/auth0-spa-js";
 import Auth0Singleton from "$lib/services/Auth0Singleton";
-import { UserData, getUserData, setUserData } from "$lib/internal/UserData";
+import { UserData, getUserData, setUserData } from "$lib/models/UserData";
 import { setUser } from "$lib/stores/user";
 import { getTheme } from "$lib/stores/theme";
 

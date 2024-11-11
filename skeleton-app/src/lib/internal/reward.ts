@@ -1,7 +1,7 @@
 import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
 import type { TimestampKey } from "$lib/types/document";
-import type { UserData } from "$lib/internal/UserData";
+import type { UserData } from "$lib/models/UserData";
 import { updateUserRewardPoints } from "$lib/stores/user";
 
 interface RewordData {

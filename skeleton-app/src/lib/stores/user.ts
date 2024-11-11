@@ -1,7 +1,7 @@
 import { writable, get } from "svelte/store";
 import type { Theme } from "$lib/stores/theme";
 import { timestampKeys, type TimestampKey } from "$lib/types/document";
-import { UserData, setUserData } from "$lib/internal/UserData";
+import { UserData, setUserData } from "$lib/models/UserData";
 
 const userStore = writable<UserData | null>(null);
 
