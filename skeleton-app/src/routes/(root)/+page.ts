@@ -1,48 +1,30 @@
-import { goto } from "$app/navigation";
-import { GITHUB_REPO_URL } from "$lib/constants/common";
+import type { TransitionContent, TransitionButtonConfig } from "$lib/utils/transitions";
+import { generateButtonConfigs } from "$lib/utils/transitions";
+// import { GITHUB_REPO_URL } from "$lib/constants/common";
 
-export interface ContentButtonProps {
-  title: string;
-  onClick: () => void;
-}
-
-interface Content {
-  title: string;
-  action: "navigate" | "redirect";
-  route: string;
-}
-
-const contents: Content[] = [
+const contentLinks: TransitionContent[] = [
   {
-    title: "漢字マスタードリル",
+    label: "漢字マスタードリル",
+    symbolSrc: { type: "icon", key: "mdi:book" },
     action: "navigate",
-    route: "/kanji",
+    target: "/kanji",
   },
   {
-    title: "計算マスタードリル",
+    label: "計算マスタードリル",
+    symbolSrc: { type: "icon", key: "mdi:book" },
     action: "navigate",
-    route: "/keisan",
+    target: "/keisan",
   },
-  {
-    title: "github repository",
-    action: "redirect",
-    route: GITHUB_REPO_URL,
-  },
+  /**{
+    label: "ソースコード",
+    symbolSrc: { type: "icon", key: "mdi:source-repository" },
+    action: "redirectNewTab",
+    target: GITHUB_REPO_URL,
+  },**/
 ];
 
-export async function load() {
-  const propsArray: ContentButtonProps[] = contents.map((content) => ({
-    title: content.title,
-    onClick: _getOnClick(content.action, content.route),
-  }));
+export async function load(): Promise<{ buttonConfigs: TransitionButtonConfig[] }> {
+  const buttonConfigs = generateButtonConfigs(contentLinks);
 
-  function _getOnClick(action: string, route: string): () => void {
-    const actions: { [key: string]: () => void } = {
-      navigate: () => goto(route),
-      redirect: () => window.open(route, "_blank"),
-    };
-    return actions[action] || (() => {});
-  }
-
-  return { propsArray };
+  return { buttonConfigs };
 }

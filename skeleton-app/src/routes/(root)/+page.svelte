@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { ContentButtonProps } from "./+page";
+  import IconButton from "$lib/components/buttons/IconButton.svelte";
+  import { isIconConfig, type TransitionButtonConfig } from "$lib/utils/transitions";
 
   export let data: {
-    propsArray: Array<ContentButtonProps>;
+    buttonConfigs: Array<TransitionButtonConfig>;
   };
 </script>
 
@@ -14,12 +15,13 @@
 
   <!-- コンテンツ部 -->
   <div class="cContentPartStyle !m-4">
-    {#each data.propsArray as props}
-      <div class="">
-        <button on:click|preventDefault={props.onClick} class="flex items-center">
-          <span class="cLinkButtonStyle md:!text-2xl">{props.title}</span>
-        </button>
-      </div>
+    {#each data.buttonConfigs as config}
+      <IconButton
+        icon={isIconConfig(config.symbol) ? config.symbol.icon : "mdi:circle-small"}
+        label={config.label}
+        cButton="w-80 text-lg md:text-2xl font-bold bg-white text-gray-800 border border-primary-600"
+        onClick={config.onClick}
+      />
     {/each}
   </div>
 </div>
