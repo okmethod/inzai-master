@@ -1,15 +1,17 @@
 import { Timestamp } from "@firebase/firestore";
 import type { Auth0UserData, TimestampKey, UserDataDoc } from "$lib/types/document";
 import { isTimestampKey } from "$lib/types/document";
+import type { Theme } from "$lib/stores/theme";
 import UserCollectionService from "$lib/services/UserCollectionService";
 
 export class UserData implements Auth0UserData {
   public sub: string;
   private timestamps: Record<TimestampKey, Timestamp>;
   public rewardPoints: number;
+  public theme: Theme;
   private static readonly epochZeroTimestamp = Timestamp.fromDate(new Date(0));
 
-  constructor(sub: string, timestamps: Record<string, Timestamp | Date>, rewardPoints: number) {
+  constructor(sub: string, timestamps: Record<string, Timestamp | Date>, rewardPoints: number, theme: Theme) {
     this.sub = sub;
     this.timestamps = {} as Record<TimestampKey, Timestamp>;
     for (const key in timestamps) {
@@ -18,10 +20,15 @@ export class UserData implements Auth0UserData {
       }
     }
     this.rewardPoints = rewardPoints;
+    this.theme = theme;
   }
 
   public updatedReward(dates: Record<string, Date>, rewardPoints: number): UserData {
-    return new UserData(this.sub, dates, rewardPoints);
+    return new UserData(this.sub, dates, rewardPoints, this.theme);
+  }
+
+  public updatedTheme(theme: Theme): UserData {
+    return new UserData(this.sub, this.timestamps, this.rewardPoints, theme);
   }
 
   private convertToTimestamp(dateOrTimestamp: Date | Timestamp): Timestamp {
@@ -47,6 +54,7 @@ export class UserData implements Auth0UserData {
       latestKanjiExam: this.timestamps.latestKanjiExam || UserData.epochZeroTimestamp,
       latestKeisanExam: this.timestamps.latestKeisanExam || UserData.epochZeroTimestamp,
       rewardPoints: this.rewardPoints || 0,
+      theme: this.theme,
     };
   }
 
@@ -61,7 +69,7 @@ export class UserData implements Auth0UserData {
   }
 
   static fromDoc(doc: UserDataDoc): UserData {
-    return new UserData(doc.sub, UserData.extractTimestamps(doc), doc.rewardPoints);
+    return new UserData(doc.sub, UserData.extractTimestamps(doc), doc.rewardPoints, doc.theme);
   }
 }
 

@@ -1,4 +1,5 @@
 import { Timestamp } from "@firebase/firestore";
+import type { Theme } from "$lib/stores/theme";
 
 export interface Auth0UserData {
   sub: string;
@@ -17,4 +18,5 @@ export function isTimestampKey(key: string): key is TimestampKey {
 
 export interface UserDataDoc extends Auth0UserData, TimestampFields {
   rewardPoints: number;
+  theme: Theme;
 }
