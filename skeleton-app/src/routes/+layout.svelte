@@ -6,7 +6,8 @@
   import { computePosition, autoUpdate, flip, shift, offset, arrow } from "@floating-ui/dom";
   import type { User } from "@auth0/auth0-spa-js";
   import { goto } from "$app/navigation";
-  import { applyTheme } from "$lib/stores/theme";
+  import { getUser } from "$lib/stores/user";
+  import { setTheme } from "$lib/stores/theme";
   import IconButton from "$lib/components/buttons/IconButton.svelte";
   import UserButton from "$lib/components/buttons/UserButton.svelte";
 
@@ -22,7 +23,7 @@
     function wait(ms: number) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    await Promise.all([applyTheme(), wait(500)]);
+    await Promise.all([setTheme(getUser()?.theme ?? null), wait(500)]);
     isLoaded = true;
   });
 </script>

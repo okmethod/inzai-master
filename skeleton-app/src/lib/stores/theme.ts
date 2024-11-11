@@ -1,5 +1,6 @@
 import { writable, get } from "svelte/store";
 import { browser } from "$app/environment";
+import { updateUserTheme } from "$lib/stores/user";
 
 interface ThemeLabel {
   name: string;
@@ -23,33 +24,28 @@ export const themeLabels: Array<ThemeLabel> = [
 
 export type ThemeName = (typeof themeLabels)[number]["name"];
 
-interface Theme {
+export interface Theme {
   name: ThemeName;
   dark: boolean;
 }
 
-const defaultTheme: Theme = { name: themeLabels[0]["name"], dark: false };
-const savedTheme =
-  typeof localStorage !== "undefined"
-    ? JSON.parse(localStorage.getItem("theme") || JSON.stringify(defaultTheme))
-    : defaultTheme;
-
-const themeStore = writable<Theme>(savedTheme);
+const defaultTheme: Theme = { name: "none", dark: false };
+const themeStore = writable<Theme>(defaultTheme);
 
 export function getTheme(): Theme {
   return get(themeStore);
 }
 
-export function setTheme(theme: Theme): void {
-  themeStore.set(theme);
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem("theme", JSON.stringify(theme));
+export function setTheme(theme: Theme | null): void {
+  if (theme !== null) {
+    themeStore.set(theme);
+    updateUserTheme(theme);
   }
 
   applyTheme();
 }
 
-export function applyTheme(): void {
+function applyTheme(): void {
   const theme = getTheme();
   if (browser) {
     document.body.setAttribute("data-theme", theme.name);
