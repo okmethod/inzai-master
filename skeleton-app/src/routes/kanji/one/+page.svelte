@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
-  import type { KanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
 
@@ -31,10 +31,8 @@
     showAnswer = false;
   }
 
-  let currentMode: KanjiMode = "yomi";
-  const modeStore = getContext<Writable<KanjiMode>>("mode");
-  const unsubscribe = modeStore.subscribe((value) => {
-    currentMode = value;
+  const isKakiModeStore = getContext<Writable<boolean>>("isKakiMode");
+  const unsubscribe = isKakiModeStore.subscribe((value) => {
     resetShowAnswers();
   });
 
@@ -53,7 +51,7 @@
     <button type="button" class="btn variant-filled h-8" on:click={pickRandomKanji}> 出題 </button>
   </div>
   {#if selectedKanjiQuestion}
-    <KanjiCard data={selectedKanjiQuestion} showKanji={currentMode === "yomi"} {showAnswer} />
+    <KanjiCard data={selectedKanjiQuestion} isKakiMode={$isKakiModeStore} {showAnswer} />
   {:else}
     <span> 範囲を選択して、出題ボタンをクリック！ </span>
   {/if}

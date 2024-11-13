@@ -3,7 +3,7 @@
   import type { KanjiQuestion } from "$lib/types/kanji";
 
   export let data: KanjiQuestion;
-  export let showKanji: boolean;
+  export let isKakiMode: boolean;
   export let showAnswer: boolean = false;
   export let isCompact: boolean | undefined = undefined;
   export let isTrialInProgress: boolean | undefined = undefined;
@@ -46,7 +46,7 @@
   <div class="text-black font-serif {cTextSize}">
     {#each diffParts as part}
       {#if part.isDiff}
-        {#if part.isKanji === showKanji}
+        {#if part.isKanji !== isKakiMode}
           <span class="font-bold underline">{part.str}</span>
         {/if}
       {:else}
@@ -63,7 +63,7 @@
     {#if showAnswer}
       {#each diffParts as part}
         {#if part.isDiff}
-          {#if part.isKanji !== showKanji}
+          {#if part.isKanji === isKakiMode}
             <span class="font-serif {cTextSize}">{part.str}</span>
           {/if}
         {/if}

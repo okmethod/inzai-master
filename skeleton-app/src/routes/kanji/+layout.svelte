@@ -4,7 +4,6 @@
   import { SlideToggle } from "@skeletonlabs/skeleton";
   import { page } from "$app/stores";
   import type { SlotTabSetting } from "$lib/types/tabSetting";
-  import type { KanjiMode } from "$lib/types/kanji";
   import ContentsTabGroup from "$lib/components/ContentsTabGroup.svelte";
 
   export let data: {
@@ -15,11 +14,10 @@
   let currentTabIndex = 0;
 
   let isKakiMode = false;
-  const modeStore = writable<KanjiMode>("yomi");
-  setContext("mode", modeStore);
+  const isKakiModeStore = writable<boolean>(isKakiMode);
+  setContext("isKakiMode", isKakiModeStore);
   function updateKanjiMode() {
-    const mode = isKakiMode ? "kaki" : "yomi";
-    modeStore.set(mode);
+    isKakiModeStore.set(isKakiMode);
   }
 
   const isExamPath = derived(page, ($page) => $page.url.pathname === "/kanji/exam");

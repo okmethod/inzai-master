@@ -4,7 +4,7 @@
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
-  import type { KanjiData, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiData } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
 
   export let data: {
@@ -18,10 +18,8 @@
     showAnswer = false;
   }
 
-  let currentMode: KanjiMode = "yomi";
-  const modeStore = getContext<Writable<KanjiMode>>("mode");
-  const unsubscribe = modeStore.subscribe((value) => {
-    currentMode = value;
+  const isKakiModeStore = getContext<Writable<boolean>>("isKakiMode");
+  const unsubscribe = isKakiModeStore.subscribe((value) => {
     resetShowAnswers();
   });
 
@@ -53,7 +51,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each kanjiData.data as row}
-                <KanjiCard data={row} showKanji={currentMode === "yomi"} {showAnswer} isCompact={true} />
+                <KanjiCard data={row} isKakiMode={$isKakiModeStore} {showAnswer} isCompact={true} />
               {/each}
             </div>
           </svelte:fragment>

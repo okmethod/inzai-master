@@ -9,5 +9,3 @@ export interface KanjiData {
   title: string;
   data: KanjiQuestion[];
 }
-
-export type KanjiMode = "yomi" | "kaki";

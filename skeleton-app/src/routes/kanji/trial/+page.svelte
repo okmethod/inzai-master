@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
-  import type { KanjiQuestion, KanjiData, KanjiMode } from "$lib/types/kanji";
+  import type { KanjiQuestion, KanjiData } from "$lib/types/kanji";
   import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
@@ -24,7 +24,7 @@
     if (selectedKanjiData) {
       selectedKanjiQuestions = pickRandomElementsFromArray(selectedKanjiData.data, numOfQuestions);
     }
-    if (currentMode === "yomi" && inzaiKanjiData) {
+    if (!$isKakiModeStore && inzaiKanjiData) {
       // 読み問題モードでは、印西の漢字を1問含める
       selectedKanjiQuestions = [
         ...selectedKanjiQuestions.slice(0, numOfQuestions - 1),
@@ -52,11 +52,9 @@
     timerToast.stopTimer();
   }
 
-  let currentMode: KanjiMode = "yomi";
   let selectedKanjiQuestions: KanjiQuestion[] = [];
-  const modeStore = getContext<Writable<KanjiMode>>("mode");
-  const unsubscribe = modeStore.subscribe((value) => {
-    currentMode = value;
+  const isKakiModeStore = getContext<Writable<boolean>>("isKakiMode");
+  const unsubscribe = isKakiModeStore.subscribe((value) => {
     resetTrial();
   });
 
@@ -82,7 +80,7 @@
       {#each selectedKanjiQuestions as question, index}
         <div>
           <span> {index + 1}. </span>
-          <KanjiCard data={question} showKanji={currentMode === "yomi"} showAnswer={true} {isTrialInProgress} />
+          <KanjiCard data={question} isKakiMode={$isKakiModeStore} showAnswer={true} {isTrialInProgress} />
         </div>
       {/each}
     </div>
