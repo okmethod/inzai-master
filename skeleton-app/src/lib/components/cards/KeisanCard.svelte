@@ -10,6 +10,7 @@
   const { x, y } = generateRandomNumbers(data.range, data.decimalPlaces, data.operationType, data.allowNegative);
   const { formulaString, answerString } = buildFormula(x, y, data.operationType, data.decimalPlaces);
 
+  const subjectColor = "blue";
   const cCardAreaSize = isCompact
     ? "w-full lg:w-72 min-h-24 space-y-1"
     : "w-full md:w-80 lg:w-[450px] min-h-36 space-y-3";
@@ -20,7 +21,7 @@
 <div
   class="
     flex flex-col justify-center items-center
-    border rounded bg-blue-100 p-2
+    border rounded bg-{subjectColor}-100 p-2
     {cCardAreaSize}
   "
 >
@@ -35,7 +36,9 @@
       <span class="font-mono {cTextSize}">{answerString}</span>
     {:else}
       <button on:click={() => (showAnswer = true)}>
-        <span class="cButtonBlueStyle">こたえ</span>
+        <span class="px-2 py-1 text-white rounded bg-{subjectColor}-500 hover:bg-{subjectColor}-600 select-none">
+          こたえ
+        </span>
       </button>
     {/if}
   </div>
