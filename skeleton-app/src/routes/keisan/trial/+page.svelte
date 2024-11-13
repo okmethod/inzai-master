@@ -43,16 +43,14 @@
 </script>
 
 <div class="cContentPartStyle !m-4">
-  <div class="mb-4 flex space-x-2">
+  <div class="mb-4 flex items-center space-x-2">
     <select id="select-grade" class="border rounded" on:change={selectContent}>
       {#each data.keisanTemplates as keisanTemplate, index}
         <option value={index}>{keisanTemplate.label}</option>
       {/each}
     </select>
-    <button on:click={handleButtonClick}>
-      <span class="cButtonYellowStyle">
-        {isTrialInProgress ? "答え合わせ" : "出題"}
-      </span>
+    <button type="button" class="btn variant-filled h-8" on:click={handleButtonClick}>
+      {isTrialInProgress ? "答え合わせ" : "出題"}
     </button>
   </div>
   {#if showedKeisanTemplate !== null}

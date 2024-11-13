@@ -44,15 +44,13 @@
 </script>
 
 <div class="cContentPartStyle !m-4">
-  <div class="mb-4 flex space-x-2">
+  <div class="mb-4 flex items-center space-x-2">
     <select id="select-grade" class="border rounded" on:change={selectContent}>
       {#each data.kanjiDataArray as kanjiData}
         <option value={kanjiData.index}>{kanjiData.title}</option>
       {/each}
     </select>
-    <button on:click={pickRandomKanji}>
-      <span class="cButtonYellowStyle">出題</span>
-    </button>
+    <button type="button" class="btn variant-filled h-8" on:click={pickRandomKanji}> 出題 </button>
   </div>
   {#if selectedKanjiQuestion}
     <KanjiCard data={selectedKanjiQuestion} showKanji={currentMode === "yomi"} {showAnswer} />

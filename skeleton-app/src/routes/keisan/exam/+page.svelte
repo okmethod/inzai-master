@@ -83,16 +83,19 @@
   {#if userData == null}
     <span> 検定に挑戦するにはログインしてね！ </span>
   {:else}
-    <div class="mb-4 flex space-x-2">
+    <div class="mb-4 flex items-center space-x-2">
       <select id="select-grade" class="border rounded" on:change={selectContent}>
         {#each data.gradePortfolios as gradePortfolio, index}
           <option value={index}>{gradePortfolio.title}</option>
         {/each}
       </select>
-      <button on:click={handleButtonClick} disabled={!isTrialInProgress && addedReward}>
-        <span class="cButtonYellowStyle {!isTrialInProgress && addedReward ? '!bg-gray-500' : ''}">
-          {isTrialInProgress ? "答え合わせ" : isScoringInProgress ? "何問正解？" : addedReward ? "終了" : "出題"}
-        </span>
+      <button
+        type="button"
+        class="btn variant-filled h-8"
+        on:click={handleButtonClick}
+        disabled={!isTrialInProgress && addedReward}
+      >
+        {isTrialInProgress ? "答え合わせ" : isScoringInProgress ? "何問正解？" : addedReward ? "終了" : "出題"}
       </button>
     </div>
     {#if selectedKeisanTemplates.length > 0}

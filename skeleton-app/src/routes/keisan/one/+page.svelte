@@ -31,15 +31,13 @@
 </script>
 
 <div class="cContentPartStyle !m-4">
-  <div class="mb-4 flex space-x-2">
+  <div class="mb-4 flex items-center space-x-2">
     <select id="select-grade" class="border rounded" on:change={selectContent}>
       {#each data.keisanTemplates as keisanTemplate, index}
         <option value={index}>{keisanTemplate.label}</option>
       {/each}
     </select>
-    <button on:click={flickKeisanTemplate}>
-      <span class="cButtonYellowStyle">出題</span>
-    </button>
+    <button type="button" class="btn variant-filled h-8" on:click={flickKeisanTemplate}> 出題 </button>
   </div>
   {#if showedKeisanTemplate}
     <KeisanCard data={showedKeisanTemplate} {showAnswer} />
