@@ -22,8 +22,8 @@
       <slot />
     </div>
     <div class="space-x-2">
-      <button class="cButtonGrayStyle" on:click={onConfirm}>OK </button>
-      <button class="cButtonGrayStyle" on:click={parent.onClose}>Cancel</button>
+      <button type="button" class="btn variant-filled h-8" on:click={onConfirm}>OK </button>
+      <button type="button" class="btn variant-filled h-8" on:click={parent.onClose}>Cancel</button>
     </div>
   </div>
 {/if}

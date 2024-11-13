@@ -24,10 +24,15 @@
     <div class="mt-2 mb-8">
       <slot />
     </div>
-    <div class="space-x-2">
-      <input type="number" bind:value={inputValue} {min} {max} class="text-center border rounded p-1 w-20" />
-      <button class="cButtonGrayStyle" on:click={onConfirm}>OK </button>
-      <button class="cButtonGrayStyle" on:click={parent.onClose}>Cancel</button>
+    <div class="flex flex-col items-center justify-center space-y-4">
+      <div class="">
+        <input type="number" bind:value={inputValue} {min} {max} class="text-center border rounded p-1 w-20 h-10" />
+        <span>問 正解できた！</span>
+      </div>
+      <div class="space-x-2">
+        <button type="button" class="btn variant-filled h-8" on:click={onConfirm}>OK </button>
+        <button type="button" class="btn variant-filled h-8" on:click={parent.onClose}>Cancel</button>
+      </div>
     </div>
   </div>
 {/if}
