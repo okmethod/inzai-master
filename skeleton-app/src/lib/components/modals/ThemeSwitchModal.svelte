@@ -7,10 +7,10 @@
   export let parent;
 
   let currentTheme = getTheme().name;
-  let currentDark = getTheme().dark;
+  let isDarkMode = getTheme().dark;
 
   function setCurrentTheme() {
-    setTheme({ name: currentTheme, dark: currentDark });
+    setTheme({ name: currentTheme, dark: isDarkMode });
   }
 
   function handleThemeSwitch(themeName: ThemeName) {
@@ -45,8 +45,8 @@
             </button>
           {/each}
         </div>
-        <SlideToggle name="slide" bind:checked={currentDark} on:change={setCurrentTheme} class="px-2 py-1"
-          >{currentDark ? "ダークモード" : "ライトモード"}</SlideToggle
+        <SlideToggle name="slide" bind:checked={isDarkMode} on:change={setCurrentTheme} class="px-2 py-1"
+          >{isDarkMode ? "ダークモード" : "ライトモード"}</SlideToggle
         >
       </div>
       <p class="text-xl absolute top-0 left-1/2 transform -translate-x-1/2 z-10">テーマ切り替え</p>
