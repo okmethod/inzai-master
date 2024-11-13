@@ -42,7 +42,7 @@
     {cCardAreaSize}
   "
 >
-  <div class="font-serif {cTextSize}">
+  <div class="text-black font-serif {cTextSize}">
     {#each diffParts as part}
       {#if part.isDiff}
         {#if part.isKanji === showKanji}
@@ -55,7 +55,7 @@
   </div>
   <div
     class="
-      flex justify-center items-center bg-white border rounded {cAnswerAreaSize}
+      flex justify-center items-center text-black bg-white border rounded {cAnswerAreaSize}
       {isTrialInProgress ? 'hidden' : ''}
     "
   >

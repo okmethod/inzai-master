@@ -24,10 +24,10 @@
     {cCardAreaSize}
   "
 >
-  <div class="font-mono {cTextSize}">{formulaString} ＝ ？</div>
+  <div class="text-black font-mono {cTextSize}">{formulaString} ＝ ？</div>
   <div
     class="
-      flex justify-center items-center bg-white border rounded {cAnswerAreaSize}
+      flex justify-center items-center text-black bg-white border rounded {cAnswerAreaSize}
       {isTrialInProgress ? 'hidden' : ''}
     "
   >
