@@ -19,7 +19,7 @@
   }
 
   const isKakiModeStore = getContext<Writable<boolean>>("isKakiMode");
-  const unsubscribe = isKakiModeStore.subscribe((value) => {
+  const unsubscribe = isKakiModeStore.subscribe(() => {
     resetShowAnswers();
   });
 
