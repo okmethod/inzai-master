@@ -32,7 +32,7 @@
 
 <div class="cContentPartStyle !m-4">
   <div class="mb-4 flex items-center space-x-2">
-    <select id="select-grade" class="border rounded" on:change={selectContent}>
+    <select id="select-grade" class="cMonoStyle rounded" on:change={selectContent}>
       {#each data.keisanTemplates as keisanTemplate, index}
         <option value={index}>{keisanTemplate.label}</option>
       {/each}
