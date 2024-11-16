@@ -50,7 +50,7 @@
   <span> マイページを確認するにはログインしてね！ </span>
 {:else}
   <div class="flex flex-col items-center mt-2 space-y-4">
-    <UserDataCard {userImageUrl} {userNickName} {userRewardPoints} />
+    <UserDataCard {userImageUrl} {userNickName} bind:userRewardPoints />
     <IconButton
       icon="mdi:creation"
       label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}

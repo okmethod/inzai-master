@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
   import { ProgressBar } from "@skeletonlabs/skeleton";
@@ -16,9 +15,12 @@
     duration: 200, // 200ms
     easing: cubicOut,
   });
-  onMount(() => {
-    progressBarValue.set(userRewardPoints);
-  });
+
+  function updateProgressBarValue(value: number) {
+    progressBarValue.set(value);
+  }
+
+  $: updateProgressBarValue(userRewardPoints);
 </script>
 
 <div class="w-80 flex flex-col items-center cSurfaceColor border rounded-lg space-y-4 p-4">
