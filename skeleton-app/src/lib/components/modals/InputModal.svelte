@@ -26,7 +26,13 @@
     </div>
     <div class="flex flex-col items-center justify-center space-y-4">
       <div class="">
-        <input type="number" bind:value={inputValue} {min} {max} class="w-20 h-10 p-1 text-center cMonoStyle rounded" />
+        <input
+          type="number"
+          bind:value={inputValue}
+          {min}
+          {max}
+          class="w-20 h-10 p-1 text-center cMonoColor border rounded"
+        />
         <span>問 正解できた！</span>
       </div>
       <div class="space-x-2">
