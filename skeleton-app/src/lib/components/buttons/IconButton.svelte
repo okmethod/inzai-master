@@ -8,7 +8,7 @@
   export let onClick: () => void;
 </script>
 
-<button type="button" class="btn variant-filled {cButton}" on:click={onClick} {disabled}>
+<button type="button" class="cButtonStandardStyle {cButton}" on:click={onClick} {disabled}>
   <div class="w-5 h-5">
     <Icon {icon} class="w-full h-full" />
   </div>

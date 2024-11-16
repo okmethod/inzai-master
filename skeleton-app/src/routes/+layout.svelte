@@ -28,7 +28,7 @@
   });
 
   const cHeaderArea = "p-1 bg-primary-200 dark:bg-primary-800 border-b border-primary-400 dark:border-primary-600";
-  const cHeaderButton = "space-x-0 py-1 px-2 bg-white text-gray-800 border border-primary-600";
+  const cHeaderButton = "!space-x-0 !py-1 !px-2";
 </script>
 
 <svelte:head>

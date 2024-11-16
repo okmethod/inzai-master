@@ -48,7 +48,7 @@
         <option value={kanjiData.index}>{kanjiData.title}</option>
       {/each}
     </select>
-    <button type="button" class="btn variant-filled h-8" on:click={pickRandomKanji}> 出題 </button>
+    <button type="button" class="cButtonStandardStyle h-8" on:click={pickRandomKanji}> 出題 </button>
   </div>
   {#if selectedKanjiQuestion}
     <KanjiCard data={selectedKanjiQuestion} isKakiMode={$isKakiModeStore} {showAnswer} />

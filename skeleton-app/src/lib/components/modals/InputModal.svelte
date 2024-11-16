@@ -36,8 +36,8 @@
         <span>問 正解できた！</span>
       </div>
       <div class="space-x-2">
-        <button type="button" class="btn variant-filled h-8" on:click={onConfirm}>OK </button>
-        <button type="button" class="btn variant-filled h-8" on:click={parent.onClose}>Cancel</button>
+        <button type="button" class="cButtonStandardStyle h-8" on:click={onConfirm}>OK </button>
+        <button type="button" class="cButtonStandardStyle h-8" on:click={parent.onClose}>Cancel</button>
       </div>
     </div>
   </div>

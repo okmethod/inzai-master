@@ -37,7 +37,7 @@
         <option value={index}>{keisanTemplate.label}</option>
       {/each}
     </select>
-    <button type="button" class="btn variant-filled h-8" on:click={flickKeisanTemplate}> 出題 </button>
+    <button type="button" class="cButtonStandardStyle h-8" on:click={flickKeisanTemplate}> 出題 </button>
   </div>
   {#if showedKeisanTemplate}
     <KeisanCard data={showedKeisanTemplate} {showAnswer} />

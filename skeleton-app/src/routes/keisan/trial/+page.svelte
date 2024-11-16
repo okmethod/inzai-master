@@ -49,7 +49,7 @@
         <option value={index}>{keisanTemplate.label}</option>
       {/each}
     </select>
-    <button type="button" class="btn variant-filled h-8" on:click={handleButtonClick}>
+    <button type="button" class="cButtonStandardStyle h-8" on:click={handleButtonClick}>
       {isTrialInProgress ? "答え合わせ" : "出題"}
     </button>
   </div>

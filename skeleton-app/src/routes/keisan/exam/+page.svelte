@@ -91,7 +91,7 @@
       </select>
       <button
         type="button"
-        class="btn variant-filled h-8"
+        class="cButtonStandardStyle h-8"
         on:click={handleButtonClick}
         disabled={!isTrialInProgress && addedReward}
       >

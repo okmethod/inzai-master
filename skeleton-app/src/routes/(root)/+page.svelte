@@ -17,7 +17,7 @@
       <IconButton
         icon={isIconConfig(config.symbol) ? config.symbol.icon : "mdi:circle-small"}
         label={config.label}
-        cButton="w-80 text-lg md:text-2xl font-bold cSurfaceColor border"
+        cButton="w-80 !text-lg md:!text-2xl font-bold cSurfaceColor"
         onClick={config.onClick}
       />
     {/each}

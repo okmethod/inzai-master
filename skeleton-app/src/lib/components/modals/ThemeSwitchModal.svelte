@@ -25,7 +25,7 @@
   }
 
   $: cBgStyle = currentTheme !== "none" ? "bg-surface-50-900-token" : "bg-gray-100";
-  $: cButtonStyle = (theme: string) => (theme === currentTheme ? "variant-filled-surface" : "variant-filled");
+  $: cButtonVariantStyle = (theme: string) => (theme === currentTheme ? "variant-filled-surface" : "variant-filled");
 </script>
 
 {#if $modalStore[0]}
@@ -36,7 +36,7 @@
           {#each themeLabels as themeLabel}
             <button
               type="button"
-              class="btn border {cButtonStyle(themeLabel.name)}"
+              class="btn {cButtonVariantStyle(themeLabel.name)} border cButtonColorStyle"
               on:click={() => {
                 handleThemeSwitch(themeLabel.name);
               }}
