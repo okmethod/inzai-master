@@ -96,11 +96,10 @@
     <IconButton
       icon="mdi:creation"
       label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
-      cButton="cIconButtonStyle"
       onClick={handleLoginReward}
       disabled={addedReward}
     />
-    <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cIconButtonStyle" onClick={showThemeSwitchModal} />
-    <IconButton icon="mdi:logout" label="ログアウト" cButton="cIconButtonStyle" onClick={handleLogout} />
+    <IconButton icon="mdi:menu" label="テーマ切り替え" onClick={showThemeSwitchModal} />
+    <IconButton icon="mdi:logout" label="ログアウト" onClick={handleLogout} />
   </div>
 {/if}

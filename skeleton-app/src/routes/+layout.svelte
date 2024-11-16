@@ -26,6 +26,9 @@
     await Promise.all([setTheme(getUser()?.theme ?? null), wait(500)]);
     isLoaded = true;
   });
+
+  const cHeaderArea = "p-1 bg-primary-200 dark:bg-primary-800 border-b border-primary-400 dark:border-primary-600";
+  const cHeaderButton = "space-x-0 py-1 px-2 bg-white text-gray-800 border border-primary-600";
 </script>
 
 <svelte:head>
@@ -37,11 +40,11 @@
 
 {#if isLoaded}
   <div class="h-screen flex flex-col">
-    <div class="relative border-b border-primary-400 bg-primary-200 p-1">
+    <div class="relative {cHeaderArea}">
       <div class="h-full flex items-center justify-between space-x-2">
-        <IconButton icon="mdi:home-outline" label="Home" cButton="cIconButtonStyle" onClick={() => goto("/")} />
+        <IconButton icon="mdi:home-outline" label="Home" cButton={cHeaderButton} onClick={() => goto("/")} />
         <div class="flex-grow"><!--spacer--></div>
-        <UserButton user={data.user} cButton="cIconButtonStyle" />
+        <UserButton user={data.user} cButton={cHeaderButton} />
       </div>
     </div>
 
