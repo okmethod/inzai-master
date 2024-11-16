@@ -10,7 +10,6 @@
   const { x, y } = generateRandomNumbers(data.range, data.decimalPlaces, data.operationType, data.allowNegative);
   const { formulaString, answerString } = buildFormula(x, y, data.operationType, data.decimalPlaces);
 
-  const subjectColor = "blue";
   const cCardAreaSize = isCompact
     ? "w-full lg:w-72 min-h-24 space-y-1"
     : "w-full md:w-80 lg:w-[450px] min-h-36 space-y-3";
