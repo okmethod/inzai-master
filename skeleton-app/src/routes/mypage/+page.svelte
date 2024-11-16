@@ -64,7 +64,7 @@
   <span> マイページを確認するにはログインしてね！ </span>
 {:else}
   <div class="flex flex-col items-center mt-2 space-y-4">
-    <div class="w-80 flex flex-col items-center bg-white border rounded-lg space-y-4 p-4">
+    <div class="w-80 flex flex-col items-center cSurfaceStyle rounded-lg space-y-4 p-4">
       <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
       <div>{userNickName} さんの自学の成果</div>
       <div class="flex items-center space-x-1">

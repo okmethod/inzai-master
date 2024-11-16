@@ -19,14 +19,14 @@
 </script>
 
 {#if $modalStore[0]}
-  <div class="flex flex-col items-center justify-center p-8 border rounded-lg bg-white shadow-2xl">
+  <div class="flex flex-col items-center justify-center p-8 cSurfaceStyle rounded-lg shadow-2xl">
     <p class="text-xl font-bold">{title}</p>
     <div class="mt-2 mb-8">
       <slot />
     </div>
     <div class="flex flex-col items-center justify-center space-y-4">
       <div class="">
-        <input type="number" bind:value={inputValue} {min} {max} class="text-center border rounded p-1 w-20 h-10" />
+        <input type="number" bind:value={inputValue} {min} {max} class="w-20 h-10 p-1 text-center cMonoStyle rounded" />
         <span>問 正解できた！</span>
       </div>
       <div class="space-x-2">
