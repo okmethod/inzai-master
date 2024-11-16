@@ -51,7 +51,7 @@ export function showRewardToast(toastStore: ToastStore, rewardKey: RewardKey): v
   const { message, points } = REWARDS[rewardKey];
   const toastSettings: ToastSettings = {
     message: `${message} +${points}pt`,
-    background: "bg-yellow-100 select-none",
+    background: "bg-yellow-100 text-black select-none",
     timeout: 5000,
   };
   toastStore.trigger(toastSettings);

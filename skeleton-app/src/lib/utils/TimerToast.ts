@@ -73,7 +73,7 @@ class TimerToast {
     const content = `⏱️ 残り時間: ${timerString}`;
     const toastSettings: ToastSettings = {
       message: this.createToastMessage(content),
-      background: "bg-green-100 select-none",
+      background: "bg-green-100 text-black select-none",
       timeout: this.timeFull * 1000,
     };
     this.toastId = this.toastStore.trigger(toastSettings);
@@ -96,7 +96,7 @@ class TimerToast {
     const content = "⏱️ タイムアップ！";
     const toastSettings: ToastSettings = {
       message: this.createToastMessage(content),
-      background: "bg-red-100 select-none",
+      background: "bg-red-100 text-black select-none",
       autohide: false,
     };
     this.alarmToastId = this.toastStore.trigger(toastSettings);
