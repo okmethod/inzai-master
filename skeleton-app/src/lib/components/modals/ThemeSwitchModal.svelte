@@ -23,17 +23,20 @@
   function closeModal() {
     modalStore.close();
   }
+
+  $: cBgStyle = currentTheme !== "none" ? "bg-surface-50-900-token" : "bg-gray-100";
+  $: cButtonStyle = (theme: string) => (theme === currentTheme ? "variant-filled-surface" : "variant-filled");
 </script>
 
 {#if $modalStore[0]}
-  <div class="p-2 md:p-4 bg-surface-50-900-token rounded shadow-2xl" data-parent={parent}>
+  <div class="p-2 md:p-4 rounded shadow-2xl {cBgStyle}" data-parent={parent}>
     <div class="relative pt-10">
       <div class="flex flex-col items-center space-y-2">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
           {#each themeLabels as themeLabel}
             <button
               type="button"
-              class="btn {currentTheme === themeLabel.name ? 'variant-filled-surface' : 'variant-filled'}"
+              class="btn border {cButtonStyle(themeLabel.name)}"
               on:click={() => {
                 handleThemeSwitch(themeLabel.name);
               }}
