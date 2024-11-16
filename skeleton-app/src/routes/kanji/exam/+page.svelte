@@ -110,7 +110,7 @@
         {#each selectedKanjiQuestions as question, index}
           <div>
             <span> {index + 1}. </span>
-            <KanjiCard data={question} isKakiMode={index >= numOfQuestions} showAnswer={true} {isTrialInProgress} />
+            <KanjiCard data={question} isKakiMode={index < numOfQuestions} showAnswer={true} {isTrialInProgress} />
           </div>
         {/each}
       </div>
