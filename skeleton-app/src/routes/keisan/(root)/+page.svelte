@@ -18,7 +18,7 @@
 
   const cAccordionRounded = "rounded-lg";
   const cAccordionHover = "hover:underline";
-  const cAccordionItemDiv = "cSurfaceStyle rounded";
+  const cAccordionItemDiv = "cSurfaceColor border rounded";
   const cAccordionLabel = "text-xl font-bold";
 </script>
 
@@ -37,7 +37,7 @@
       <div class={cAccordionItemDiv}>
         <AccordionItem>
           <svelte:fragment slot="lead">
-            <Icon icon="mdi:book-open-variant-outline" class="cSurfaceTextStyle" />
+            <Icon icon="mdi:book-open-variant-outline" />
           </svelte:fragment>
           <svelte:fragment slot="summary">
             <h2 class={cAccordionLabel}>{keisanData.title}</h2>
@@ -58,7 +58,7 @@
                   <div class={cAccordionItemDiv}>
                     <AccordionItem>
                       <svelte:fragment slot="lead">
-                        <Icon icon="mdi:book-open-variant-outline" class="cSurfaceTextStyle" />
+                        <Icon icon="mdi:book-open-variant-outline" />
                       </svelte:fragment>
                       <svelte:fragment slot="summary">
                         <h2 class={cAccordionLabel}>{row.label}</h2>

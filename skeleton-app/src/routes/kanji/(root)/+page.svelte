@@ -40,10 +40,10 @@
     transitionOutParams={{ duration: 300 }}
   >
     {#each data.kanjiDataArray as kanjiData}
-      <div class="cSurfaceStyle rounded">
+      <div class="cSurfaceColor border rounded">
         <AccordionItem>
           <svelte:fragment slot="lead">
-            <Icon icon="mdi:book-open-variant-outline" class="cSurfaceTextStyle" />
+            <Icon icon="mdi:book-open-variant-outline" />
           </svelte:fragment>
           <svelte:fragment slot="summary">
             <h2 class="text-xl font-bold">{kanjiData.title}</h2>

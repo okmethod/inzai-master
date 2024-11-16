@@ -8,18 +8,16 @@
 </script>
 
 <div class="cRouteBodyStyle">
-  <!-- タイトル部 -->
   <div class="cTitlePartStyle md:!mb-4">
     <h1 class="cTitleStyle md:!text-3xl">自学マスタードリル</h1>
   </div>
 
-  <!-- コンテンツ部 -->
   <div class="cContentPartStyle !m-4">
     {#each data.buttonConfigs as config}
       <IconButton
         icon={isIconConfig(config.symbol) ? config.symbol.icon : "mdi:circle-small"}
         label={config.label}
-        cButton="w-80 text-lg md:text-2xl font-bold cSurfaceStyle border border-primary-600"
+        cButton="w-80 text-lg md:text-2xl font-bold cSurfaceColor border"
         onClick={config.onClick}
       />
     {/each}
