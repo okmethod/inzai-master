@@ -20,15 +20,15 @@
 
 <div
   class="
-    flex flex-col justify-center items-center
-    border rounded bg-{subjectColor}-100 p-2
+    flex flex-col justify-center items-center p-2
+    !bg-blue-100 border !border-gray-600 rounded
     {cCardAreaSize}
   "
 >
   <div class="text-black font-mono {cTextSize}">{formulaString} ＝ ？</div>
   <div
     class="
-      flex justify-center items-center text-black bg-white border rounded {cAnswerAreaSize}
+      flex justify-center items-center !text-black !bg-white border rounded {cAnswerAreaSize}
       {isTrialInProgress ? 'hidden' : ''}
     "
   >
@@ -36,9 +36,7 @@
       <span class="font-mono {cTextSize}">{answerString}</span>
     {:else}
       <button on:click={() => (showAnswer = true)}>
-        <span class="px-2 py-1 text-white rounded bg-{subjectColor}-500 hover:bg-{subjectColor}-600 select-none">
-          こたえ
-        </span>
+        <span class="px-2 py-1 text-white rounded !bg-blue-500 hover:!bg-blue-600 select-none"> こたえ </span>
       </button>
     {/if}
   </div>

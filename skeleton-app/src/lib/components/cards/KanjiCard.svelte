@@ -28,7 +28,6 @@
     diffParts = getDiffParts(data.kanji, data.yomi);
   }
 
-  const subjectColor = "yellow";
   const cCardAreaSize = isCompact
     ? "w-full lg:w-80 min-h-24 space-y-1"
     : "w-full md:w-80 lg:w-[450px] min-h-36 space-y-3";
@@ -38,8 +37,8 @@
 
 <div
   class="
-    flex flex-col justify-center items-center
-    border rounded bg-{subjectColor}-100 p-2
+    flex flex-col justify-center items-center p-2
+    !bg-yellow-100 border !border-gray-600 rounded
     {cCardAreaSize}
   "
 >
@@ -56,7 +55,7 @@
   </div>
   <div
     class="
-      flex justify-center items-center text-black bg-white border rounded {cAnswerAreaSize}
+      flex justify-center items-center !text-black !bg-white border rounded {cAnswerAreaSize}
       {isTrialInProgress ? 'hidden' : ''}
     "
   >
@@ -70,9 +69,7 @@
       {/each}
     {:else}
       <button on:click={() => (showAnswer = true)}>
-        <span class="px-2 py-1 text-white rounded bg-{subjectColor}-500 hover:bg-{subjectColor}-600 select-none">
-          こたえ
-        </span>
+        <span class="px-2 py-1 text-white rounded !bg-yellow-500 hover:!bg-yellow-600 select-none"> こたえ </span>
       </button>
     {/if}
   </div>
