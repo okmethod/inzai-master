@@ -1,27 +1,8 @@
 import type { ModalComponent, ModalSettings, ModalStore, ToastStore } from "@skeletonlabs/skeleton";
 import { addRewardPoints, showRewardToast } from "$lib/internal/reward";
-import SubmitModal from "$lib/components/modals/SubmitModal.svelte";
 import InputModal from "$lib/components/modals/InputModal.svelte";
 
-export function showSubmitExamModal(modalStore: ModalStore, startExamCallback: () => void): void {
-  const modalComponent: ModalComponent = {
-    ref: SubmitModal,
-    props: { title: "検定に挑戦しますか？" },
-    slot: "(挑戦できるのは1日に1回までです)",
-  };
-  const modal: ModalSettings = {
-    type: "component",
-    component: modalComponent,
-    response: (isConfirm: boolean) => {
-      if (isConfirm) {
-        startExamCallback();
-      }
-    },
-  };
-  modalStore.trigger(modal);
-}
-
-export function showInputScoreModal(
+function showInputScoreModal(
   modalStore: ModalStore,
   toastStore: ToastStore,
   numOfQuestions: number,
@@ -53,3 +34,5 @@ export function showInputScoreModal(
   };
   modalStore.trigger(modal);
 }
+
+export default showInputScoreModal;

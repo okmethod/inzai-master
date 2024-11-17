@@ -5,7 +5,8 @@
   import { getUser } from "$lib/stores/user";
   import { isEligibleForDailyReward } from "$lib/internal/reward";
   import KanjiCard from "$lib/components/cards/KanjiCard.svelte";
-  import { showSubmitExamModal, showInputScoreModal } from "$lib/internal/showModal";
+  import showSubmitExamModal from "$lib/internal/showSubmitExamModal";
+  import showInputScoreModal from "$lib/internal/showInputScoreModal";
   import { pickRandomElementsFromArray } from "$lib/utils/collections";
   import TimerToast from "$lib/utils/TimerToast";
 
