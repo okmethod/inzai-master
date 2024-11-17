@@ -27,7 +27,7 @@
     isLoaded = true;
   });
 
-  const cHeaderButtonSize = "!space-x-0 !py-1 !px-2";
+  const cHeaderButton = "!space-x-0 !py-1 !px-2 cMonoButton";
 </script>
 
 <svelte:head>
@@ -41,9 +41,9 @@
   <div class="h-screen flex flex-col">
     <div class="relative p-1 border-b cPrimaryColor">
       <div class="h-full flex items-center justify-between space-x-2">
-        <IconButton icon="mdi:home-outline" label="Home" cButton={cHeaderButtonSize} onClick={() => goto("/")} />
+        <IconButton icon="mdi:home-outline" label="Home" cButton={cHeaderButton} onClick={() => goto("/")} />
         <div class="flex-grow"><!--spacer--></div>
-        <UserButton user={data.user} cButton={cHeaderButtonSize} />
+        <UserButton user={data.user} cButton={cHeaderButton} />
       </div>
     </div>
 

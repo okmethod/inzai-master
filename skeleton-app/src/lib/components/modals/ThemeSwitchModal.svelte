@@ -25,7 +25,7 @@
   }
 
   $: cButtonColor = (theme: string) =>
-    theme === currentTheme ? "variant-filled-primary" : "variant-filled cButtonColorStyle";
+    theme === currentTheme ? "variant-filled-primary" : "variant-filled cMonoButton";
 </script>
 
 {#if $modalStore[0]}
