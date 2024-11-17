@@ -4,13 +4,14 @@ import { regions } from "$lib/types/prefectures";
 import type { SlotTabSetting } from "$lib/types/tabSetting";
 import { loadCsv } from "$lib/utils/loadfile";
 
-const PrefectureDataPath = "prefectures/prefectures.csv";
+const prefectureFilePath = "prefectures/prefectures.csv";
+const prefectureImageFilePrefix = "prefectures/images";
 
 export async function load({ fetch }: LoadEvent): Promise<{
   regionDataArray: RegionData[];
   slotTabSettings: SlotTabSetting[];
 }> {
-  const staticPrefectureDataArray = (await loadCsv(fetch, PrefectureDataPath)) as StaticPrefectureData[];
+  const staticPrefectureDataArray = (await loadCsv(fetch, prefectureFilePath)) as StaticPrefectureData[];
   const regionDataArray = regions.map((region, index) => ({
     index,
     name: region,
@@ -22,7 +23,7 @@ export async function load({ fetch }: LoadEvent): Promise<{
             index: prefecture.index,
             name: prefecture.name,
             region: prefecture.region,
-            imageUrl: `prefectures/images/${prefecture.imagePath}`,
+            imageUrl: `${prefectureImageFilePrefix}/${prefecture.imagePath}`,
           }) as PrefectureData,
       ),
   }));
