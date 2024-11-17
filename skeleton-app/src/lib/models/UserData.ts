@@ -1,11 +1,11 @@
 import { Timestamp } from "@firebase/firestore";
-import type { Auth0UserData } from "$lib/types/auth0";
+import type { Auth0UserKey } from "$lib/types/auth0";
 import type { UserDataFields, TimestampKey, UserDataDoc } from "$lib/types/userDataDoc";
 import { isTimestampKey } from "$lib/types/userDataDoc";
 import type { Theme } from "$lib/stores/theme";
 import UserCollectionService from "$lib/services/UserCollectionService";
 
-export class UserData implements Auth0UserData, UserDataFields {
+export class UserData implements Auth0UserKey, UserDataFields {
   public sub: string;
   private timestamps: Record<TimestampKey, Timestamp>;
   public rewardPoints: number;

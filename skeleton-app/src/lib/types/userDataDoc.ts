@@ -1,6 +1,6 @@
 import { Timestamp } from "@firebase/firestore";
 import type { Theme } from "$lib/stores/theme";
-import type { Auth0UserData } from "$lib/types/auth0";
+import type { Auth0UserKey } from "$lib/types/auth0";
 
 export const timestampKeys = ["latestLoginReward", "latestKanjiExam", "latestKeisanExam"] as const;
 
@@ -18,4 +18,4 @@ export interface UserDataFields {
   theme: Theme;
 }
 
-export interface UserDataDoc extends Auth0UserData, TimestampFields, UserDataFields {}
+export interface UserDataDoc extends Auth0UserKey, TimestampFields, UserDataFields {}
