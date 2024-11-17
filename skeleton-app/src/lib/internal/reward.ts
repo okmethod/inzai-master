@@ -1,6 +1,6 @@
 import type { ToastStore, ToastSettings } from "@skeletonlabs/skeleton";
 import { getJSTDateString } from "$lib/utils/dateString";
-import type { TimestampKey } from "$lib/types/document";
+import type { TimestampKey } from "$lib/types/userDataDoc";
 import type { UserData } from "$lib/models/UserData";
 import { updateUserRewardPoints } from "$lib/stores/user";
 
