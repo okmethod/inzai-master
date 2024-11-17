@@ -34,24 +34,26 @@
   }
 </script>
 
-{#if data.user === null || userData === null}
-  <span> マイページを確認するにはログインしてね！ </span>
-{:else}
-  <div class="flex flex-col items-center mt-2 space-y-4">
-    <UserDataCard {userImageUrl} {userNickName} bind:userRewardPoints />
-    <IconButton
-      icon="mdi:creation"
-      label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
-      onClick={handleLoginReward}
-      cButton="cMonoButton"
-      disabled={addedReward}
-    />
-    <IconButton
-      icon="mdi:menu"
-      label="テーマ切り替え"
-      cButton="cMonoButton"
-      onClick={() => showThemeSwitchModal(modalStore)}
-    />
-    <IconButton icon="mdi:logout" label="ログアウト" cButton="cMonoButton" onClick={handleLogout} />
-  </div>
-{/if}
+<div class="cContentPartStyle !m-4">
+  {#if data.user === null || userData === null}
+    <span> マイページを確認するにはログインしてね！ </span>
+  {:else}
+    <div class="mb-4 flex flex-col items-center space-y-4">
+      <UserDataCard {userImageUrl} {userNickName} bind:userRewardPoints />
+      <IconButton
+        icon="mdi:creation"
+        label={addedReward ? "また明日もらえるよ" : "ログインボーナスをもらう"}
+        onClick={handleLoginReward}
+        cButton="cMonoButton"
+        disabled={addedReward}
+      />
+      <IconButton
+        icon="mdi:menu"
+        label="テーマ切り替え"
+        cButton="cMonoButton"
+        onClick={() => showThemeSwitchModal(modalStore)}
+      />
+      <IconButton icon="mdi:logout" label="ログアウト" cButton="cMonoButton" onClick={handleLogout} />
+    </div>
+  {/if}
+</div>
