@@ -21,6 +21,8 @@
   }
 
   const isExamPath = derived(page, ($page) => $page.url.pathname === "/kanji/exam");
+
+  const cSlideToggleBg = "bg-surface-900 dark:bg-surface-300";
 </script>
 
 <div class="cRouteBodyStyle">
@@ -31,8 +33,9 @@
       name="slide"
       bind:checked={isKakiMode}
       on:change={updateKanjiMode}
-      background="bg-surface-900 dark:bg-surface-300"
-      active="bg-surface-900 dark:bg-surface-300"
+      background={cSlideToggleBg}
+      active={cSlideToggleBg}
+      border="border"
       class="px-2 py-1"
       disabled={$isExamPath}
     >
