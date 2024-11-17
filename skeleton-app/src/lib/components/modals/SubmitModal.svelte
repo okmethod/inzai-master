@@ -16,7 +16,7 @@
 </script>
 
 {#if $modalStore[0]}
-  <div class="flex flex-col items-center justify-center p-8 cSurfaceColor border rounded-lg shadow-2xl">
+  <div class="flex flex-col items-center justify-center p-8 cSurfaceBg cPrimaryText rounded-lg shadow-2xl">
     <p class="text-xl font-bold">{title}</p>
     <div class="mt-2 mb-8">
       <slot />
