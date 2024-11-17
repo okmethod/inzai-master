@@ -24,19 +24,29 @@
     modalStore.close();
   }
 
-  $: cBgStyle = currentTheme !== "none" ? "bg-surface-50-900-token" : "bg-gray-100";
-  $: cButtonVariantStyle = (theme: string) => (theme === currentTheme ? "variant-filled-surface" : "variant-filled");
+  function enabledTheme(theme: string) {
+    return theme !== "none";
+  }
+
+  $: cAreaBg = enabledTheme(currentTheme) ? "bg-primary-100 dark:bg-primary-800" : "bg-gray-300";
+  $: cButtonColor = (theme: string) =>
+    theme === currentTheme
+      ? enabledTheme(currentTheme)
+        ? "variant-filled-primary"
+        : "bg-gray-500 text-white"
+      : "variant-filled cButtonColorStyle";
+  const cSlideToggleBg = "bg-surface-300 dark:bg-surface-900";
 </script>
 
 {#if $modalStore[0]}
-  <div class="p-2 md:p-4 rounded shadow-2xl {cBgStyle}" data-parent={parent}>
+  <div class="p-2 md:p-4 rounded shadow-2xl {cAreaBg}" data-parent={parent}>
     <div class="relative pt-10">
       <div class="flex flex-col items-center space-y-2">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
           {#each themeLabels as themeLabel}
             <button
               type="button"
-              class="btn {cButtonVariantStyle(themeLabel.name)} border cButtonColorStyle"
+              class="btn border {cButtonColor(themeLabel.name)}"
               on:click={() => {
                 handleThemeSwitch(themeLabel.name);
               }}
@@ -48,9 +58,17 @@
             </button>
           {/each}
         </div>
-        <SlideToggle name="slide" bind:checked={isDarkMode} on:change={setCurrentTheme} class="px-2 py-1"
-          >{isDarkMode ? "ダークモード" : "ライトモード"}</SlideToggle
+        <SlideToggle
+          name="slide"
+          bind:checked={isDarkMode}
+          on:change={setCurrentTheme}
+          background={cSlideToggleBg}
+          active={cSlideToggleBg}
+          border="border"
+          class="px-2 py-1"
         >
+          {isDarkMode ? "ダークモード" : "ライトモード"}
+        </SlideToggle>
       </div>
       <p class="text-xl absolute top-0 left-1/2 transform -translate-x-1/2 z-10">テーマ切り替え</p>
       <button
