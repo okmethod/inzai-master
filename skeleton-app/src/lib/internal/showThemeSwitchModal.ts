@@ -9,7 +9,7 @@ function showThemeSwitchModal(modalStore: ModalStore): void {
   const m: ModalSettings = {
     type: "component",
     component: modalComponent,
-    backdropClasses: "fixed inset-0 !bg-gray-300/90",
+    backdropClasses: "cModalStandardBackdrop",
   };
   modalStore.trigger(m);
 }

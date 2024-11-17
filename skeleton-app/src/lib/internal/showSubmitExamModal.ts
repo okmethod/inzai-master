@@ -15,6 +15,7 @@ export function showSubmitExamModal(modalStore: ModalStore, startExamCallback: (
         startExamCallback();
       }
     },
+    backdropClasses: "cModalStandardBackdrop",
   };
   modalStore.trigger(modal);
 }

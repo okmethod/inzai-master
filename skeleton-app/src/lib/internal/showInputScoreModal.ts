@@ -31,6 +31,7 @@ function showInputScoreModal(
         updateRewardCallback();
       }
     },
+    backdropClasses: "cModalStandardBackdrop",
   };
   modalStore.trigger(modal);
 }
