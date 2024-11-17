@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { getToastStore, getModalStore, type ModalSettings } from "@skeletonlabs/skeleton";
+  import { getModalStore, getToastStore } from "@skeletonlabs/skeleton";
   import type { User } from "@auth0/auth0-spa-js";
   import Auth0Singleton from "$lib/services/Auth0Singleton";
   import { getUser } from "$lib/stores/user";
   import { isEligibleForDailyReward, addRewardPoints, showRewardToast } from "$lib/internal/reward";
+  import showThemeSwitchModal from "$lib/internal/showThemeSwitchModal";
   import UserDataCard from "$lib/components/cards/UserDataCard.svelte";
   import IconButton from "$lib/components/buttons/IconButton.svelte";
-  import ThemeSwitchModal from "$lib/components/modals/ThemeSwitchModal.svelte";
 
   export let data: {
     user: User | null;
@@ -18,6 +18,7 @@
   const userNickName = data.user ? data.user.nickname : "";
   let userRewardPoints = userData ? userData.rewardPoints : 0;
 
+  const modalStore = getModalStore();
   const toastStore = getToastStore();
 
   const rewardKey = "DAILY_LOGIN";
@@ -26,19 +27,6 @@
     userRewardPoints += await addRewardPoints(rewardKey);
     showRewardToast(toastStore, rewardKey);
     addedReward = true;
-  }
-
-  const modalStore = getModalStore();
-  function showThemeSwitchModal(): void {
-    const m: ModalSettings = {
-      type: "component",
-      component: {
-        ref: ThemeSwitchModal,
-        props: {},
-      },
-      backdropClasses: "fixed inset-0 !bg-gray-300/90",
-    };
-    modalStore.trigger(m);
   }
 
   async function handleLogout() {
@@ -58,7 +46,12 @@
       cButton="cMonoButton"
       disabled={addedReward}
     />
-    <IconButton icon="mdi:menu" label="テーマ切り替え" cButton="cMonoButton" onClick={showThemeSwitchModal} />
+    <IconButton
+      icon="mdi:menu"
+      label="テーマ切り替え"
+      cButton="cMonoButton"
+      onClick={() => showThemeSwitchModal(modalStore)}
+    />
     <IconButton icon="mdi:logout" label="ログアウト" cButton="cMonoButton" onClick={handleLogout} />
   </div>
 {/if}
