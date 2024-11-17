@@ -1,5 +1,5 @@
 import FirestoreCollectionService from "$lib/services/FirestoreCollectionService";
-import type { Auth0UserData } from "$lib/types/auth0";
+import type { UserDataDoc } from "$lib/types/userDataDoc";
 import type { QuerySnapshot } from "firebase/firestore";
 
 class UserCollectionService extends FirestoreCollectionService {
@@ -12,7 +12,7 @@ class UserCollectionService extends FirestoreCollectionService {
     return querySnapshot;
   }
 
-  public async listBySub<T extends Auth0UserData>(sub: string): Promise<T[]> {
+  public async listBySub<T extends UserDataDoc>(sub: string): Promise<T[]> {
     const querySnapshot = await this.queryBySub(sub);
     if (querySnapshot !== null) {
       const docs = querySnapshot.docs.map((doc) => doc.data() as T);
@@ -22,12 +22,12 @@ class UserCollectionService extends FirestoreCollectionService {
     }
   }
 
-  public async getBySub<T extends Auth0UserData>(sub: string): Promise<T | null> {
+  public async getBySub<T extends UserDataDoc>(sub: string): Promise<T | null> {
     const docs = await this.listBySub<T>(sub);
     return docs.length > 0 ? docs[0] : null;
   }
 
-  public async setBySub<T extends Auth0UserData>(
+  public async setBySub<T extends UserDataDoc>(
     sub: string,
     data: Partial<T>,
     createIfNotExist: boolean = false,
