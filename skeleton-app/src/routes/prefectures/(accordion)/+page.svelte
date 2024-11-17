@@ -32,7 +32,12 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each regionData.prefectures as prefectureData}
-                <span class="border">{prefectureData.name}</span>
+                <div class="flex items-center border p-1">
+                  <div class="w-20 h-20 border rounded">
+                    <img src={prefectureData.imageUrl} alt={prefectureData.name} class="w-full h-full object-contain" />
+                  </div>
+                  <span class="ml-1">{prefectureData.name}</span>
+                </div>
               {/each}
             </div>
           </svelte:fragment>
