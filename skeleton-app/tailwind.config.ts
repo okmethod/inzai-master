@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import { skeleton } from "@skeletonlabs/tw-plugin";
+import { GrayTheme } from "./src/gray-theme";
 
 enum Theme {
   Skeleton = "skeleton",
@@ -35,6 +36,7 @@ export default {
           name: theme,
           enhancements: true,
         })),
+        custom: [GrayTheme],
       },
     }),
   ],

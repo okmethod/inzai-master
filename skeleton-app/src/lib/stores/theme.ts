@@ -18,7 +18,7 @@ export const themeLabels: Array<ThemeLabel> = [
   { name: "hamlindigo", emoji: "👔" },
   { name: "gold-nouveau", emoji: "💫" },
   { name: "crimson", emoji: "⭕" },
-  { name: "none", emoji: "📝" },
+  { name: "gray", emoji: "📝" },
 ] as const;
 
 export type ThemeName = (typeof themeLabels)[number]["name"];
@@ -28,7 +28,7 @@ export interface Theme {
   dark: boolean;
 }
 
-const defaultTheme: Theme = { name: "none", dark: false };
+const defaultTheme: Theme = { name: "gray", dark: false };
 const themeStore = writable<Theme>(defaultTheme);
 
 export function getTheme(): Theme {
