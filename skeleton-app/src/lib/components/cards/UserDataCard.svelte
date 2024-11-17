@@ -21,9 +21,12 @@
   }
 
   $: updateProgressBarValue(userRewardPoints);
+
+  const cAreaColor =
+    "bg-primary-100 dark:bg-primary-800 text-primary-800 dark:text-primary-100 border-primary-400 dark:border-primary-600";
 </script>
 
-<div class="w-80 flex flex-col items-center cSurfaceColor border rounded-lg space-y-4 p-4">
+<div class="w-80 space-y-4 p-4 flex flex-col items-center border rounded-lg {cAreaColor}">
   <img src={userImageUrl} alt="profile" class="w-20 h-20 rounded-full" />
   <div>{userNickName} さんの自学の成果</div>
   <div class="flex items-center space-x-1">
@@ -42,8 +45,9 @@
     height="h-4"
     rounded="rounded-full"
     transition="transition-[width] duration-500"
-    meter="bg-blue-500"
-    track="bg-gray-200"
+    meter="bg-primary-600"
+    track="bg-surface-100"
+    class="border border-surface-300"
   />
   <div class="flex items-center space-x-1">
     <span>(次のランクまであと </span>
