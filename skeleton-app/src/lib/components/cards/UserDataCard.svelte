@@ -9,7 +9,8 @@
   export let userRewardPoints = 0;
 
   const rankIndex = Math.floor(userRewardPoints / 100) + 1;
-  const nextRankValue = rankIndex * 100;
+  const pointsForNextRank = rankIndex * 100;
+  const pointsOffset = (rankIndex - 1) * 100;
 
   let progressBarValue = tweened(0, {
     duration: 200, // 200ms
@@ -17,7 +18,7 @@
   });
 
   function updateProgressBarValue(value: number) {
-    progressBarValue.set(value);
+    progressBarValue.set(value - pointsOffset);
   }
 
   $: updateProgressBarValue(userRewardPoints);
@@ -38,7 +39,7 @@
   </div>
   <ProgressBar
     value={$progressBarValue}
-    max={nextRankValue}
+    max={pointsForNextRank - pointsOffset}
     height="h-4"
     rounded="rounded-full"
     transition="transition-[width] duration-500"
@@ -48,7 +49,7 @@
   />
   <div class="flex items-center space-x-1">
     <span>(次のランクまであと </span>
-    <span class="inline-block w-8 text-right">{nextRankValue - userRewardPoints}</span>
+    <span class="inline-block w-8 text-right">{pointsForNextRank - userRewardPoints}</span>
     <span> pt)</span>
   </div>
 </div>
