@@ -1,9 +1,6 @@
 import { Timestamp } from "@firebase/firestore";
 import type { Theme } from "$lib/stores/theme";
-
-export interface Auth0UserData {
-  sub: string;
-}
+import type { Auth0UserData } from "$lib/types/auth0";
 
 export const timestampKeys = ["latestLoginReward", "latestKanjiExam", "latestKeisanExam"] as const;
 

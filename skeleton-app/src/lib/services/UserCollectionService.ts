@@ -1,5 +1,5 @@
 import FirestoreCollectionService from "$lib/services/FirestoreCollectionService";
-import type { Auth0UserData } from "$lib/types/document";
+import type { Auth0UserData } from "$lib/types/auth0";
 import type { QuerySnapshot } from "firebase/firestore";
 
 class UserCollectionService extends FirestoreCollectionService {

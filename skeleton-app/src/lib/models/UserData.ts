@@ -1,5 +1,6 @@
 import { Timestamp } from "@firebase/firestore";
-import type { Auth0UserData, TimestampKey, UserDataDoc } from "$lib/types/document";
+import type { Auth0UserData } from "$lib/types/auth0";
+import type { TimestampKey, UserDataDoc } from "$lib/types/document";
 import { isTimestampKey } from "$lib/types/document";
 import type { Theme } from "$lib/stores/theme";
 import UserCollectionService from "$lib/services/UserCollectionService";
