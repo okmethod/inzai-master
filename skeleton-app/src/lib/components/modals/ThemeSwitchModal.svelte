@@ -24,7 +24,6 @@
     modalStore.close();
   }
 
-  const cAreaBg = "bg-primary-100 dark:bg-primary-800";
   const cSlideToggleBg = "bg-surface-300 dark:bg-surface-900";
 
   $: cButtonColor = (theme: string) =>
@@ -32,7 +31,7 @@
 </script>
 
 {#if $modalStore[0]}
-  <div class="p-2 md:p-4 rounded shadow-2xl {cAreaBg}" data-parent={parent}>
+  <div class="p-2 md:p-4 rounded shadow-2xl cPrimaryBg" data-parent={parent}>
     <div class="relative pt-10">
       <div class="flex flex-col items-center space-y-2">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
