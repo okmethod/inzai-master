@@ -80,7 +80,7 @@
   });
 </script>
 
-<div class="cContentPartStyle !m-4">
+<div class="cPageBodyStyle">
   {#if userData == null}
     <span> 検定に挑戦するにはログインしてね！ </span>
   {:else}

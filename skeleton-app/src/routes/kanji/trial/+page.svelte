@@ -64,7 +64,7 @@
   });
 </script>
 
-<div class="cContentPartStyle !m-4">
+<div class="cPageBodyStyle">
   <div class="mb-4 flex items-center space-x-2">
     <select id="select-grade" class="cMonoColor border rounded" on:change={selectContent}>
       {#each data.kanjiDataArray.filter((kanjiData) => kanjiData.index !== 0) as kanjiData}

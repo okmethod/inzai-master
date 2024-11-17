@@ -34,7 +34,7 @@
   }
 </script>
 
-<div class="cContentPartStyle !m-4">
+<div class="cPageBodyStyle">
   {#if data.user === null || userData === null}
     <span> マイページを確認するにはログインしてね！ </span>
   {:else}

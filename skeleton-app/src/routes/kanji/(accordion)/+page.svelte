@@ -28,7 +28,7 @@
   });
 </script>
 
-<div class="cContentPartStyle !m-4">
+<div class="cPageBodyStyle">
   <Accordion
     width="w-[300px] md:w-[600px] lg:w-[1000px]"
     rounded="rounded-lg"

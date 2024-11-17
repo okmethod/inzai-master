@@ -7,12 +7,12 @@
   };
 </script>
 
-<div class="cRouteBodyStyle">
+<div class="cPageBodyStyle">
   <div class="cTitlePartStyle md:!mb-4">
     <h1 class="cTitleStyle md:!text-3xl">自学マスタードリル</h1>
   </div>
 
-  <div class="cContentPartStyle !m-4">
+  <div class="cPageBodyStyle">
     {#each data.buttonConfigs as config}
       <IconButton
         icon={isIconConfig(config.symbol) ? config.symbol.icon : "mdi:circle-small"}
