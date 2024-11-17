@@ -24,18 +24,11 @@
     modalStore.close();
   }
 
-  function enabledTheme(theme: string) {
-    return theme !== "none";
-  }
-
-  $: cAreaBg = enabledTheme(currentTheme) ? "bg-primary-100 dark:bg-primary-800" : "bg-gray-300";
-  $: cButtonColor = (theme: string) =>
-    theme === currentTheme
-      ? enabledTheme(currentTheme)
-        ? "variant-filled-primary"
-        : "bg-gray-500 text-white"
-      : "variant-filled cButtonColorStyle";
+  const cAreaBg = "bg-primary-100 dark:bg-primary-800";
   const cSlideToggleBg = "bg-surface-300 dark:bg-surface-900";
+
+  $: cButtonColor = (theme: string) =>
+    theme === currentTheme ? "variant-filled-primary" : "variant-filled cButtonColorStyle";
 </script>
 
 {#if $modalStore[0]}
