@@ -3,6 +3,7 @@
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import type { RegionData } from "$lib/types/prefectures";
+  import PrefectureCard from "$lib/components/cards/PrefectureCard.svelte";
 
   export let data: {
     regionDataArray: RegionData[];
@@ -32,12 +33,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each regionData.prefectures as prefectureData}
-                <div class="flex items-center border p-1">
-                  <div class="w-20 h-20 border rounded">
-                    <img src={prefectureData.imageUrl} alt={prefectureData.name} class="w-full h-full object-contain" />
-                  </div>
-                  <span class="ml-1">{prefectureData.name}</span>
-                </div>
+                <PrefectureCard data={prefectureData} isCompact={true} />
               {/each}
             </div>
           </svelte:fragment>
