@@ -25,7 +25,7 @@
 
 <div class="cTabGroupLayoutBodyStyle">
   <div class="cTitlePartStyle">
-    <h1 class="cTitleStyle md:!text-3xl">漢字マスタードリル</h1>
+    <h1 class="cTitleLabelStyle">漢字マスタードリル</h1>
     <span class="text-gray-500 hidden md:inline md:mx-3">:</span>
     <SlideToggle
       name="slide"

@@ -12,7 +12,7 @@
 
 <div class="cTabGroupLayoutBodyStyle">
   <div class="cTitlePartStyle">
-    <h1 class="cTitleStyle md:!text-3xl">計算マスタードリル</h1>
+    <h1 class="cTitleLabelStyle">計算マスタードリル</h1>
   </div>
 
   <ContentsTabGroup

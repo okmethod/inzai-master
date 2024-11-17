@@ -9,7 +9,7 @@
 
 <div class="cPageBodyStyle">
   <div class="cTitlePartStyle">
-    <h1 class="cTitleStyle md:!text-3xl">自学マスタードリル</h1>
+    <h1 class="cTitleLabelStyle">自学マスタードリル</h1>
   </div>
 
   <div class="cPageBodyStyle">
