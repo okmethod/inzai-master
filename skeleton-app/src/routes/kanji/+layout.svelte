@@ -23,7 +23,7 @@
   const isExamPath = derived(page, ($page) => $page.url.pathname === "/kanji/exam");
 </script>
 
-<div class="cRouteBodyStyle">
+<div class="cTabGroupLayoutBodyStyle">
   <div class="cTitlePartStyle flex flex-col md:flex-row justify-center items-center">
     <h1 class="cTitleStyle md:!text-3xl">漢字マスタードリル</h1>
     <span class="text-gray-500 hidden md:inline md:mx-3">:</span>
