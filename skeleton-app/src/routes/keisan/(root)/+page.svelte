@@ -18,7 +18,7 @@
 
   const cAccordionRounded = "rounded-lg";
   const cAccordionHover = "hover:underline";
-  const cAccordionItemDiv = "cSurfaceColor border rounded";
+  const cAccordionItemDiv = "cSurfaceBg cPrimaryText cSurfaceBorder border rounded";
   const cAccordionLabel = "text-xl font-bold";
 </script>
 
