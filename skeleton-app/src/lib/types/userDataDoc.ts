@@ -13,7 +13,9 @@ export function isTimestampKey(key: string): key is TimestampKey {
   return (timestampKeys as readonly string[]).includes(key);
 }
 
-export interface UserDataDoc extends Auth0UserData, TimestampFields {
+export interface UserDataFields {
   rewardPoints: number;
   theme: Theme;
 }
+
+export interface UserDataDoc extends Auth0UserData, TimestampFields, UserDataFields {}
