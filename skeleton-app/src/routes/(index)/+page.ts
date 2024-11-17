@@ -15,6 +15,12 @@ const contentLinks: TransitionContent[] = [
     action: "navigate",
     target: "/keisan",
   },
+  {
+    label: "都道府県マスタードリル",
+    symbolSrc: { type: "icon", key: "mdi:book" },
+    action: "navigate",
+    target: "/prefectures",
+  },
   /**{
     label: "ソースコード",
     symbolSrc: { type: "icon", key: "mdi:source-repository" },
