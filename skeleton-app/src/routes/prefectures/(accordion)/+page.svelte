@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import { getModalStore } from "@skeletonlabs/skeleton";
   import { slide } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import type { RegionData } from "$lib/types/prefectures";
@@ -8,6 +9,8 @@
   export let data: {
     regionDataArray: RegionData[];
   };
+
+  const modalStore = getModalStore();
 </script>
 
 <div class="cPageBodyStyle">
@@ -33,7 +36,7 @@
           <svelte:fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {#each regionData.prefectures as prefectureData}
-                <PrefectureCard data={prefectureData} isCompact={true} />
+                <PrefectureCard data={prefectureData} isCompact={true} {modalStore} />
               {/each}
             </div>
           </svelte:fragment>
