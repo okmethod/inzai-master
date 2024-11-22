@@ -30,8 +30,9 @@
 
 {#if $modalStore[0]}
   <div class="p-2 md:p-4 rounded shadow-2xl cSurfaceBg" data-parent={parent}>
-    <div class="relative pt-10">
+    <div class="relative">
       <div class="flex flex-col items-center space-y-2">
+        <p class="text-xl">テーマ切り替え</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
           {#each themeLabels as themeLabel}
             <button
@@ -60,7 +61,6 @@
           {isDarkMode ? "ダークモード" : "ライトモード"}
         </SlideToggle>
       </div>
-      <p class="text-xl absolute top-0 left-1/2 transform -translate-x-1/2 z-10">テーマ切り替え</p>
       <button
         type="button"
         class="btn-icon btn-icon-sm !bg-transparent absolute top-0 right-0 z-10"
