@@ -4,15 +4,17 @@ export type Region = (typeof regions)[number];
 export interface StaticPrefectureData {
   index: number;
   name: string;
-  region: Region;
+  capital: string;
   imagePath: string;
+  region: Region;
 }
 
 export interface PrefectureData {
   index: number;
   name: string;
-  region: Region;
+  capital: string;
   imageUrl: string;
+  region: Region;
 }
 
 export interface RegionData {

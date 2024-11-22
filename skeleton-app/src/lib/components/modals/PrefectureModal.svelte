@@ -16,19 +16,30 @@
 {#if $modalStore[0]}
   <div
     class="
-      w-full md:w-80 p-2 md:p-4
+      w-full md:w-[800px] p-2 md:p-4
       rounded border shadow-2xl
-      font-serif text-black bg-green-100 border-gray-600
+      text-black bg-green-100 border-gray-600
     "
     data-parent={parent}
   >
     <div class="relative">
-      <div class="flex flex-col items-center justify-center space-y-4">
-        <h2 class="text-2xl font-bold mb-4">{data.name}</h2>
-        <div class="w-40 h-40 p-1 bg-white border rounded">
+      <h2 class="text-center text-2xl font-bold mb-4">{data.name}</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3">
+        <div class="col-span-1 w-40 h-40 md:w-60 md:h-60 p-1 bg-white border rounded">
           <img src={data.imageUrl} alt={data.name} class="w-full h-full object-contain" />
         </div>
-        <p class="text-lg">{data.region} 地方</p>
+        <table class="table-auto w-full text-left">
+          <tbody>
+            <tr>
+              <th class="px-4 py-2">地方</th>
+              <td class="px-4 py-2">{data.region}地方</td>
+            </tr>
+            <tr>
+              <th class="px-4 py-2">県庁所在地</th>
+              <td class="px-4 py-2">{data.capital}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <button
         type="button"
