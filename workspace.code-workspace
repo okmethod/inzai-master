@@ -1,12 +1,13 @@
 {
 	"folders": [
 		{
-			"name": "master-drill",
 			"path": "."
 		},
 		{
-			"name": "skeleton-app",
 			"path": "skeleton-app"
+		},
+		{
+			"path": "functions"
 		},
 	],
 	"settings": {
