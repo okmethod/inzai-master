@@ -1,7 +1,7 @@
 services:
   skeleton-app:
     depends_on:
-    - firestore
+      - firestore
     image: node:20.12.1-slim
     ports:
       - 5173:5173
@@ -12,7 +12,10 @@ services:
     command: /bin/sh -c "npm install && npm run dev"
 
   firestore:
-    image: google/cloud-sdk:496.0.0-emulators
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: emulator.Dockerfile
     ports:
       - 8010:8000
     command:
