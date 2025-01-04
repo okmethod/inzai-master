@@ -54,5 +54,8 @@
     "@floating-ui/dom": "^1.6.8",
     "diff": "^7.0.0",
     "firebase": "^10.14.1"
+  },
+  "overrides": {
+    "cookie": "^1.0.2"
   }
 }
